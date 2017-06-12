@@ -35,17 +35,17 @@ public class Table {
 	}
 	
 	/**
-	 * Editer une valeur
-	 * @param index l'index 
-	 * @param colonne La colonne 
-	 * @param strValeur La nouvelle valeur
+	 * Editer une valeur dans la table. 
+	 * @param index l'index de la ligne
+	 * @param colonne La colonne concerné
+	 * @param strValeur La nouvelle valeur qui sera ensuite tranformé 
 	 */
 	public void editerValeur(int index, int colonne, String strValeur){
 		
 	}
 	
 	/**
-	 * Ajouter une contrainte
+	 * Ajouter une contrainte a une colonne
 	 * @param colonne La colonne concerné
 	 * @param contrainte La contrainte
 	 */
