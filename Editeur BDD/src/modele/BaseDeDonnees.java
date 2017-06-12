@@ -3,24 +3,24 @@ package modele;
 import java.util.ArrayList;
 
 public class BaseDeDonnees {
-	test
+	
 	/**
-	 * Le nom de la base de données
+	 * Le nom de la base de donnï¿½es
 	 */
 	private String nom;
 	/**
-	 * Le serveur sur lequel la base de donné est hebergé
+	 * Le serveur sur lequel la base de donnï¿½ est hebergï¿½
 	 */
 	private Serveur baseDeDonees;
 	/**
-	 * La liste des tables dans la base de donnés
+	 * La liste des tables dans la base de donnï¿½s
 	 */
 	private ArrayList<Table> listeTable;
 	
 	/**
 	 * Constructeur
-	 * @param nom Nom de la base de donnés
-	 * @param tables qui seront dans la base de donné
+	 * @param nom Nom de la base de donnï¿½s
+	 * @param tables qui seront dans la base de donnï¿½
 	 */
 	public BaseDeDonnees(String nom, ArrayList<Table> tables){
 		this.nom = nom;
@@ -28,15 +28,15 @@ public class BaseDeDonnees {
 	}
 		
 	/**
-	 * Méthode qui retourne la liste des tables de la base de donnés
-	 * @return Liste des tables de la base de donnés
+	 * Mï¿½thode qui retourne la liste des tables de la base de donnï¿½s
+	 * @return Liste des tables de la base de donnï¿½s
 	 */
 	public ArrayList<Table> getListeTable(){
 		return this.listeTable;
 	}
 	
 	/**
-	 * Permet d'accéder au nom de la base
+	 * Permet d'accï¿½der au nom de la base
 	 * @return Le nom de la base
 	 */
 	public String getName(){
@@ -44,14 +44,14 @@ public class BaseDeDonnees {
 	}
 	
 	/**
-	 * Définis le nom de la base	
+	 * Dï¿½finis le nom de la base	
 	 * @param name Le nouveau nom de la base
 	 */
 	public void setName(String name){}
 	
 	/**
 	 * Permet d'ajouter une table Ã  la base
-	 * @param table La table qui sera ajouté Ã  la base de donnés
+	 * @param table La table qui sera ajoutï¿½ Ã  la base de donnï¿½s
 	 */
 	public void ajouterTable(Table table){}
 	

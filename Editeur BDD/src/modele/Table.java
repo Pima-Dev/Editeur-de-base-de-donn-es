@@ -35,10 +35,10 @@ public class Table {
 	}
 	
 	/**
-	 * Editer une valeur
+	 * Editer une valeur dans la table. 
 	 * @param index l'index 
-	 * @param colonne La colonne 
-	 * @param strValeur La nouvelle valeur
+	 * @param colonne La colonne concerné
+	 * @param strValeur La nouvelle valeur qui sera ensuite tranformé 
 	 */
 	public void editerValeur(int index, int colonne, String strValeur){
 		
