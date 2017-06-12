@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="1" failures="0" hostname="ens-iutva-0312.univ-ubs.fr" name="TestBaseDeDonnee" skipped="0" tests="1" time="0.0" timestamp="2017-05-31T07:23:47">
+  <properties>
+    <property name="ant.project.invoked-targets" value="test" />
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/amd64" />
+    <property name="java.vm.version" value="25.131-b12" />
+    <property name="ant.library.dir" value="/usr/share/ant/lib" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.6 compiled on February 3 2016" />
+    <property name="ant.java.version" value="1.8" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="java.vendor.url" value="http://java.oracle.com/" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="user.country" value="FR" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="user.dir" value="/ubs/fukuisaurus/home.1/1/e1603051/Mes documents/UE-Info/Prog/PROJET/DEV/Editeur BDD" />
+    <property name="java.runtime.version" value="1.8.0_131-b12" />
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment" />
+    <property name="basedir" value="/ubs/fukuisaurus/home.1/1/e1603051/Mes documents/UE-Info/Prog/PROJET/DEV/Editeur BDD" />
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/endorsed" />
+    <property name="os.arch" value="amd64" />
+    <property name="ant.project.default-target" value="all" />
+    <property name="java.io.tmpdir" value="/tmp" />
+    <property name="ant.core.lib" value="/usr/share/java/ant/ant.jar" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="os.name" value="Linux" />
+    <property name="ant.home" value="/usr/share/ant" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="java.class.version" value="52.0" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="os.version" value="4.10.17-100.fc24.x86_64" />
+    <property name="ant.file" value="/ubs/fukuisaurus/home.1/1/e1603051/Mes documents/UE-Info/Prog/PROJET/DEV/Editeur BDD/build.xml" />
+    <property name="user.home" value="/ubs/home/etud/2016/e1603051" />
+    <property name="user.timezone" value="" />
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob" />
+    <property name="java.specification.version" value="1.8" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="user.name" value="e1603051" />
+    <property name="java.class.path" value="/usr/share/java/ant.jar:/usr/share/java/ant-launcher.jar:/usr/share/java/jaxp_parser_impl.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/aether/aether-transport-file.jar:/usr/share/java/aether/aether-api.jar:/usr/share/java/aether/aether-impl.jar:/usr/share/java/aether/aether-transport-wagon.jar:/usr/share/java/aether/aether-connector-basic.jar:/usr/share/java/aether/aether-util.jar:/usr/share/java/aether/aether-transport-classpath.jar:/usr/share/java/aether/aether-spi.jar:/usr/share/java/aether/aether-transport-http.jar:/usr/share/java/aether-ant-tasks/aether-ant-tasks.jar:/usr/share/java/aopalliance.jar:/usr/share/java/atinject.jar:/usr/share/java/cglib.jar:/usr/share/java/commons-logging.jar:/usr/share/java/google-guice.jar:/usr/share/java/guava.jar:/usr/share/java/httpcomponents/httpclient.jar:/usr/share/java/httpcomponents/httpcore.jar:/usr/share/java/maven/maven-aether-provider.jar:/usr/share/java/maven/maven-model.jar:/usr/share/java/maven/maven-model-builder.jar:/usr/share/java/maven/maven-settings.jar:/usr/share/java/maven/maven-settings-builder.jar:/usr/share/java/maven/maven-builder-support.jar:/usr/share/java/objectweb-asm/asm-all.jar:/usr/share/java/objectweb-asm/asm-tree.jar:/usr/share/java/objectweb-asm/asm-debug-all.jar:/usr/share/java/objectweb-asm/asm-commons.jar:/usr/share/java/objectweb-asm/asm-analysis.jar:/usr/share/java/objectweb-asm/asm.jar:/usr/share/java/objectweb-asm/asm-xml.jar:/usr/share/java/objectweb-asm/asm-util.jar:/usr/share/java/org.eclipse.sisu.inject.jar:/usr/share/java/org.eclipse.sisu.plexus.jar:/usr/share/java/plexus/classworlds.jar:/usr/share/java/plexus/containers-component-annotations.jar:/usr/share/java/plexus/interpolation.jar:/usr/share/java/plexus/plexus-cipher.jar:/usr/share/java/plexus/plexus-sec-dispatcher.jar:/usr/share/java/plexus/utils.jar:/usr/share/java/xmvn/xmvn-resolve.jar:/usr/share/java/xmvn/xmvn-subst.jar:/usr/share/java/xmvn/xmvn-install.jar:/usr/share/java/xmvn/xmvn-api.jar:/usr/share/java/xmvn/xmvn-core.jar:/usr/share/java/xmvn/xmvn-core.jar:/usr/share/java/antlr.jar:/usr/share/java/ant/ant-antlr.jar:/usr/share/java/bcel.jar:/usr/share/java/ant/ant-apache-bcel.jar:/usr/share/java/rhino.jar:/usr/share/java/bsf.jar:/usr/share/java/ant/ant-apache-bsf.jar:/usr/share/java/apache-ivy/ivy.jar:/usr/share/java/log4j.jar:/usr/share/java/ant/ant-apache-log4j.jar:/usr/share/java/oro.jar:/usr/share/java/ant/ant-apache-oro.jar:/usr/share/java/regexp.jar:/usr/share/java/ant/ant-apache-regexp.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/java/ant/ant-apache-resolver.jar:/usr/share/java/xalan-j2.jar:/usr/share/java/xalan-j2-serializer.jar:/usr/share/java/ant/ant-apache-xalan2.jar:/usr/share/java/apache-commons-logging.jar:/usr/share/java/ant/ant-commons-logging.jar:/usr/share/java/apache-commons-net.jar:/usr/share/java/ant/ant-commons-net.jar:/usr/share/java/jarjar/jarjar.jar:/usr/share/java/objectweb-asm/asm.jar:/usr/share/java/objectweb-asm/asm-commons.jar:/usr/share/java/javamail/dsn.jar:/usr/share/java/javamail/pop3.jar:/usr/share/java/javamail/javax.mail-api.jar:/usr/share/java/javamail/gimap.jar:/usr/share/java/javamail/mailapi.jar:/usr/share/java/javamail/javax.mail.jar:/usr/share/java/javamail/mail.jar:/usr/share/java/javamail/imap.jar:/usr/share/java/javamail/smtp.jar:/usr/share/java/ant/ant-javamail.jar:/usr/share/java/jdepend.jar:/usr/share/java/ant/ant-jdepend.jar:/usr/share/java/ant/ant-jmf.jar:/usr/share/java/jsch.jar:/usr/share/java/ant/ant-jsch.jar:/usr/share/java/junit.jar:/usr/share/java/hamcrest/core.jar:/usr/share/java/ant/ant-junit.jar:/usr/share/java/junit.jar:/usr/share/java/hamcrest/core.jar:/usr/share/java/ant/ant-junit4.jar:/usr/share/java/ant/ant-swing.jar:/usr/share/java/ant/ant-testutil.jar:/usr/lib/jvm/java/lib/tools.jar:../class:/usr/share/ant/lib/ant-apache-resolver.jar:/usr/share/ant/lib/ant-commons-logging.jar:/usr/share/ant/lib/ant-launcher.jar:/usr/share/ant/lib/ant-antlr.jar:/usr/share/ant/lib/ant-apache-oro.jar:/usr/share/ant/lib/ant-bootstrap.jar:/usr/share/ant/lib/ant-javamail.jar:/usr/share/ant/lib/ant-commons-net.jar:/usr/share/ant/lib/ant-jdepend.jar:/usr/share/ant/lib/ant-swing.jar:/usr/share/ant/lib/ant-apache-bcel.jar:/usr/share/ant/lib/ant-testutil.jar:/usr/share/ant/lib/ant-jsch.jar:/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-jmf.jar:/usr/share/ant/lib/ant-apache-bsf.jar:/usr/share/ant/lib/ant-apache-xalan2.jar:/usr/share/ant/lib/ant-apache-log4j.jar:/usr/share/ant/lib/ant-junit4.jar:/usr/share/ant/lib/ant-apache-regexp.jar" />
+    <property name="test.classes" value="test/test-classes" />
+    <property name="java.vm.specification.version" value="1.8" />
+    <property name="sun.java.command" value="org.apache.tools.ant.launch.Launcher -cp  test" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="java.home" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="user.language" value="fr" />
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="java.version" value="1.8.0_131" />
+    <property name="java.ext.dirs" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/ext:/usr/java/packages/lib/ext" />
+    <property name="bin.target" value="bin" />
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/resources.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/rt.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/jsse.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/jce.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/charsets.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/lib/jfr.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc24.x86_64/jre/classes" />
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="file.separator" value="/" />
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="ant.file.type" value="file" />
+    <property name="sun.desktop" value="gnome" />
+    <property name="sun.cpu.isalist" value="" />
+  </properties>
+  <error message="TestBaseDeDonnee (wrong name: modele/test/TestBaseDeDonnee)" type="java.lang.NoClassDefFoundError">java.lang.NoClassDefFoundError: TestBaseDeDonnee (wrong name: modele/test/TestBaseDeDonnee)
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:763)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+</error>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

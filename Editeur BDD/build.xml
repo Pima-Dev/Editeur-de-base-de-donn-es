@@ -1,0 +1,55 @@
+<project default="all"> 
+	
+	<property name="bin.target" value="bin" />
+	<property name="test.classes" value="test/test-classes" />
+
+    <path id="test.classpath">
+    	<fileset dir=".." includes="*.jar"/>
+    	<pathelement location="bin"/>
+    	<fileset dir="src/modele/test" includes="*.class"/>
+    	<pathelement location="bin/modele/test"/>
+    </path>
+	
+	<path id="jars">
+	    <fileset dir=".." includes="**/*.jar"/>
+	</path>
+	
+	<presetdef name="javac">
+	  <javac includeantruntime="false" />
+	</presetdef>
+	
+    <target name="clean"> 
+        <delete dir="build"/> 
+    	<delete dir="bin"/>
+    	<delete dir="javadoc"/>
+    	<delete dir="test"/>
+    </target>
+	
+	<target name="compile">
+		<mkdir dir="bin"/>
+		<javac srcdir="src" destdir="bin" classpathref="jars">
+		</javac>
+	</target>
+	
+	<target name="javadoc">
+		<mkdir dir="javadoc"/>
+		<javadoc sourcepath="src" classpathref="jars" destdir="javadoc"/>
+	</target>
+	
+	<target name="test" depends="clean, compile">
+		<mkdir dir="test"/>
+		<junit>
+		    <classpath refid="test.classpath" />
+		    <formatter type="xml" />
+		    <batchtest haltonfailure="no" todir="test">
+		        <fileset dir="src/modele/test">
+		            <include name="**/*.java"/>
+		        </fileset>     
+		    </batchtest>
+		</junit>
+	  <fail message="TEST FAILURE" if="failed" />
+	</target>
+	
+	<target name="all" depends="clean, compile, javadoc"/>
+	
+</project>
