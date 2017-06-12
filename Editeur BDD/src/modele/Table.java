@@ -20,9 +20,9 @@ public class Table {
 	/**
 	 * Ajouter une colonne
 	 * @param nomColonne Nom de la colonne
-	 * @param type Type de la données
+	 * @param type Type de la donnée
 	 */
-	protected void ajouterColonne(String nomColonne, TypeDonnee type){
+	public void ajouterColonne(String nomColonne, TypeDonnee type){
 		
 	}
 	
