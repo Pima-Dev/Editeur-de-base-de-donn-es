@@ -36,7 +36,7 @@ public class Table {
 	
 	/**
 	 * Editer une valeur dans la table. 
-	 * @param index l'index 
+	 * @param index l'index de la ligne
 	 * @param colonne La colonne concerné
 	 * @param strValeur La nouvelle valeur qui sera ensuite tranformé 
 	 */
@@ -45,7 +45,7 @@ public class Table {
 	}
 	
 	/**
-	 * Ajouter une contrainte
+	 * Ajouter une contrainte a une colonne
 	 * @param colonne La colonne concerné
 	 * @param contrainte La contrainte
 	 */
