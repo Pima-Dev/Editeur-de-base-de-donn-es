@@ -68,7 +68,7 @@ public class CreationUserView extends JPanel{
 		lEmail = new JLabel("E-Mail");
 		lMotDePasse = new JLabel("Mot de passe");
 		lConfirmation = new JLabel("Confirmation de mot de passe");
-		iUtilisateur = new JLabel();
+		iUtilisateur = new JLabel(new ImageIcon("../ressources/check.png"));
 		iEmail = new JLabel();
 		iMotDePasse = new JLabel();
 		iConfirmation = new JLabel();

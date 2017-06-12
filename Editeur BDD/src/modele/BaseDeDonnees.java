@@ -3,10 +3,6 @@ package modele;
 import java.util.ArrayList;
 
 public class BaseDeDonnees {
-<<<<<<< HEAD
-=======
-	
->>>>>>> 018a7b06348f999563cd1f6ed3afe8b794d021c2
 	/**
 	 * Le nom de la base de donn�es
 	 */
