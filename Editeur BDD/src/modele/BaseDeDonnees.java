@@ -3,8 +3,9 @@ package modele;
 import java.util.ArrayList;
 
 public class BaseDeDonnees {
+	test
 	/**
-	 * Le nom de la base de donné
+	 * Le nom de la base de données
 	 */
 	private String nom;
 	/**
