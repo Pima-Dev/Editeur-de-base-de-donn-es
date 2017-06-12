@@ -5,22 +5,22 @@ import java.util.ArrayList;
 public class BaseDeDonnees {
 	
 	/**
-	 * Le nom de la base de donn�es
+	 * Le nom de la base de données
 	 */
 	private String nom;
 	/**
-	 * Le serveur sur lequel la base de donn� est heberg�
+	 * Le serveur sur lequel la base de données est hebergé
 	 */
-	private Serveur baseDeDonees;
+	private Serveur serveur;
 	/**
-	 * La liste des tables dans la base de donn�s
+	 * La liste des tables dans la base de donnés
 	 */
 	private ArrayList<Table> listeTable;
 	
 	/**
 	 * Constructeur
-	 * @param nom Nom de la base de donn�s
-	 * @param tables qui seront dans la base de donn�
+	 * @param nom Nom de la base de données
+	 * @param tables qui seront dans la base de données
 	 */
 	public BaseDeDonnees(String nom, ArrayList<Table> tables){
 		this.nom = nom;
@@ -28,15 +28,15 @@ public class BaseDeDonnees {
 	}
 		
 	/**
-	 * M�thode qui retourne la liste des tables de la base de donn�s
-	 * @return Liste des tables de la base de donn�s
+	 * Méthode qui retourne la liste des tables de la base de donnés
+	 * @return Liste des tables de la base de données
 	 */
 	public ArrayList<Table> getListeTable(){
 		return this.listeTable;
 	}
 	
 	/**
-	 * Permet d'acc�der au nom de la base
+	 * Permet d'accéder au nom de la base
 	 * @return Le nom de la base
 	 */
 	public String getName(){
@@ -44,15 +44,23 @@ public class BaseDeDonnees {
 	}
 	
 	/**
-	 * D�finis le nom de la base	
-	 * @param name Le nouveau nom de la base
+	 * Définis le nom de la base	
+	 * @param nom Le nouveau nom de la base
 	 */
-	public void setName(String name){}
+	public void setName(String nom){
+		this.nom = nom;
+	}
 	
 	/**
 	 * Permet d'ajouter une table à la base
-	 * @param table La table qui sera ajout� à la base de donn�s
+	 * @param table La table qui sera ajouté à la base de donnés
 	 */
-	public void ajouterTable(Table table){}
+	public void ajouterTable(Table table){
+		
+	}
+	
+	public Serveur getServeur(){
+		return this.serveur;
+	}
 	
 }
