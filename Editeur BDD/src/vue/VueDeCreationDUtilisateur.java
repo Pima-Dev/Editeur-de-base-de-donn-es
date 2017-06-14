@@ -3,7 +3,7 @@ package vue;
 import javax.swing.*;
 import java.awt.*;
 
-public class CreationUserView extends JPanel{
+public class VueDeCreationDUtilisateur extends JPanel{
 	
 	private JLabel lTitre;
 	private JLabel lUtilisateur;
@@ -24,7 +24,7 @@ public class CreationUserView extends JPanel{
 	private JPanel panneauChamps;
 	private JPanel verif;
 	
-	public CreationUserView(){
+	public VueDeCreationDUtilisateur(){
 		decoration();
 		panneauChamps.add(lTitre);
 		panneauChamps.add(lUtilisateur);
@@ -68,7 +68,7 @@ public class CreationUserView extends JPanel{
 		lEmail = new JLabel("E-Mail");
 		lMotDePasse = new JLabel("Mot de passe");
 		lConfirmation = new JLabel("Confirmation de mot de passe");
-		iUtilisateur = new JLabel(new ImageIcon("../ressources/check.png"));
+		iUtilisateur = new JLabel(new ImageIcon("src/ressources/check.png"));
 		iEmail = new JLabel();
 		iMotDePasse = new JLabel();
 		iConfirmation = new JLabel();
@@ -82,9 +82,74 @@ public class CreationUserView extends JPanel{
 	
 	public static void main(String[] args){
 		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setContentPane(new CreationUserView());
+		fenetre.setContentPane(new VueDeCreationDUtilisateur());
 		fenetre.setVisible(true);
 		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		fenetre.pack();
 	}
+
+	/**
+	 * @return the fUtilisateur
+	 */
+	public JTextField getfUtilisateur() {
+		return fUtilisateur;
+	}
+
+	/**
+	 * @return the fEmail
+	 */
+	public JTextField getfEmail() {
+		return fEmail;
+	}
+
+	/**
+	 * @return the fMotDePasse
+	 */
+	public JPasswordField getfMotDePasse() {
+		return fMotDePasse;
+	}
+
+	/**
+	 * @return the fConfirmation
+	 */
+	public JPasswordField getfConfirmation() {
+		return fConfirmation;
+	}
+
+	/**
+	 * @return the bCreation
+	 */
+	public JButton getbCreation() {
+		return bCreation;
+	}
+
+	/**
+	 * @param iUtilisateur the iUtilisateur to set
+	 */
+	public void setiUtilisateur(JLabel iUtilisateur) {
+		this.iUtilisateur = iUtilisateur;
+	}
+
+	/**
+	 * @param iEmail the iEmail to set
+	 */
+	public void setiEmail(JLabel iEmail) {
+		this.iEmail = iEmail;
+	}
+
+	/**
+	 * @param iMotDePasse the iMotDePasse to set
+	 */
+	public void setiMotDePasse(JLabel iMotDePasse) {
+		this.iMotDePasse = iMotDePasse;
+	}
+
+	/**
+	 * @param iConfirmation the iConfirmation to set
+	 */
+	public void setiConfirmation(JLabel iConfirmation) {
+		this.iConfirmation = iConfirmation;
+	}
+
+	
 }
