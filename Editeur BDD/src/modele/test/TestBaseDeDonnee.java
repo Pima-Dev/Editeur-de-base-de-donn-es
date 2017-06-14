@@ -26,11 +26,11 @@ public class TestBaseDeDonnee {
         @Before
         public void setUp() {
                 this.tables = new ArrayList<Table>();
-                e = new Table("");
+                //e = new Table("");
                 tables.add(e);
                 this.nom = "nom";
-                this.bdd1 = new BaseDeDonnees(nom, tables);
-                this.bdd2 = new BaseDeDonnees(nom, tables);
+                //this.bdd1 = new BaseDeDonnees(nom, tables);
+                //this.bdd2 = new BaseDeDonnees(nom, tables);
                 System.out.println("debug");
 
         }

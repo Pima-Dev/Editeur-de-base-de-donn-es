@@ -22,9 +22,16 @@ public class BaseDeDonnees {
 	 * @param nom Nom de la base de données
 	 * @param tables qui seront dans la base de données
 	 */
-	public BaseDeDonnees(String nom, ArrayList<Table> tables){
+	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, ArrayList<Table> tables){
 		this.nom = nom;
 		this.listeTable = listeTable;
+		this.serveur = new Serveur(this.nom, nomUtilisateur, motDePasse);
+		this.listeTable = new ArrayList<Table>();
+		try {
+			this.serveur.creerBaseDeDonnees();
+		} catch (CustomException e) {
+			Util.log(e.getMessage());
+		}
 	}
 		
 	/**
@@ -56,11 +63,32 @@ public class BaseDeDonnees {
 	 * @param table La table qui sera ajouté à la base de donnés
 	 */
 	public void ajouterTable(Table table){
-		
+		try {
+			this.serveur.creerTable(table.getNom(), table.getListeColonnes());
+			
+			this.listeTable.add(table);
+		} catch (CustomException e) {
+			Util.logErreur(e.getMessage());
+		}
 	}
 	
+	/**
+	 * Accéder au serveur de la base de données
+	 * @return
+	 */
 	public Serveur getServeur(){
 		return this.serveur;
+	}
+	
+	/**
+	 * Supprimer la base de données courante
+	 */
+	public void supprimerBDD(){
+		try {
+			this.serveur.supprimerBaseDeDonnes();
+		} catch (CustomException e) {
+			Util.log(e.getMessage());
+		}
 	}
 	
 }

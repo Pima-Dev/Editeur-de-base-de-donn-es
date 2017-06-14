@@ -8,23 +8,35 @@ public class Colonne<V> {
 	 * Nom de la colonne
 	 */
 	private String nom;
+	
 	/**
 	 * Les valeurs contenue dans la colonne
 	 */
+	private ArrayList<V> listeValeurs;
 	
-	private ArrayList<V> valeurs;
 	/**
 	 * La liste des contrainte
 	 */
+	private ArrayList<Contrainte> listeContraintes;
+	 
+	/**
+	 * Table référencé si clé étrangère. Null si aucune clé étrangère.
+	 */
 	
-	private ArrayList<Contrainte> contrainte;
+	/**
+	 * Le type de donnée dans la colonne
+	 */
+	private TypeDonnee type;
 	
 	/**
 	 * Initialise le nom de la colonne
 	 * @param nom Le nom de la colonne
 	 */
-	public Colonne(String nom){
+	public Colonne(String nom, TypeDonnee type){
 		this.nom = nom;
+		this.type = type;
+		this.listeContraintes = new ArrayList<Contrainte>();
+		this.listeValeurs = new ArrayList<V>();
 	}
 	
 	/**
@@ -49,26 +61,53 @@ public class Colonne<V> {
 	 * @return
 	 */
 	public V getValue(int index){
-		return null;
+		return this.listeValeurs.get(index);
 	}
 	
 	/**
 	 * Ajouter une valeur à la colonne
 	 * @param valeur La valeur à ajouter
+	 * @throws CustomException 
 	 */
-	public void ajouterValeur(V valeur){
-		
+	public void ajouterValeur(V valeur) throws CustomException{
+		if(valeur instanceof Integer && this.type != TypeDonnee.NOMBRE){
+			throw new CustomException("Erreur de type", "Un nombre ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		}
+		else if(valeur instanceof String && this.type == TypeDonnee.NOMBRE){
+			throw new CustomException("Erreur de type", "Une chaine de caractère ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		}
+		else if (!(valeur instanceof String) && !(valeur instanceof Integer)){
+			throw new CustomException("Erreur de type", "Les types autorisés sont String et Nombre");
+		}
+		this.listeValeurs.add(valeur);
 	}
 	
 	/**
-	 * Ajouter une contrainte à la colonne. Verifie qu'elle n'existe pas déjà 
+	 * Ajouter une contrainte à la colonne. Verifie qu'elle n'existe pas déjà sauf si c'est une contrainte de clé étrangère
 	 * @param contrainte La contrainte à ajouter
+	 * @throws CustomException 
 	 */
-	public void ajouterContrainte(Contrainte contrainte){
-		
+	public void ajouterContrainte(Contrainte contrainte) throws CustomException{
+		if(contrainte.getContrainteType() != TypeContrainte.REFERENCEKEY){
+			for(Contrainte cont : this.listeContraintes){
+				if(cont.getContrainteType() == contrainte.getContrainteType()){
+					throw new CustomException("Erreur", "La contrainte "+contrainte.getContrainteType()+" est déjà présente pour cette attribut.");
+				}
+			}
+			this.listeContraintes.add(contrainte);
+		}
+		else {
+			if(contrainte.getReferenceTable() == null){
+				throw new CustomException("Erreur", "La Table que l'attribut référence ne peut pas être null");
+			}
+			else{
+				this.listeContraintes.add(contrainte);
+			}
+		}
 	}
 	
 	/**
+	 * 
 	 * Ajouter une contrainte check sur la colonne
 	 * @param operateur L'operateur peut etre: <, >, <=, >=, ==, != 
 	 * @param valeur La valeur à mettre à droite de l'opérateur
@@ -78,10 +117,28 @@ public class Colonne<V> {
 	}
 	
 	/**
-	 * Verifier les valeurs
+	 * Récupérer le type des données de la colonne
+	 * @return Le type des données de la colonne
 	 */
-	private void verifValues(){
-		
+	public TypeDonnee getTypeDonnees(){
+		return this.type;
 	}
+	
+	/**
+	 * Récupérer la liste des contraintes sur la colonne
+	 * @return La liste des contraintes sur la colonne
+	 */
+	public ArrayList<Contrainte> getListeContraintes(){
+		return this.listeContraintes;
+	}
+	
+	/**
+	 * Récupérer les valeurs contenues dans la colonne
+	 * @return La liste des valeurs contenues dans la colonne
+	 */
+	public ArrayList<V> getListeValeurs(){
+		return this.listeValeurs;
+	}
+	
 }
 
