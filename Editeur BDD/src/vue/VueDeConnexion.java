@@ -2,7 +2,7 @@ package vue;
 
 import javax.swing.*;
 
-import controleur.Connexion;
+import controleur.PressButtonListener;
 
 import java.awt.*;
 
@@ -18,13 +18,14 @@ public class VueDeConnexion extends JPanel{
 	private JPasswordField fMotDePasse;
 	private JButton bConnection;
 	private JButton bCreationUtilisateur;
-	private JButton lMotDePasseOublie;
+	private JButton bMotDePasseOublie;
 	private JPanel panneau;
 	private JPanel panneauBouton;
 	private JPanel panneauConnexion;
 	
 	public VueDeConnexion(Fenetre fenetre){
 		this.fenetre = fenetre;
+		this.fenetre.setVueDeConnexion(this);
 		decoration();
 		panneauBouton.add(bConnection);
 		panneauBouton.add(bCreationUtilisateur);
@@ -34,13 +35,16 @@ public class VueDeConnexion extends JPanel{
 		panneau.add(lMotDePasse);
 		panneau.add(fMotDePasse);
 		panneau.add(panneauBouton);
-		panneau.add(lMotDePasseOublie);
+		panneau.add(bMotDePasseOublie);
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		this.bConnection.addActionListener(new Connexion(this,fenetre));
-		this.bCreationUtilisateur.addActionListener(new Connexion(this,fenetre));
-		this.lMotDePasseOublie.addActionListener(new Connexion(this,fenetre));
+		this.bConnection.setName("Connexion");
+		this.bConnection.addActionListener(new PressButtonListener(fenetre));
+		this.bCreationUtilisateur.setName("Nouvel utilisateur");
+		this.bCreationUtilisateur.addActionListener(new PressButtonListener(fenetre));
+		this.bMotDePasseOublie.setName("Mot de passe oublie");
+		this.bMotDePasseOublie.addActionListener(new PressButtonListener(fenetre));
 	}
 	
 	public void decoration(){
@@ -64,11 +68,11 @@ public class VueDeConnexion extends JPanel{
 		fMotDePasse = new JPasswordField();
 		bConnection = new JButton("Connexion");
 		bCreationUtilisateur = new JButton("Creation de compte");
-		lMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");
-		lMotDePasseOublie.setBorderPainted(false);
-		lMotDePasseOublie.setContentAreaFilled(false);
-		lMotDePasseOublie.setForeground(new Color(142,162,198));
-		lMotDePasseOublie.setHorizontalAlignment(SwingConstants.LEFT);
+		bMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");
+		bMotDePasseOublie.setBorderPainted(false);
+		bMotDePasseOublie.setContentAreaFilled(false);
+		bMotDePasseOublie.setForeground(new Color(142,162,198));
+		bMotDePasseOublie.setHorizontalAlignment(SwingConstants.LEFT);
 		panneauBouton = new JPanel();
 		panneauBouton.setLayout(new GridLayout(1,2,10,5));
 		

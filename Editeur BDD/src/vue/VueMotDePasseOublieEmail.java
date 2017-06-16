@@ -2,9 +2,9 @@ package vue;
 
 import javax.swing.*;
 
+import controleur.PressButtonListener;
 import controleur.connexion.ConnexionBoutonMotDePasseOublie;
 import controleur.motDePasseOublie.MotDePasseOublieBoutonCode;
-import controleur.motDePasseOublie.MotDePasseOublieBoutonEmail;
 
 import java.awt.*;
 
@@ -32,8 +32,8 @@ public class VueMotDePasseOublieEmail extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		
-		this.bEnvoyer.addActionListener(new MotDePasseOublieBoutonEmail(this,fenetre));
+		this.bEnvoyer.setName("envoyer mail");
+		this.bEnvoyer.addActionListener(new PressButtonListener(fenetre));
 	}
 	
 	public void decoration(){

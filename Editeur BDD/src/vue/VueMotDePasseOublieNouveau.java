@@ -2,8 +2,8 @@ package vue;
 
 import javax.swing.*;
 
+import controleur.PressButtonListener;
 import controleur.connexion.ConnexionBoutonMotDePasseOublie;
-import controleur.motDePasseOublie.MotDePasseOublieBoutonNouveau;
 
 import java.awt.*;
 
@@ -23,6 +23,7 @@ public class VueMotDePasseOublieNouveau extends JPanel{
 	
 	public VueMotDePasseOublieNouveau(Fenetre fenetre){
 		this.fenetre = fenetre;
+		this.fenetre.setVueMDPOublieNouveau(this);
 		decoration();
 		panneauTitre.add(lTitre, BorderLayout.NORTH);
 		panneauTitre.add(lInfo, BorderLayout.CENTER);
@@ -36,8 +37,8 @@ public class VueMotDePasseOublieNouveau extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		
-		this.bValider.addActionListener(new MotDePasseOublieBoutonNouveau(this,fenetre));
+		this.bValider.setName("Valider mdp oublié");
+		this.bValider.addActionListener(new PressButtonListener(fenetre));
 	}
 	
 	public void decoration(){

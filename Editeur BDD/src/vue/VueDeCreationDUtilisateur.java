@@ -1,15 +1,21 @@
 package vue;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
-import controleur.connexion.ConnexionBoutonMotDePasseOublie;
-import controleur.creation.CreationBoutonCreer;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import controleur.PressButtonListener;
 import controleur.creation.CreationChampConfirmation;
 import controleur.creation.CreationChampEmail;
 import controleur.creation.CreationChampMotDePasse;
 import controleur.creation.CreationChampUtilisateur;
-
-import java.awt.*;
 
 public class VueDeCreationDUtilisateur extends JPanel{
 	private Fenetre fenetre;
@@ -40,6 +46,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	
 	public VueDeCreationDUtilisateur(Fenetre fenetre){
 		this.fenetre = fenetre;
+		this.fenetre.setVueCreationUtilisateur(this);
 		vConfirmation = false;
 		vMotDePasse = false;
 		vEmail = false;
@@ -76,7 +83,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.fEmail.addFocusListener(new CreationChampEmail(this));
 		this.fMotDePasse.addFocusListener(new CreationChampMotDePasse(this));
 		this.fConfirmation.addFocusListener(new CreationChampConfirmation(this));
-		this.bCreation.addActionListener(new CreationBoutonCreer(this,fenetre));
+		this.bCreation.setName("Valider creation nouvel utilisateur");
+		this.bCreation.addActionListener(new PressButtonListener(fenetre));
 	}
 	
 
