@@ -2,9 +2,13 @@ package modele;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.mysql.jdbc.CommunicationsException;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
@@ -37,15 +41,18 @@ public class Serveur {
 	 */
 	private String nomBase;
 	
+	private BaseDeDonnees BDD;
+	
 	/**
 	 * Initialise les informartions de connexion
 	 * @param nomUtilisateur Le nom de l'utilisateur
 	 * @param motDePasse Le mot de passe
 	 */
-	public Serveur(String nomBase, String nomUtilisateur, String motDePasse){
+	public Serveur(String nomBase, String nomUtilisateur, String motDePasse, BaseDeDonnees bdd){
 		this.nomBase = nomBase;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
+		this.BDD = bdd;
 	}
 	
 	/**
@@ -106,7 +113,7 @@ public class Serveur {
 	
 	
 	/**
-	 * Execute le code sql passé en paramètre si il peut compiler
+	 * Execute le code sql passé en paramètre si il peut compiler. Seulemement pour faire des actions sur les tables mais pas requêter
 	 * @param code Le code à executer
 	 * @throws SQLException 
 	 * @throws CustomException Si syntaxe non correcte
@@ -139,16 +146,40 @@ public class Serveur {
 	}
 	
 	/**
-	 * Envoyer toutes les valeurs contenue dans l'objet BaseDeDonnees dans la base de données
+	 * Executer une requête sql. La connexion sql doit être fermé après avoir lu le ResultSet
+	 * @param code Le code sql à executer
+	 * @return Le résultat de la requête
+	 * @throws CustomException
+	 * @throws SQLException
 	 */
-	public void exporterALaBaseDeDonnees(){
+	public ResultSet executeRequete(String code) throws CustomException, SQLException{
 		
+		ResultSet ret = null;
+		
+		try {
+			this.connexion(this.nomBase);
+			ret = this.stmt.executeQuery(code);
+		} catch (MySQLSyntaxErrorException e) {
+			if(e.getMessage().contains("Table") && e.getMessage().contains("already exists")){
+				throw new CustomException("Erreur", "Ce nom de table est déjà utilisé.\n"+e.getMessage());
+			}
+			else if(e.getMessage().contains("Unknown table")){
+				throw new CustomException("Erreur", "Cette table n'existe pas.\n"+e.getMessage());
+			}
+			else{
+				throw new CustomException("Erreur de syntaxe", "Le code SQL n'est pas correcte syntaxiquement. \n"+e.getMessage());
+			}
+		}
+		
+		return ret;
 	}
 	
 	/**
-	 * Importe toutes les données contenue dans la base de donnée et les met dans l'objet BaseDeDonnees
+	 * Importe toutes les données contenue dans la base de données et les met dans l'objet BaseDeDonnees
+	 * @throws CustomException 
 	 */
-	public void importerDepuisBaseDeDonnees(){
+	public void importerDepuisBaseDeDonnees() throws CustomException{
+		
 	}
 	 
 	/**
@@ -236,6 +267,9 @@ public class Serveur {
 			Util.log("Création de la table "+nom+" effectué.");
 		} 
 		catch (SQLException e) {
+			if(e.getMessage().contains("Cannot add foreign key")){
+				throw new CustomException("Erreur de contrainte", "Un tuple viole un contrainte.\n"+e.getMessage());
+			}
 			e.printStackTrace();
 		}
 	}
@@ -282,18 +316,21 @@ public class Serveur {
 		for(int i = 0; i<valeurs.size(); i++){
 			sqlCode = new StringBuilder("INSERT INTO "+table+ " VALUES (");
 			for(int j = 0; j<listeColonnes.size(); j++){
-				if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.NOMBRE){
+				if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.INTEGER || listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DOUBLE){
 					sqlCode.append(listeColonnes.get(j).getListeValeurs().get(i)+", ");
+				} 
+				else if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DATE){
+					sqlCode.append("STR_TO_DATE('"+listeColonnes.get(j).getListeValeurs().get(i)+"', '%m-%d-%Y'), ");
 				}
-				else if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.CHAR || listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DATE){
+				else if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.CHAR){
 					sqlCode.append("'"+listeColonnes.get(j).getListeValeurs().get(i)+"', ");
 				}
 			}
 			sqlCode.deleteCharAt(sqlCode.length()-2);
 			sqlCode.append(")");
 			try {
-				this.executerCode(sqlCode.toString());
 				Util.logSqlCode(sqlCode.toString());
+				this.executerCode(sqlCode.toString());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -343,5 +380,103 @@ public class Serveur {
 			e.printStackTrace();
 		}
 	}
-			
+	
+	/**
+	 * Récupérer la liste des tables présentent dans la base de données
+	 * @return la liste des tables présentent dans la base de données
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	public ArrayList<Table> getListeTables() throws CustomException, SQLException{
+		ArrayList<Table> ret = new ArrayList<Table>();
+		
+		ResultSet rs = this.executeRequete("SHOW TABLES from "+this.nomBase);
+
+		while(rs.next()){
+			String nomTable = rs.getString("Tables_in_"+this.nomBase);
+			Table table = new Table(this.BDD, nomTable);
+			ArrayList<Colonne> listeColonnes = this.getListeColonnes(nomTable);
+			for(Colonne col : listeColonnes){
+				table.ajouterAttribut(col);
+			}
+			ret.add(table);
+		}
+		this.BDD.setListeTables(ret);
+		this.ajouterFK();
+		this.fermerConnexion();
+		
+		return ret;
+	}
+	
+	/**
+	 * Récupérer la liste des Colonne présentent dans une table
+	 * @param nom Table Le nom de la table ou récupérer les colonnes
+	 * @return la liste des Colonne présentent dans une table
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	private ArrayList<Colonne> getListeColonnes(String nomTable) throws CustomException, SQLException{
+		ArrayList<Colonne> ret = new ArrayList<Colonne>();
+		
+		ResultSet rs = this.executeRequete("SHOW COLUMNS from "+nomTable);
+		
+		while(rs.next()){
+			String nom = rs.getString("Field");
+			TypeDonnee type = rs.getString("Type").contains("int") ? TypeDonnee.INTEGER : (rs.getString("Type").contains("float") ? TypeDonnee.DOUBLE : (rs.getString("Type").contains("date") ? TypeDonnee.DATE : TypeDonnee.CHAR));
+			Colonne colonne = new Colonne(nom, type);
+			if(rs.getString("Null").equalsIgnoreCase("NO") && !rs.getString("Key").equalsIgnoreCase("PRI")){
+				colonne.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+			}
+			if(rs.getString("Key").equalsIgnoreCase("UNI")){
+				colonne.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
+			}
+			else if(rs.getString("Key").equalsIgnoreCase("PRI")){
+				colonne.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
+			}
+			colonne.setListeValeurs(this.getListeValeurs(nomTable, colonne.getNom()));
+			ret.add(colonne);
+		}
+		this.fermerConnexion();
+		return ret;
+	}
+	
+	/**
+	 * Récupérer la liste des valeurs d'une colonne d'une table
+	 * @param nomTable Le nom de la table ou se situe la colonne
+	 * @param nomColonne Le nom de la colonne où se situe les valeurs
+	 * @return la liste des valeurs d'une colonne d'une table
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	private ArrayList<Object> getListeValeurs(String nomTable, String nomColonne) throws CustomException, SQLException{
+		ArrayList<Object> ret = new ArrayList<Object>();
+		
+		ResultSet rs = this.executeRequete("SELECT "+nomColonne+" FROM "+nomTable);
+		
+		while(rs.next()){
+			ret.add(rs.getObject(nomColonne));
+		}
+		return ret;
+	}
+	
+	/**
+	 * Ajouter les contraintes de clés étrangères présentent dans une BDD
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	private void ajouterFK() throws CustomException, SQLException{
+		
+		ResultSet rs = this.executeRequete("SELECT CONCAT(table_name, '.', column_name) AS 'foreign key', CONCAT(referenced_table_name, '.', referenced_column_name) AS 'references' FROM information_schema.key_column_usage WHERE referenced_table_name IS NOT NULL;");
+		
+		while(rs.next()){
+			String nomTable = rs.getString("foreign key").split("\\.")[0];
+			String nomColonne = rs.getString("foreign key").split("\\.")[1];
+			Colonne colonne = this.BDD.getTable(nomTable).getColonne(nomColonne);
+			String referenceTable = rs.getString("references").split("\\.")[0];
+			colonne.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, this.BDD.getTable(referenceTable)));
+		}
+		this.fermerConnexion();
+	}
+	
+	
 }

@@ -44,6 +44,7 @@ public class Table {
 	 */
 	private void insererUnTuple(ArrayList<Colonne> attributs) throws CustomException{
 		
+		
 		if(attributs.size() != this.listeColonnes.size()){
 			throw new CustomException("Erreur", "Le tuple est incomplet ou contient trop d'attribut");
 		}
@@ -51,6 +52,12 @@ public class Table {
 		for(Colonne colonne : attributs){
 			if(colonne.getListeValeurs().size() != 1){
 				throw new CustomException("Erreur", "Les tuples ne peuvent être inséré qu'un par un");
+			}
+		}
+		
+		for(int i = 0; i<attributs.size(); i++){
+			if(this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()){
+				throw new CustomException("Erreur de type", "La valeur '"+attributs.get(i).getListeValeurs().get(0)+"'  est de type "+attributs.get(i).getTypeDonnees()+" alors qu'il est attendu un type "+this.listeColonnes.get(i).getTypeDonnees()+".");
 			}
 		}
 		
@@ -64,31 +71,43 @@ public class Table {
 		}
 	}
 	
+	/**
+	 * Méthode public qui va appeller inserUnTuple pour inserer un tuple
+	 * @param attributs La liste des objects formant le tuple
+	 * @throws CustomException
+	 */
 	public void insererTuple(ArrayList<Object> attributs) throws CustomException{
 				
 		ArrayList<Colonne> tuple = new ArrayList<Colonne>();
 		
-		try {
-			for(Object obj : attributs){
-				if(obj instanceof Integer){
-					Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.NOMBRE);
-					col.ajouterValeur((int)obj);
-					tuple.add(col);
-				}
-				else if (obj instanceof String){
-					Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR);
-					col.ajouterValeur((String)obj);
-					tuple.add(col);
-				}
-				else{
-					throw new CustomException("Erreur", obj+" est de type incompatible pour être inséré dans un tuple");
-				}
+		for(Object obj : attributs){
+			
+			if(obj instanceof Double){
+				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE);
+				col.ajouterValeur((double)obj);
+				tuple.add(col);
 			}
-			this.insererUnTuple(tuple);
+			else if(obj instanceof Integer){
+				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER);
+				col.ajouterValeur((int)obj);
+				tuple.add(col);
+			}
+			else if (obj instanceof String && Util.isValidDate((String)obj)){
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE);
+				col.ajouterValeur((String)obj);
+				tuple.add(col);
+			}
+			else if (obj instanceof String){
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR);
+				col.ajouterValeur((String)obj);
+				tuple.add(col);
+			}
+			else{
+				throw new CustomException("Erreur", obj+" est de type incompatible pour être inséré dans un tuple");
+			}
 		}
-		catch (CustomException e) {
-			Util.logErreur(e.getMessage());
-		}
+		this.insererUnTuple(tuple);
+		
 	}
 	
 	/**
@@ -100,11 +119,17 @@ public class Table {
 		
 		Util.log("Suppression de la ligne ayant comme id "+id+"...");
 		
-		if(id instanceof String && this.getClePrimaire().getTypeDonnees() == TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "La clé primaire est de type NOMBRE et non CHAR ou DATE");
+		if(id instanceof Double && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DOUBLE){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type DOUBLE");
 		}
-		else if(id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type NOMBRE");
+		else if(id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.INTEGER){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type INTEGER");
+		}
+		else if(id instanceof String && Util.isValidDate((String)id) && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DATE){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type DATE");
+		}
+		else if(id instanceof String && !Util.isValidDate((String)id) && this.getClePrimaire().getTypeDonnees() != TypeDonnee.CHAR){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type CHAR");
 		}
 		
 		this.BDD.getServeur().supprimerTupleById(this, id);
@@ -127,27 +152,44 @@ public class Table {
 		Util.log("Suppression de la ligne ayant comme id "+id+" effectué.");
 	}
 	
-	
+	/**
+	 * Editer un tuple avec l'id du tuple, le nom de la colonne à modifier et la nouvelle valeur
+	 * @param id L'identifiant PRIMARY KEY du tuple
+	 * @param nomColonne Le nom de la colonne ou la valeur est a modifier
+	 * @param newValeur La nouvelle valeur
+	 * @throws CustomException
+	 */
 	public void editerTuple(Object id, String nomColonne, Object newValeur) throws CustomException{
 		Util.log("Modification de la valeur du tuple ayant pour identifiant '"+id+"' de la colonne '"+nomColonne+"' par la nouvelle valeur '"+newValeur+"'...");
 		
-		if(id instanceof String && this.getClePrimaire().getTypeDonnees() == TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "La clé primaire est de type NOMBRE et non CHAR ou DATE");
+		if(id instanceof Double && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DOUBLE){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type DOUBLE");
 		}
-		else if(id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type NOMBRE");
+		else if(id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.INTEGER){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type INTEGER");
+		}
+		else if(id instanceof String && Util.isValidDate((String)id) && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DATE){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type DATE");
+		}
+		else if(id instanceof String && !Util.isValidDate((String)id) && this.getClePrimaire().getTypeDonnees() != TypeDonnee.CHAR){
+			throw new CustomException("Erreur de type", "La clé primaire est de type "+this.getClePrimaire().getTypeDonnees()+" et non de type CHAR");
 		}
 		
 		if(this.getColonne(nomColonne) == null){
 			throw new CustomException("Erreur de colonne", "La colonne ayant pour nom '"+nomColonne+"' n'existe pas");
 		}
 		
-		if(this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.NOMBRE && !(newValeur instanceof Integer)){
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type NOMBRE et non de type CHAR.");
+		if(newValeur instanceof Double && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.DOUBLE){
+			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type "+this.getColonne(nomColonne).getTypeDonnees()+" et non de type DOUBLE.");
 		}
-		
-		if(this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.NOMBRE && (newValeur instanceof Integer)){
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type "+this.getColonne(nomColonne).getTypeDonnees()+" et non de type NOMBRE.");
+		else if(newValeur instanceof Integer && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.INTEGER){
+			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type "+this.getColonne(nomColonne).getTypeDonnees()+" et non de type INTEGER.");
+		}
+		else if(newValeur instanceof String && Util.isValidDate((String)newValeur) && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.DATE){
+			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type "+this.getColonne(nomColonne).getTypeDonnees()+" et non de type DATE.");
+		}
+		else if(newValeur instanceof String && !Util.isValidDate((String)newValeur) && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.CHAR){
+			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '"+nomColonne+"' est de type "+this.getColonne(nomColonne).getTypeDonnees()+" et non de type CHAR.");
 		}
 		
 		this.BDD.getServeur().editerTuple(this, id, nomColonne, newValeur);
@@ -216,6 +258,10 @@ public class Table {
 		return this.listeColonnes;
 	}
 	
+	/**
+	 * Permet de récupérer la table qui contient la contrainte de PRIMARY KEY
+	 * @return La table qui contient la contrainte de PRIMARY KEY
+	 */
 	public Colonne getClePrimaire(){
 		Colonne colonne = null;
 		
@@ -229,5 +275,21 @@ public class Table {
 		}
 		
 		return colonne;
+	}
+	
+	/**
+	 * Récupérer un résumé d'une Table
+	 * @return Un résumé d'une Table
+	 */
+	public String toString(){
+		String ret = "";
+		ret+="\nDans la BDD: "+this.BDD.getName();
+		ret+="\nNom: "+this.nom;
+		ret+="\nListe colonne:";
+		for(Colonne col : this.listeColonnes){
+			ret+="\n"+col.getNom();
+		}
+		
+		return ret;
 	}
 }

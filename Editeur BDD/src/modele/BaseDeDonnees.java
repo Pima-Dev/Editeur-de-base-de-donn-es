@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BaseDeDonnees {
@@ -25,7 +26,7 @@ public class BaseDeDonnees {
 	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, ArrayList<Table> tables){
 		this.nom = nom;
 		this.listeTable = listeTable;
-		this.serveur = new Serveur(this.nom, nomUtilisateur, motDePasse);
+		this.serveur = new Serveur(this.nom, nomUtilisateur, motDePasse, this);
 		this.listeTable = new ArrayList<Table>();
 		try {
 			this.serveur.creerBaseDeDonnees();
@@ -91,4 +92,21 @@ public class BaseDeDonnees {
 		}
 	}
 	
+	public Table getTable(String nom){
+		Table table = null;
+		for(Table t : this.listeTable){
+			if(t.getNom().equals(nom)){
+				table=t;
+			}
+		}
+		return table;
+	}
+	
+	public void chargerBDD() throws CustomException, SQLException{
+		this.listeTable = this.serveur.getListeTables();
+	}
+	
+	public void setListeTables(ArrayList<Table> tables){
+		this.listeTable = tables;
+	}
 }

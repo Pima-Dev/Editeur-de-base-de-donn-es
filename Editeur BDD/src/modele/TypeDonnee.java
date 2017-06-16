@@ -2,7 +2,7 @@ package modele;
 
 public enum TypeDonnee {
 
-	  CHAR("VARCHAR(100)"), NOMBRE("INTEGER"), DATE("DATE");
+	  CHAR("VARCHAR(100)"), INTEGER("INTEGER"), DATE("DATE"), DOUBLE("FLOAT");
 
 	  private final String symbole;
 	  

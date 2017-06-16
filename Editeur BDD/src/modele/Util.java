@@ -1,5 +1,7 @@
 package modele;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Util {
@@ -60,6 +62,19 @@ public class Util {
 			seconde="0"+seconde;
 		
 		System.out.println("["+heure+"."+minute+"."+seconde+"/SQL] "+message);
+	}
+	
+	public static boolean isValidDate(String inDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    dateFormat.setLenient(false);
+	    try {
+	    	System.out.println(inDate);
+	    	dateFormat.parse(inDate.trim());
+	    } 
+	    catch (ParseException pe) {
+	    	return false;
+	    }
+	    return true;
 	}
 	
 }

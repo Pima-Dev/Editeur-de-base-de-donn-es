@@ -70,15 +70,19 @@ public class Colonne<V> {
 	 * @throws CustomException 
 	 */
 	public void ajouterValeur(V valeur) throws CustomException{
-		if(valeur instanceof Integer && this.type != TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "Un nombre ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		if(valeur instanceof Double && this.type != TypeDonnee.DOUBLE){
+			throw new CustomException("Erreur de type", "Un DOUBLE ne peut pas être ajouté dans une colonne de type "+this.type+".");
 		}
-		else if(valeur instanceof String && this.type == TypeDonnee.NOMBRE){
-			throw new CustomException("Erreur de type", "Une chaine de caractère ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		else if(valeur instanceof Integer && this.type != TypeDonnee.INTEGER){
+			throw new CustomException("Erreur de type", "Un INTEGER ne peut pas être ajouté dans une colonne de type "+this.type+".");
 		}
-		else if (!(valeur instanceof String) && !(valeur instanceof Integer)){
-			throw new CustomException("Erreur de type", "Les types autorisés sont String et Nombre");
+		else if(valeur instanceof String && Util.isValidDate((String)valeur) && this.type != TypeDonnee.DATE){
+			throw new CustomException("Erreur de type", "Une DATE ne peut pas être ajouté dans une colonne de type "+this.type+".");
 		}
+		else if(valeur instanceof String && !Util.isValidDate((String)valeur) && this.type != TypeDonnee.CHAR){
+			throw new CustomException("Erreur de type", "Un CHAR ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		}
+		
 		this.listeValeurs.add(valeur);
 	}
 	
@@ -138,6 +142,31 @@ public class Colonne<V> {
 	 */
 	public ArrayList<V> getListeValeurs(){
 		return this.listeValeurs;
+	}
+	
+	public void setListeValeurs(ArrayList<V> list){
+		this.listeValeurs = list;
+	}
+	
+	/**
+	 * Récupérer un résumé de la colonne
+	 * @return un résumé de la colonne
+	 */
+	public String toString(){
+		String ret = "";
+		
+		ret+="\nNom: "+this.nom;
+		ret+="\nType de données: "+this.type;
+		ret+="\nContraintes: ";
+		for(Contrainte c : this.listeContraintes){
+			ret+="\n"+c.getContrainteType();
+		}
+		ret+="\nValeurs: ";
+		for(Object obj : this.listeValeurs){
+			ret+="\n"+obj;
+		}
+		
+		return ret;
 	}
 	
 }
