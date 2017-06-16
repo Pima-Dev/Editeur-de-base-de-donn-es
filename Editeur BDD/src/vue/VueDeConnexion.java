@@ -2,9 +2,7 @@ package vue;
 
 import javax.swing.*;
 
-import controleur.connexion.ConnexionBoutonDeConnexion;
-import controleur.connexion.ConnexionBoutonDeCreationDeCompte;
-import controleur.connexion.ConnexionBoutonMotDePasseOublie;
+import controleur.Connexion;
 
 import java.awt.*;
 
@@ -40,9 +38,9 @@ public class VueDeConnexion extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		this.bConnection.addActionListener(new ConnexionBoutonDeConnexion(this,fenetre));
-		this.bCreationUtilisateur.addActionListener(new ConnexionBoutonDeCreationDeCompte(this,fenetre));
-		this.lMotDePasseOublie.addActionListener(new ConnexionBoutonMotDePasseOublie(this,fenetre));
+		this.bConnection.addActionListener(new Connexion(this,fenetre));
+		this.bCreationUtilisateur.addActionListener(new Connexion(this,fenetre));
+		this.lMotDePasseOublie.addActionListener(new Connexion(this,fenetre));
 	}
 	
 	public void decoration(){
