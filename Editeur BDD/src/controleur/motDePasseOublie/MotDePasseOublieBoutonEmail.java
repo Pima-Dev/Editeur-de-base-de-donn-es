@@ -1,16 +1,10 @@
 package controleur.motDePasseOublie;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import vue.Fenetre;
-import vue.VueMotDePasseOublieCode;
 import vue.VueMotDePasseOublieEmail;
-import vue.VueMotDePasseOublieNouveau;
 
 public class MotDePasseOublieBoutonEmail implements ActionListener {
 
@@ -27,6 +21,7 @@ public class MotDePasseOublieBoutonEmail implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		adresse = vue.getfEmail().getText();
+		/*
 		if(!adresse.equals("")){
 			if(valide()){
 				envoyerCode();
@@ -41,6 +36,7 @@ public class MotDePasseOublieBoutonEmail implements ActionListener {
 		else{
 			vue.getlInfo().setText("Veuillez entrer un email");
 		}
+		*/
 	}
 
 private void envoyerCode() {
@@ -48,7 +44,7 @@ private void envoyerCode() {
 		vue.setCode(code);
 	}
 
-
+/*
 	private boolean valide() {
 		boolean ret = true;
 		  try {
@@ -59,4 +55,5 @@ private void envoyerCode() {
 		   }
 		   return ret;
 	}
+*/
 }

@@ -9,6 +9,7 @@ import modele.BaseDeDonnees;
 import modele.Colonne;
 import modele.Contrainte;
 import modele.CustomException;
+import modele.ELFichier;
 import modele.Table;
 import modele.TypeContrainte;
 import modele.TypeDonnee;

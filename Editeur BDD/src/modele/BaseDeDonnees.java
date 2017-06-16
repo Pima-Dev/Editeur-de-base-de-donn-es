@@ -28,11 +28,13 @@ public class BaseDeDonnees {
 		this.listeTable = listeTable;
 		this.serveur = new Serveur(this.nom, nomUtilisateur, motDePasse, this);
 		this.listeTable = new ArrayList<Table>();
+		/**
 		try {
 			this.serveur.creerBaseDeDonnees();
 		} catch (CustomException e) {
 			Util.log(e.getMessage());
 		}
+		*/
 	}
 		
 	/**
