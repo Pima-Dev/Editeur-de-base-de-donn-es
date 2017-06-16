@@ -1,9 +1,18 @@
 package vue;
 
 import javax.swing.*;
+
+import controleur.connexion.ConnexionBoutonMotDePasseOublie;
+import controleur.creation.CreationBoutonCreer;
+import controleur.creation.CreationChampConfirmation;
+import controleur.creation.CreationChampEmail;
+import controleur.creation.CreationChampMotDePasse;
+import controleur.creation.CreationChampUtilisateur;
+
 import java.awt.*;
 
 public class VueDeCreationDUtilisateur extends JPanel{
+	private Fenetre fenetre;
 	
 	private JLabel lTitre;
 	private JLabel lUtilisateur;
@@ -24,7 +33,17 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	private JPanel panneauChamps;
 	private JPanel verif;
 	
-	public VueDeCreationDUtilisateur(){
+	private boolean vUtilisateur;
+	private boolean vEmail;
+	private boolean vMotDePasse;
+	private boolean vConfirmation;
+	
+	public VueDeCreationDUtilisateur(Fenetre fenetre){
+		this.fenetre = fenetre;
+		vConfirmation = false;
+		vMotDePasse = false;
+		vEmail = false;
+		vUtilisateur = false;
 		decoration();
 		panneauChamps.add(lTitre);
 		panneauChamps.add(lUtilisateur);
@@ -52,8 +71,15 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
+		
+		this.fUtilisateur.addFocusListener(new CreationChampUtilisateur(this));
+		this.fEmail.addFocusListener(new CreationChampEmail(this));
+		this.fMotDePasse.addFocusListener(new CreationChampMotDePasse(this));
+		this.fConfirmation.addFocusListener(new CreationChampConfirmation(this));
+		this.bCreation.addActionListener(new CreationBoutonCreer(this,fenetre));
 	}
 	
+
 	public void decoration(){
 		this.setLayout(new BorderLayout());
 		panneauChamps = new JPanel();
@@ -68,24 +94,16 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		lEmail = new JLabel("E-Mail");
 		lMotDePasse = new JLabel("Mot de passe");
 		lConfirmation = new JLabel("Confirmation de mot de passe");
-		iUtilisateur = new JLabel(new ImageIcon("src/ressources/check.png"));
-		iEmail = new JLabel();
-		iMotDePasse = new JLabel();
-		iConfirmation = new JLabel();
+		iUtilisateur = new JLabel(new ImageIcon(""));
+		iEmail = new JLabel(new ImageIcon(""));
+		iMotDePasse = new JLabel(new ImageIcon(""));
+		iConfirmation = new JLabel(new ImageIcon(""));
 		fUtilisateur = new JTextField();
 		fEmail = new JTextField();
 		fMotDePasse = new JPasswordField();
 		fConfirmation = new JPasswordField();
 		bCreation = new JButton("Créer");
 		
-	}
-	
-	public static void main(String[] args){
-		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setContentPane(new VueDeCreationDUtilisateur());
-		fenetre.setVisible(true);
-		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		fenetre.pack();
 	}
 
 	/**
@@ -124,31 +142,92 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	}
 
 	/**
-	 * @param iUtilisateur the iUtilisateur to set
+	 * @return the iUtilisateur
 	 */
-	public void setiUtilisateur(JLabel iUtilisateur) {
-		this.iUtilisateur = iUtilisateur;
+	public JLabel getiUtilisateur() {
+		return iUtilisateur;
 	}
 
 	/**
-	 * @param iEmail the iEmail to set
+	 * @return the iEmail
 	 */
-	public void setiEmail(JLabel iEmail) {
-		this.iEmail = iEmail;
+	public JLabel getiEmail() {
+		return iEmail;
 	}
 
 	/**
-	 * @param iMotDePasse the iMotDePasse to set
+	 * @return the iMotDePasse
 	 */
-	public void setiMotDePasse(JLabel iMotDePasse) {
-		this.iMotDePasse = iMotDePasse;
+	public JLabel getiMotDePasse() {
+		return iMotDePasse;
 	}
 
 	/**
-	 * @param iConfirmation the iConfirmation to set
+	 * @return the iConfirmation
 	 */
-	public void setiConfirmation(JLabel iConfirmation) {
-		this.iConfirmation = iConfirmation;
+	public JLabel getiConfirmation() {
+		return iConfirmation;
+	}
+
+
+	/**
+	 * @return the vUtilisateur
+	 */
+	public boolean isvUtilisateur() {
+		return vUtilisateur;
+	}
+
+	/**
+	 * @return the vEmail
+	 */
+	public boolean isvEmail() {
+		return vEmail;
+	}
+
+	/**
+	 * @return the vMotDePasse
+	 */
+	public boolean isvMotDePasse() {
+		return vMotDePasse;
+	}
+
+	/**
+	 * @return the vConfirmation
+	 */
+	public boolean isvConfirmation() {
+		return vConfirmation;
+	}
+
+
+	/**
+	 * @param vUtilisateur the vUtilisateur to set
+	 */
+	public void setvUtilisateur(boolean vUtilisateur) {
+		this.vUtilisateur = vUtilisateur;
+	}
+
+
+	/**
+	 * @param vEmail the vEmail to set
+	 */
+	public void setvEmail(boolean vEmail) {
+		this.vEmail = vEmail;
+	}
+
+
+	/**
+	 * @param vMotDePasse the vMotDePasse to set
+	 */
+	public void setvMotDePasse(boolean vMotDePasse) {
+		this.vMotDePasse = vMotDePasse;
+	}
+
+
+	/**
+	 * @param vConfirmation the vConfirmation to set
+	 */
+	public void setvConfirmation(boolean vConfirmation) {
+		this.vConfirmation = vConfirmation;
 	}
 
 	

@@ -1,6 +1,7 @@
 package vue;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
@@ -88,7 +89,7 @@ public class VuePrincipale extends JPanel{
 		panneauBoutonTable.add(scrollTable,BorderLayout.NORTH);
 		panneauListeBoutonTable = new JPanel();
 		panneauListeBoutonTable.setLayout(new BorderLayout());
-		//panneauListeBoutonTable.add(panneauListeTable,BorderLayout.WEST);
+		panneauListeBoutonTable.add(panneauListeTable,BorderLayout.WEST);
 		panneauListeBoutonTable.add(panneauBoutonTable,BorderLayout.CENTER);
 		this.setLayout(new BorderLayout());
 		this.add(panneauListeBoutonTable, BorderLayout.CENTER);
@@ -161,12 +162,22 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	
-	public void listeTable(){  
-       /* CellEditor tce = new CellEditor("Nouvelle table");
+	public void listeTable(){ 
+		
+		panneauListeTable = new JPanel();
+		//tableauListeTable = new JTable(new String[][]{ {"0","2","4","6","8"} }, new String[]{"Nouvelle BDD"});
+		DefaultTableModel dm = new DefaultTableModel();
+        dm.setDataVector(new Object[][]{{"button 1"},{"button 2"}}, new Object[]{"Nouvelle BDD"});
+        tableauListeTable = new JTable(dm);
+		tableauListeTable.getColumn("Nouvelle BDD").setCellRenderer(new RenduCellule());
+		tableauListeTable.getColumn("Nouvelle BDD").setCellEditor(new EditeurCellule(new JCheckBox()));
+		panneauTableau = new JScrollPane(tableauListeTable);
+		panneauListeTable.add(panneauTableau);
+        /*CellEditor tce = new CellEditor("Nouvelle table");
 		tce.setBorderPainted(false);
 		tce.setContentAreaFilled(false);
 		tce.setForeground(new Color(142,162,198));
-		tableauListeTable = new JTable(new String[][]{ {"0","2","4","6","8"} }, new String[]{"Nouvelle BDD"});
+		
 		// TableColumn maColonne = tableauListeTable.getColumnModel().getColumn(0);
 		tableauListeTable.setCellEditor(new ButtonColumn);
 		panneauTableau = new JScrollPane(tableauListeTable);
@@ -247,8 +258,7 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void table(){
-		table = new JTable(new String[][]{ {"0","2","4","6","8"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"} }, new String[]{"0","1","2","3","4"});
-		//table = new JTable();
+		table = new JTable(new String[][]{ {"0","2","4","6","8"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9",} }, new String[]{"0","1","2","3","4",});
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
 	}

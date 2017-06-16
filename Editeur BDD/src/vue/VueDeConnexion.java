@@ -3,6 +3,8 @@ package vue;
 import javax.swing.*;
 
 import controleur.connexion.ConnexionBoutonDeConnexion;
+import controleur.connexion.ConnexionBoutonDeCreationDeCompte;
+import controleur.connexion.ConnexionBoutonMotDePasseOublie;
 
 import java.awt.*;
 
@@ -39,6 +41,8 @@ public class VueDeConnexion extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bConnection.addActionListener(new ConnexionBoutonDeConnexion(this,fenetre));
+		this.bCreationUtilisateur.addActionListener(new ConnexionBoutonDeCreationDeCompte(this,fenetre));
+		this.lMotDePasseOublie.addActionListener(new ConnexionBoutonMotDePasseOublie(this,fenetre));
 	}
 	
 	public void decoration(){
@@ -46,6 +50,7 @@ public class VueDeConnexion extends JPanel{
 		panneau = new JPanel();
 		panneau.setLayout(new GridLayout(0,1,5,10));
 		lErreurIdentifiant = new JLabel("");
+		lErreurIdentifiant.setForeground(new Color(255,0,0));
 		lErreurIdentifiant.setHorizontalAlignment(SwingConstants.CENTER);
 		lConnection = new JLabel("CONNEXION");
 		lConnection.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,7 +70,7 @@ public class VueDeConnexion extends JPanel{
 		lMotDePasseOublie.setBorderPainted(false);
 		lMotDePasseOublie.setContentAreaFilled(false);
 		lMotDePasseOublie.setForeground(new Color(142,162,198));
-		lMotDePasseOublie.setAlignmentX(LEFT_ALIGNMENT);
+		lMotDePasseOublie.setHorizontalAlignment(SwingConstants.LEFT);
 		panneauBouton = new JPanel();
 		panneauBouton.setLayout(new GridLayout(1,2,10,5));
 		
@@ -78,13 +83,6 @@ public class VueDeConnexion extends JPanel{
 	 */
 	public JTextField getfPseudo() {
 		return fPseudo;
-	}
-
-	/**
-	 * @param lErreurIdentifiant the lErreurIdentifiant to set
-	 */
-	public void setlErreurIdentifiant(JLabel lErreurIdentifiant) {
-		this.lErreurIdentifiant = lErreurIdentifiant;
 	}
 
 	/**
@@ -101,5 +99,11 @@ public class VueDeConnexion extends JPanel{
 		return lConnection;
 	}
 
+	/**
+	 * @return the lErreurIdentifiant
+	 */
+	public JLabel getlErreurIdentifiant() {
+		return lErreurIdentifiant;
+	}
 	
 }

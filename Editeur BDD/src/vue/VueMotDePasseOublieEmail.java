@@ -1,20 +1,30 @@
 package vue;
 
 import javax.swing.*;
+
+import controleur.connexion.ConnexionBoutonMotDePasseOublie;
+import controleur.motDePasseOublie.MotDePasseOublieBoutonCode;
+import controleur.motDePasseOublie.MotDePasseOublieBoutonEmail;
+
 import java.awt.*;
 
 public class VueMotDePasseOublieEmail extends JPanel{
 	
 	private JLabel lTitre;
 	private JLabel lEmail;
+	private JLabel lInfo;
 	private JTextField fEmail;
 	private JButton bEnvoyer;
 	private JPanel panneau;
 	private JPanel panneauChamps;
+	private JPanel panneauTitre;
+	private Fenetre fenetre;
+	private String code;
 	
-	public VueMotDePasseOublieEmail(){
+	public VueMotDePasseOublieEmail(Fenetre fenetre){
+		this.fenetre = fenetre;
 		decoration();
-		panneauChamps.add(lTitre);
+		panneauChamps.add(panneauTitre);
 		panneauChamps.add(lEmail);
 		panneauChamps.add(fEmail);
 		panneauChamps.add(bEnvoyer);
@@ -22,6 +32,8 @@ public class VueMotDePasseOublieEmail extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
+		
+		this.bEnvoyer.addActionListener(new MotDePasseOublieBoutonEmail(this,fenetre));
 	}
 	
 	public void decoration(){
@@ -30,20 +42,26 @@ public class VueMotDePasseOublieEmail extends JPanel{
 		panneauChamps.setLayout(new GridLayout(4,1,5,5));
 		panneau = new JPanel();
 		panneau.setLayout(new BorderLayout());
+		panneauTitre = new JPanel();
+		panneauTitre.setLayout(new BorderLayout());
 		lTitre = new JLabel("MOT DE PASSE OUBLIE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
+		lInfo = new JLabel("");
+		lInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lInfo.setForeground(new Color(255,0,0));
+		panneauTitre.add(lTitre, BorderLayout.NORTH);
+		panneauTitre.add(lInfo, BorderLayout.CENTER);
 		lEmail = new JLabel("E-Mail");
 		fEmail = new JTextField();
 		bEnvoyer = new JButton("Envoyer");
 		
 	}
-	
-	public static void main(String[] args){
-		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setContentPane(new VueMotDePasseOublieEmail());
-		fenetre.setVisible(true);
-		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		fenetre.pack();
+
+	/**
+	 * @return the lInfo
+	 */
+	public JLabel getlInfo() {
+		return lInfo;
 	}
 
 	/**
@@ -58,5 +76,19 @@ public class VueMotDePasseOublieEmail extends JPanel{
 	 */
 	public JButton getbEnvoyer() {
 		return bEnvoyer;
+	}
+
+	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

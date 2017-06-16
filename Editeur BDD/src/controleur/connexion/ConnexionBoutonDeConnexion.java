@@ -43,9 +43,8 @@ public class ConnexionBoutonDeConnexion implements ActionListener {
 			fenetre.getFenetre().pack();
 		}
 		else{
-			JLabel lMessage = new JLabel("Mot de passe oublie");
-			lMessage.setForeground(new Color(255,0,0));
-			vue.setlErreurIdentifiant(lMessage);
+			vue.getlErreurIdentifiant().setText("<HTML><i>Erreur d'identifiant</i></HTML>");;
+			fenetre.getFenetre().setVisible(true);
 		}
 	}
 	
