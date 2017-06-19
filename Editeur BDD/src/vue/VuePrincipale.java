@@ -1,14 +1,28 @@
 package vue;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-import modele.Colonne;
-import modele.Table;
-
-import java.awt.*;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableModel;
 
 public class VuePrincipale extends JPanel{
 	
@@ -276,7 +290,14 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void table(){
-		table = new JTable(new String[][]{ {"0","2","4","6","8"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"} }, new String[]{"0","1","2","3","4"});
+		ModeleTable dm = new ModeleTable(50,5);
+        dm.setDataVector(new String[][]{ {"0","2","4","6","8"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"} }, new String[]{"0","1","2","Modifier","Supprimer"});
+        table = new JTable(dm);
+        table.getColumn("Modifier").setCellRenderer(new RenduCellule());
+        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm));
+        table.getColumn("Supprimer").setCellRenderer(new RenduCellule());
+        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm));
+        table.setRowHeight(30);
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
 		panneauTable = new JPanel();
@@ -513,5 +534,9 @@ public class VuePrincipale extends JPanel{
 	 */
 	public void ajouterTable(String s){
 		modeleListe.addElement(s);
+	}
+	
+	public void setValeurTableau(String[][] donnees){
+		
 	}
 }

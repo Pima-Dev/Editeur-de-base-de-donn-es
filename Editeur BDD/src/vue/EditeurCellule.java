@@ -7,17 +7,20 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 class EditeurCellule extends DefaultCellEditor {
 
-    protected JButton button;
+    protected String name;
+    private JButton button;
     private String label;
     private boolean isPushed;
+    private ModeleTable dm;
 
-    public EditeurCellule(JCheckBox checkBox) {
+    public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm) {
         super(checkBox);
+        this.name = name;
+        this.dm = dm;
         button = new JButton();
         button.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +49,12 @@ class EditeurCellule extends DefaultCellEditor {
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
-            
+            if(name.equals("modifier")){
+            	dm.setCellEditable();
+            }
+            else if(name.equals("supprimer")){
+            	
+            }
         }
         isPushed = false;
         return label;
