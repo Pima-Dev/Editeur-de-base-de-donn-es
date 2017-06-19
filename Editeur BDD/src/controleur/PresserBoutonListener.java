@@ -114,6 +114,10 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			}
 			
+			else if(bouton.getName().equals("ajouter attribut")){
+				
+			}
+			
 		}
 		else if(e.getSource() instanceof JRadioButton){
 			JRadioButton radioBouton= (JRadioButton)e.getSource();
@@ -138,8 +142,7 @@ public class PresserBoutonListener implements ActionListener {
 				new VueCreationBDD(this.fenetre);
 			}
 			else if(item.getName().equals("MenuOuvrir")){
-				//BaseDeDonnees BDD = new BaseDeDonnees(nom, nomUtilisateur, motDePasse, tables)
-				System.out.println("ouvrir");
+				
 			}
 		}
 		

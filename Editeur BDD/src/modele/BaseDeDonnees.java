@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -97,6 +98,9 @@ public class BaseDeDonnees {
 	 */
 	public void supprimerBDD() throws CustomException{
 		this.serveur.supprimerBaseDeDonnes();
+		File file = new File(ELFichier.getRacine()+this.session.getBDDPath()+this.nom);
+		if(file.exists())
+			file.delete();
 	}
 	
 	public Table getTable(String nom){
@@ -135,6 +139,7 @@ public class BaseDeDonnees {
 		
 		
 	}
+	
 	
 	public String getNomBDD(){
 		return this.nom;

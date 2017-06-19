@@ -63,7 +63,7 @@ public class VueCreationBDD extends JPanel{
 		this.add(new JLabel("      "),BorderLayout.WEST);
 		this.add(new JLabel("      "),BorderLayout.EAST);
 		this.add(panneauPrincipal,BorderLayout.CENTER);
-		fenetreNouvelleBDD = new JFrame("Connexion");
+		fenetreNouvelleBDD = new JFrame("Créer une nouvelle base de données");
 		fenetreNouvelleBDD.setContentPane(this);
 		fenetreNouvelleBDD.pack();
 		fenetreNouvelleBDD.setLocationRelativeTo(null);

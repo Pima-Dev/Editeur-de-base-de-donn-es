@@ -497,8 +497,8 @@ public class Serveur {
 	}
 	
 	/**
-	 * Récupérer le nom de toutes les
-	 * @return
+	 * Récupérer le nom de toutes les BDD du serveur
+	 * @return le nom de toutes les BDD du serveur
 	 * @throws CustomException
 	 */
 	public ArrayList<String> getListeBDD() throws CustomException{
