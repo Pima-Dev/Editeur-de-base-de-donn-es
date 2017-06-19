@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import controleur.PressButtonListener;
+import controleur.PresserBoutonListener;
 
 public class VueMotDePasseOublieEmail extends JPanel{
 	
@@ -37,7 +37,7 @@ public class VueMotDePasseOublieEmail extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bEnvoyer.setName("envoyer mail");
-		this.bEnvoyer.addActionListener(new PressButtonListener(fenetre));
+		this.bEnvoyer.addActionListener(new PresserBoutonListener(fenetre));
 	}
 	
 	public void decoration(){

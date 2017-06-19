@@ -41,18 +41,33 @@ public class Serveur {
 	 */
 	private String nomBase;
 	
+	/**
+	 * L'url où est hébergé la BDD ou "localhost" si hébergé en local
+	 */
+	private String url;
+	
+	/**
+	 * L'object BaseDeDonnees
+	 */
 	private BaseDeDonnees BDD;
+	
+	/**
+	 * Le port si la BDD est sur un serveur distant
+	 */
+	private int port;
 	
 	/**
 	 * Initialise les informartions de connexion
 	 * @param nomUtilisateur Le nom de l'utilisateur
 	 * @param motDePasse Le mot de passe
 	 */
-	public Serveur(String nomBase, String nomUtilisateur, String motDePasse, BaseDeDonnees bdd){
-		this.nomBase = nomBase;
-		this.nomUtilisateur = nomUtilisateur;
-		this.motDePasse = motDePasse;
+	public Serveur(BaseDeDonnees bdd){
 		this.BDD = bdd;
+		this.nomBase = this.BDD.getNomBDD();
+		this.nomUtilisateur = this.BDD.getNomUtilisateur();
+		this.motDePasse = this.BDD.getMotDePasse();
+		this.url = this.BDD.getUrlBDD();
+		this.port = this.BDD.getPort();
 	}
 	
 	/**
@@ -63,7 +78,10 @@ public class Serveur {
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			this.connect = DriverManager.getConnection("jdbc:mysql://localhost/"+base, this.nomUtilisateur, this.motDePasse);
+			if(this.url.equalsIgnoreCase("localhost"))
+				this.connect = DriverManager.getConnection("jdbc:mysql://localhost/"+base, this.nomUtilisateur, this.motDePasse);
+			else
+				this.connect = DriverManager.getConnection("jdbc:mysql://www.jouets.noel.fr:"+this.port+"/"+base+":"+this.port, this.nomUtilisateur, this.motDePasse);
 			this.stmt = this.connect.createStatement();
 		}
 		

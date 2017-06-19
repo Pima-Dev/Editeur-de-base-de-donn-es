@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
-import controleur.PressButtonListener;
+import controleur.PresserBoutonListener;
 
 public class VueMotDePasseOublieNouveau extends JPanel{
 	
@@ -43,7 +43,7 @@ public class VueMotDePasseOublieNouveau extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bValider.setName("Valider mdp oublié");
-		this.bValider.addActionListener(new PressButtonListener(fenetre));
+		this.bValider.addActionListener(new PresserBoutonListener(fenetre));
 	}
 	
 	public void decoration(){
