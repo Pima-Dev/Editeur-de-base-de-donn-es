@@ -1,12 +1,16 @@
 package vue;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controleur.PressButtonListener;
-import controleur.connexion.ConnexionBoutonMotDePasseOublie;
-import controleur.motDePasseOublie.MotDePasseOublieBoutonCode;
-
-import java.awt.*;
 
 public class VueMotDePasseOublieEmail extends JPanel{
 	

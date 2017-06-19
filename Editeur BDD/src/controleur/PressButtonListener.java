@@ -1,15 +1,17 @@
 package controleur;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import vue.*;
+import modele.ELFichier;
+import vue.Fenetre;
+import vue.VueDeConnexion;
+import vue.VueDeCreationDUtilisateur;
+import vue.VuePrincipale;
 
 /**
  * @author Utilisateur
@@ -36,21 +38,23 @@ public class PressButtonListener implements ActionListener {
 					fenetre.getFenetre().setContentPane(new VuePrincipale());
 					fenetre.getFenetre().setVisible(true);
 					fenetre.getFenetre().pack();
+					fenetre.getFenetre().setLocationRelativeTo(null);
 				}
 				else{
 					this.fenetre.getVueDeConnexion().getlErreurIdentifiant().setText("<HTML><i>Erreur d'identifiant</i></HTML>");;
 					fenetre.getFenetre().setVisible(true);
+					fenetre.getFenetre().setLocationRelativeTo(null);
 				}
 			}
 			else if(bouton.getName().equals("Nouvel utilisateur")){
 				fenetre.getFenetre().setContentPane(new VueDeCreationDUtilisateur(fenetre));
 				fenetre.getFenetre().setVisible(true);
 				fenetre.getFenetre().setSize(new Dimension(300,400));
+				fenetre.getFenetre().setLocationRelativeTo(null);
 			}
 			else if(bouton.getName().equals("Mot de passe oublie")){
 				JOptionPane.showMessageDialog(null, "MDP oublié");
 			}
-			
 			else if(bouton.getName().equals("Valider mdp oublié")){
 				String nouveau = new String(this.fenetre.getVueMDPOublieNouveau().getfNouveau().getPassword());
 				String confirmation = new String(this.fenetre.getVueMDPOublieNouveau().getfConfirmation().getPassword());
@@ -60,6 +64,7 @@ public class PressButtonListener implements ActionListener {
 					fenetre.getFenetre().setContentPane(vueCo);
 					fenetre.getFenetre().setVisible(true);
 					fenetre.getFenetre().pack();
+					fenetre.getFenetre().setLocationRelativeTo(null);
 				}
 				this.fenetre.getVueMDPOublieNouveau().getlInfo().setText("Erreur de mot de passe");
 			}
@@ -71,11 +76,17 @@ public class PressButtonListener implements ActionListener {
 					String entre = jop.showInputDialog(null, "Veuillez entrer le code qui vous à été envoyé par mail", "Confirmation d'Email", JOptionPane.QUESTION_MESSAGE);
 					if(entre != null){
 						if(entre.equals("")){
+							String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
+							ELFichier.setNomFile(nom);
+							ELFichier.setCle("user", nom);
+							ELFichier.setCle("MDP", ELFichier.cryptMDP(new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
+							ELFichier.setCle("email", this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
 							VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 							this.fenetre.setVueDeConnexion(vueCo);
 							fenetre.getFenetre().setContentPane(vueCo);
 							fenetre.getFenetre().setVisible(true);
 							fenetre.getFenetre().pack();
+							fenetre.getFenetre().setLocationRelativeTo(null);
 						}
 					}
 				}
@@ -87,6 +98,12 @@ public class PressButtonListener implements ActionListener {
 	}
 
 	public boolean bonMDP(String nom, String mdp){
-		return true;
+		boolean ret = false;
+		ELFichier.setNomFile(nom);
+		String encrypt = ELFichier.cryptMDP(mdp);
+		if(encrypt.equals(ELFichier.chargerValeur("MDP")) && nom.equals(ELFichier.chargerValeur("user"))){
+			ret = true;
+		}
+		return ret;
 	}
 }

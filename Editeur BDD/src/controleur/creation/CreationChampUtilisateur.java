@@ -2,10 +2,13 @@ package controleur.creation;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
-import vue.*;
+import modele.ELFichier;
+import vue.VueDeCreationDUtilisateur;
 
 public class CreationChampUtilisateur implements FocusListener {
 
@@ -24,6 +27,7 @@ public class CreationChampUtilisateur implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		pseudo = vue.getfUtilisateur().getText();
+		ELFichier.setNomFile(pseudo);
 		ImageIcon vrai = new ImageIcon("src/ressources/check.png");
 		ImageIcon faux = new ImageIcon("src/ressources/croix.png");
 		if(valide()){
@@ -37,9 +41,21 @@ public class CreationChampUtilisateur implements FocusListener {
 	}
 	
 	private boolean valide() {
-		boolean ret = false;
-		if(pseudo.equals("michel")){
-			ret = true;
+		boolean ret = true;
+		if(pseudo.length()>5){
+			File file = new File("data");
+	        File[] files = file.listFiles();
+	        if (files != null) {
+	            for (int i = 0; i < files.length; i++) {
+	            	if(files[i].getName().replaceAll(".properties", "").equals(pseudo)){
+	            		JOptionPane.showMessageDialog(null, "Ce nom d'utilisateur existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
+	            		ret = false;
+	            	}
+	            }
+	        }
+		}
+		else{
+			ret = false;
 		}
 		return ret;
 	}

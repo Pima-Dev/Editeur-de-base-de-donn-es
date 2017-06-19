@@ -2,6 +2,7 @@ package modele;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,14 +11,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
 public class ELFichier {
 
-	private static String nomFile = "data.properties";
+	private static String nomFile = "data/data.properties";
 	
 	public static void ecrire(String nomFile, String texte){
 		BufferedWriter writer = null;
@@ -72,6 +71,18 @@ public class ELFichier {
 			prop.setProperty(cle, valeur);
 			prop.store(out, null);
 		}
+		catch(FileNotFoundException e){
+			try{
+				File file = new File("data");
+				file.mkdir();
+				out = new FileOutputStream(nomFile, false);
+				prop.setProperty(cle, valeur);
+				prop.store(out, null);
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+			}
+		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
@@ -94,6 +105,9 @@ public class ELFichier {
 			in = new FileInputStream(nomFile);
 			prop.load(in);
 			ret = prop.getProperty(cle);
+		}
+		catch(FileNotFoundException e){
+			return null;
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -126,5 +140,13 @@ public class ELFichier {
 	    } catch(Exception ex){
 	       throw new RuntimeException(ex);
 	    }
+	}
+	
+	public static void setNomFile(String nom){
+		nomFile = "data/"+nom+".properties";
+	}
+	
+	public static String getNomFile(){
+		return nomFile;
 	}
 }
