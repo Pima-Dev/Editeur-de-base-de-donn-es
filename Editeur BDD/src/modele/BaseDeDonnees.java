@@ -9,6 +9,22 @@ public class BaseDeDonnees {
 	 * Le nom de la base de données
 	 */
 	private String nom;
+	
+	/**
+	 * Le nom de l'utilisateur pour accéder à la BDD
+	 */
+	private String nomUtilisateur;
+	
+	/**
+	 * Le mot de passe pour accéder à la BDD
+	 */
+	private String motDePasse;
+	
+	/**
+	 * L'url de la BDD où elle est héberger
+	 */
+	private String url;
+	
 	/**
 	 * Le serveur sur lequel la base de données est hebergé
 	 */
@@ -19,22 +35,28 @@ public class BaseDeDonnees {
 	private ArrayList<Table> listeTable;
 	
 	/**
+	 * L'utilisateur possèdant la base de donnée
+	 */
+	private Session session;
+	
+	/**
+	 * Le port de la BDD si elle est sur un serveur distant
+	 */
+	private int port;
+	
+	/**
 	 * Constructeur
 	 * @param nom Nom de la base de données
 	 * @param tables qui seront dans la base de données
 	 */
-	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, ArrayList<Table> tables){
+	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, ArrayList<Table> tables, Session session, String url, int port){
 		this.nom = nom;
+		this.nomUtilisateur = nomUtilisateur;
+		this.motDePasse = motDePasse;
 		this.listeTable = listeTable;
-		this.serveur = new Serveur(this.nom, nomUtilisateur, motDePasse, this);
+		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
-		/**
-		try {
-			this.serveur.creerBaseDeDonnees();
-		} catch (CustomException e) {
-			Util.log(e.getMessage());
-		}
-		*/
+		this.session = session;
 	}
 		
 	/**
@@ -43,22 +65,6 @@ public class BaseDeDonnees {
 	 */
 	public ArrayList<Table> getListeTable(){
 		return this.listeTable;
-	}
-	
-	/**
-	 * Permet d'accéder au nom de la base
-	 * @return Le nom de la base
-	 */
-	public String getName(){
-		return this.nom;
-	}
-	
-	/**
-	 * Définis le nom de la base	
-	 * @param nom Le nouveau nom de la base
-	 */
-	public void setName(String nom){
-		this.nom = nom;
 	}
 	
 	/**
@@ -104,11 +110,50 @@ public class BaseDeDonnees {
 		return table;
 	}
 	
+	/**
+	 * Charger les données contenue dans la base de donnée
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
 	public void chargerBDD() throws CustomException, SQLException{
 		this.listeTable = this.serveur.getListeTables();
 	}
 	
+	/**
+	 * Définir la liste des table de la BDD
+	 * @param tables La liste des tables de la BDD
+	 */
 	public void setListeTables(ArrayList<Table> tables){
 		this.listeTable = tables;
+	}
+	
+	public void creerBDD(){
+		try {
+			this.serveur.creerBaseDeDonnees();
+			ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", this.nom);
+			ELFichier.setCle(this.session.getBDDPath()+this.nom, "MDP", this.motDePasse);
+			ELFichier.setCle(this.session.getBDDPath()+this.nom, "port", this.port+"");
+		} catch (CustomException e) {
+			Util.log(e.getMessage());
+		}
+	}
+	
+	public String getNomBDD(){
+		return this.nom;
+	}
+	
+	public String getNomUtilisateur(){
+		return this.nomUtilisateur;
+	}
+	
+	public String getMotDePasse(){
+		return this.motDePasse;
+	}
+	
+	public String getUrlBDD(){
+		return this.url;
+	}
+	public int getPort(){
+		return this.port;
 	}
 }

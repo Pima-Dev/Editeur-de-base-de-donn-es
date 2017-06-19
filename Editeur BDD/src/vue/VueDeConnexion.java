@@ -2,7 +2,7 @@ package vue;
 
 import javax.swing.*;
 
-import controleur.PressButtonListener;
+import controleur.PresserBoutonListener;
 
 import java.awt.*;
 
@@ -40,11 +40,11 @@ public class VueDeConnexion extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bConnection.setName("Connexion");
-		this.bConnection.addActionListener(new PressButtonListener(fenetre));
+		this.bConnection.addActionListener(new PresserBoutonListener(fenetre));
 		this.bCreationUtilisateur.setName("Nouvel utilisateur");
-		this.bCreationUtilisateur.addActionListener(new PressButtonListener(fenetre));
+		this.bCreationUtilisateur.addActionListener(new PresserBoutonListener(fenetre));
 		this.bMotDePasseOublie.setName("Mot de passe oublie");
-		this.bMotDePasseOublie.addActionListener(new PressButtonListener(fenetre));
+		this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(fenetre));
 	}
 	
 	public void decoration(){

@@ -1,6 +1,8 @@
 package vue;
 import javax.swing.JFrame;
 
+import modele.Session;
+
 
 public class Fenetre{
 
@@ -8,7 +10,7 @@ public class Fenetre{
 	private VueMotDePasseOublieNouveau vueMDPOublieNouveau;
 	private VueDeConnexion vueDeConnexion;
 	private VueDeCreationDUtilisateur vueCreationUtilisateur;
-	private VueCreationBDD vueCreationBDD;
+	private Session session;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -50,19 +52,13 @@ public class Fenetre{
 	public void setVueCreationUtilisateur(VueDeCreationDUtilisateur vueCreationUtilisateur) {
 		this.vueCreationUtilisateur = vueCreationUtilisateur;
 	}
-
-	/**
-	 * @return the vueCreationBDD
-	 */
-	public VueCreationBDD getVueCreationBDD() {
-		return vueCreationBDD;
+	
+	public Session getSession(){
+		return this.session;
 	}
-
-	/**
-	 * @param vueCreationBDD the vueCreationBDD to set
-	 */
-	public void setVueCreationBDD(VueCreationBDD vueCreationBDD) {
-		this.vueCreationBDD = vueCreationBDD;
+	
+	public void setSesstion(Session session){
+		this.session = session;
 	}
 	
 }

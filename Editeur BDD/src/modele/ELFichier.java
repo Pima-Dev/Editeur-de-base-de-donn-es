@@ -1,13 +1,9 @@
 package modele;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,59 +11,14 @@ import java.security.MessageDigest;
 import java.util.Properties;
 
 public class ELFichier {
-
-	private static String nomFile = "data/data.properties";
 	
-	public static void ecrire(String nomFile, String texte){
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(nomFile));
-			writer.write(texte);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally{
-			if(writer != null){
-				try {
-					writer.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	private static String racine = "data/";
 	
-	public static String lire(String nomFile){
-		String ret = null;
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(nomFile));
-			ret = reader.readLine();
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		finally{
-			if(reader != null){
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return ret;
-	}
-	
-	public static void setCle(String cle, String valeur){
+	public static void setCle(String fichier, String cle, String valeur){
 		Properties prop = new Properties();
 		OutputStream out = null;
 		try{
-			out = new FileOutputStream(nomFile, true);
+			out = new FileOutputStream(racine+fichier, true);
 			prop.setProperty(cle, valeur);
 			prop.store(out, null);
 		}
@@ -75,7 +26,7 @@ public class ELFichier {
 			try{
 				File file = new File("data");
 				file.mkdir();
-				out = new FileOutputStream(nomFile, false);
+				out = new FileOutputStream(racine+fichier, false);
 				prop.setProperty(cle, valeur);
 				prop.store(out, null);
 			}
@@ -97,12 +48,12 @@ public class ELFichier {
 		}
 	}
 	
-	public static String chargerValeur(String cle){
+	public static String chargerValeur(String fichier, String cle){
 		Properties prop = new Properties();
 		InputStream in = null;
 		String ret = null;
 		try{
-			in = new FileInputStream(nomFile);
+			in = new FileInputStream(racine+fichier);
 			prop.load(in);
 			ret = prop.getProperty(cle);
 		}
@@ -124,6 +75,12 @@ public class ELFichier {
 		return ret;
 	}
 	
+	public static void creerDossier(String dossier){
+		File file = new File(racine+dossier);
+		if(!file.exists())
+			file.mkdirs();
+	}
+	
 	public static String cryptMDP(String mdp){
 	    try{
 	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -141,12 +98,9 @@ public class ELFichier {
 	       throw new RuntimeException(ex);
 	    }
 	}
-	
-	public static void setNomFile(String nom){
-		nomFile = "data/"+nom+".properties";
+
+	public static String getRacine() {
+		return racine;
 	}
-	
-	public static String getNomFile(){
-		return nomFile;
-	}
+
 }

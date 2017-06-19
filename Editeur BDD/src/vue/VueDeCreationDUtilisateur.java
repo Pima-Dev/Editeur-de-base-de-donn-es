@@ -11,7 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import controleur.PressButtonListener;
+import controleur.PresserBoutonListener;
 import controleur.creation.CreationChampConfirmation;
 import controleur.creation.CreationChampEmail;
 import controleur.creation.CreationChampMotDePasse;
@@ -84,7 +84,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.fMotDePasse.addFocusListener(new CreationChampMotDePasse(this));
 		this.fConfirmation.addFocusListener(new CreationChampConfirmation(this));
 		this.bCreation.setName("Valider creation nouvel utilisateur");
-		this.bCreation.addActionListener(new PressButtonListener(fenetre));
+		this.bCreation.addActionListener(new PresserBoutonListener(fenetre));
 	}
 	
 

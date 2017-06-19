@@ -1,14 +1,16 @@
 package controleur;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 
 import modele.ELFichier;
+import modele.Session;
 import vue.Fenetre;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
@@ -18,11 +20,11 @@ import vue.VuePrincipale;
  * @author Utilisateur
  *
  */
-public class PressButtonListener implements ActionListener {
+public class PresserBoutonListener implements ActionListener {
 
 	private Fenetre fenetre;
 
-	public PressButtonListener(Fenetre fenetre) {
+	public PresserBoutonListener(Fenetre fenetre) {
 		this.fenetre = fenetre;
 	}
 
@@ -36,10 +38,14 @@ public class PressButtonListener implements ActionListener {
 				String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 				String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
 				if(bonMDP(nom, motDePasse)){
-					fenetre.getFenetre().setContentPane(new VuePrincipale());
+					fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
 					fenetre.getFenetre().setVisible(true);
-					fenetre.getFenetre().pack();
+					Toolkit tk = Toolkit.getDefaultToolkit();
+					int xSize = ((int) tk.getScreenSize().getWidth());
+					int ySize = ((int) tk.getScreenSize().getHeight());
+					fenetre.getFenetre().setSize(xSize,ySize);
 					fenetre.getFenetre().setLocationRelativeTo(null);
+					fenetre.setSesstion(new Session(nom));
 				}
 				else{
 					this.fenetre.getVueDeConnexion().getlErreurIdentifiant().setText("<HTML><i>Erreur d'identifiant</i></HTML>");;
@@ -78,10 +84,10 @@ public class PressButtonListener implements ActionListener {
 					if(entre != null){
 						if(entre.equals("")){
 							String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
-							ELFichier.setNomFile(nom);
-							ELFichier.setCle("user", nom);
-							ELFichier.setCle("MDP", ELFichier.cryptMDP(new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
-							ELFichier.setCle("email", this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
+							ELFichier.creerDossier(nom);
+							ELFichier.setCle(nom+"/session", "user", nom);
+							ELFichier.setCle(nom+"/session", "MDP", ELFichier.cryptMDP(new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
+							ELFichier.setCle(nom+"/session", "email", this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
 							VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 							this.fenetre.setVueDeConnexion(vueCo);
 							fenetre.getFenetre().setContentPane(vueCo);
@@ -92,25 +98,18 @@ public class PressButtonListener implements ActionListener {
 					}
 				}
 			}
-			else if(bouton.getName().equals("valider")){
-				if(true){
-					
-				}
-				else if(false){
-					fenetre.getVueCreationBDD().getlErreur().setText("message d'erreur");
-				}
-			}
 			
 		}
-		if(e.getSource() instanceof JRadioButton){
-			JRadioButton radioBouton= (JRadioButton)e.getSource();
-			
-			if(radioBouton.getName().equals("hebergement local")){
-				fenetre.getVueCreationBDD().getfURL().setEnabled(false);
-				fenetre.getVueCreationBDD().getBoutonServeur().setSelected(false);
+		
+		else if(e.getSource() instanceof JMenuItem){
+			JMenuItem item = (JMenuItem) e.getSource();
+			if(item.getName().equals("MenuNouveau")){
+				//BaseDeDonnees BDD = new BaseDeDonnees(nom, nomUtilisateur, motDePasse, tables)
+				System.out.println("nouveau");
 			}
-			else if(radioBouton.getName().equals("hebergement distant")){
-				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
+			else if(item.getName().equals("MenuOuvrir")){
+				//BaseDeDonnees BDD = new BaseDeDonnees(nom, nomUtilisateur, motDePasse, tables)
+				System.out.println("ouvrir");
 			}
 		}
 		
@@ -119,9 +118,8 @@ public class PressButtonListener implements ActionListener {
 
 	public boolean bonMDP(String nom, String mdp){
 		boolean ret = false;
-		ELFichier.setNomFile(nom);
 		String encrypt = ELFichier.cryptMDP(mdp);
-		if(encrypt.equals(ELFichier.chargerValeur("MDP")) && nom.equals(ELFichier.chargerValeur("user"))){
+		if(encrypt.equals(ELFichier.chargerValeur(nom+"/session", "MDP")) && nom.equals(ELFichier.chargerValeur(nom+"/session", "user"))){
 			ret = true;
 		}
 		return ret;

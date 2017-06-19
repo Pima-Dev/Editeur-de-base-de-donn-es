@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -22,7 +24,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.table.TableModel;
+
+import controleur.PresserBoutonListener;
 
 public class VuePrincipale extends JPanel{
 	
@@ -87,21 +90,25 @@ public class VuePrincipale extends JPanel{
 	 private JButton ajouterContrainte;
 	 private JButton supprimerContrainte;
 	 
+	 private Fenetre fenetre;
+	 
 	 //table
 	 private JTable table;
 	 private JScrollPane scrollTable;
 	 private JPanel panneauTable;
 	 
-	public VuePrincipale(){
+	public VuePrincipale(Fenetre fenetre){
+		this.panneauTable = new JPanel();
 		menu();
 		listeTable();
 		boutons();
-		table();
-		
+		String[][] tab = new String[][]{ {"1", "1", "1", "1"}, {"2", "2", "2", "2"} };
+		table(tab, new String[]{"test1", "test2", "test3", "test4"});
+		this.fenetre = fenetre;
 		panneauBoutonTable = new JPanel();
 		panneauBoutonTable.setLayout(new BorderLayout());
 		panneauBoutonTable.add(marge,BorderLayout.SOUTH);
-		panneauBoutonTable.add(panneauTable,BorderLayout.NORTH);
+		panneauBoutonTable.add(panneauTable,BorderLayout.CENTER);
 		panneauListeBoutonTable = new JPanel();
 		panneauListeBoutonTable.setLayout(new BorderLayout());
 		panneauListeBoutonTable.add(panneauListeTable,BorderLayout.WEST);
@@ -109,6 +116,7 @@ public class VuePrincipale extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(panneauListeBoutonTable, BorderLayout.CENTER);
 		this.add(panneauMenu, BorderLayout.NORTH);
+
 	}
 	
 	
@@ -121,7 +129,11 @@ public class VuePrincipale extends JPanel{
 		
 		fichier = new JMenu("    Fichier    ");
 		nouveau = new JMenuItem("Nouveau");
+		nouveau.setName("MenuNouveau");
+		nouveau.addActionListener(new PresserBoutonListener(this.fenetre));
 		ouvrir = new JMenuItem("Ouvrir");
+		ouvrir.setName("MenuOuvrir");
+		ouvrir.addActionListener(new PresserBoutonListener(this.fenetre));
 		enregistrer = new JMenuItem("Enregistrer");
 		enregistrerSous = new JMenuItem("Enregistrer sous");
 		exporterEnPDF = new JMenuItem("Exporter en PDF");
@@ -289,30 +301,39 @@ public class VuePrincipale extends JPanel{
 		 marge.add(panneauBoutons, BorderLayout.CENTER);
 	}
 	
-	public void table(){
-		ModeleTable dm = new ModeleTable(50,5, this);
-        dm.setDataVector(new String[][]{ {"0","2","4","6","8"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"1","3","5","7","9"},{"4","4","4","4","4"} }, new String[]{"0","1","2","Modifier","Supprimer"});
+	public void table(String[][] tab, String[] titre){
+		ModeleTable dm = new ModeleTable(tab.length, tab[0].length+2);
+		String[] lesTitres = new String[titre.length+2];
+
+		for(int i = 0; i<titre.length; i++){
+			lesTitres[i]=titre[i];
+		}
+		lesTitres[lesTitres.length-2] = "Modifier";
+		lesTitres[lesTitres.length-1] = "Supprimer";
+		
+        dm.setDataVector(tab, lesTitres);
         table = new JTable(dm);
         table.getColumn("Modifier").setCellRenderer(new RenduCellule());
-        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm, this));
+        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm));
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule());
-        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm,this));
+        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm));
         table.setRowHeight(30);
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
-		panneauTable = new JPanel();
 		panneauTable.setLayout(new BorderLayout());
-		panneauTable.add(scrollTable, BorderLayout.NORTH);
+		panneauTable.add(scrollTable, BorderLayout.CENTER);
+		
 	}
+	
 	
 	public static void main(String[] args){
 		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setContentPane(new VuePrincipale());
+		fenetre.setContentPane(new VuePrincipale(new Fenetre()));
 		fenetre.setVisible(true);
 		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		fenetre.pack();
 	}
-
+	
 
 	/**
 	 * @return the accederALaConsole

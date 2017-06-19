@@ -27,7 +27,6 @@ public class CreationChampUtilisateur implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		pseudo = vue.getfUtilisateur().getText();
-		ELFichier.setNomFile(pseudo);
 		ImageIcon vrai = new ImageIcon("src/ressources/check.png");
 		ImageIcon faux = new ImageIcon("src/ressources/croix.png");
 		if(valide()){
@@ -43,11 +42,11 @@ public class CreationChampUtilisateur implements FocusListener {
 	private boolean valide() {
 		boolean ret = true;
 		if(pseudo.length()>5){
-			File file = new File("data");
+			File file = new File(ELFichier.getRacine());
 	        File[] files = file.listFiles();
 	        if (files != null) {
 	            for (int i = 0; i < files.length; i++) {
-	            	if(files[i].getName().replaceAll(".properties", "").equals(pseudo)){
+	            	if(files[i].getName().equals(pseudo)){
 	            		JOptionPane.showMessageDialog(null, "Ce nom d'utilisateur existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
 	            		ret = false;
 	            	}
