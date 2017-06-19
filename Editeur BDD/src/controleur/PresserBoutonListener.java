@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 import modele.ELFichier;
 import modele.Session;
@@ -98,7 +99,26 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			}
+			else if(bouton.getName().equals("valider")){
+				if(true){
+					
+				}
+				else if(false){
+					fenetre.getVueCreationBDD().getlErreur().setText("message d'erreur");
+				}
+			}
 			
+		}
+		else if(e.getSource() instanceof JRadioButton){
+			JRadioButton radioBouton= (JRadioButton)e.getSource();
+			
+			if(radioBouton.getName().equals("hebergement local")){
+				fenetre.getVueCreationBDD().getfURL().setEnabled(false);
+				fenetre.getVueCreationBDD().getBoutonServeur().setSelected(false);
+			}
+			else if(radioBouton.getName().equals("hebergement distant")){
+				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
+			}
 		}
 		
 		else if(e.getSource() instanceof JMenuItem){
