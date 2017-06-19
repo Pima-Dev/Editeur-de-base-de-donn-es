@@ -8,10 +8,13 @@ public class ModeleTable extends DefaultTableModel {
 	private int hauteur;
 	private int largeur;
 	private boolean editable;
-	public ModeleTable(int hauteur, int largeur){
+	private VuePrincipale vue;
+	private int ligneSelectionne;
+	public ModeleTable(int hauteur, int largeur, VuePrincipale vue){
 		editable = false;
 		this.hauteur = hauteur;
 		this.largeur = largeur;
+		this.vue = vue;
 	}
 	
 	public int getColumnCount() {
@@ -29,7 +32,7 @@ public class ModeleTable extends DefaultTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if(editable){
-			if(columnIndex > 0){
+			if(columnIndex > 0 && rowIndex == ligneSelectionne || columnIndex < this.largeur -2){
 				ret = true;
 			}
 			else{
@@ -47,8 +50,9 @@ public class ModeleTable extends DefaultTableModel {
 		return ret;
     }
 	
-	public void setCellEditable(){
+	public void setCellEditable(int ligneSelectionne){
 		editable = true;
+		this.ligneSelectionne = ligneSelectionne;
 	}
 	
 	

@@ -8,6 +8,7 @@ public class Fenetre{
 	private VueMotDePasseOublieNouveau vueMDPOublieNouveau;
 	private VueDeConnexion vueDeConnexion;
 	private VueDeCreationDUtilisateur vueCreationUtilisateur;
+	private VueCreationBDD vueCreationBDD;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -49,6 +50,19 @@ public class Fenetre{
 	public void setVueCreationUtilisateur(VueDeCreationDUtilisateur vueCreationUtilisateur) {
 		this.vueCreationUtilisateur = vueCreationUtilisateur;
 	}
-	
+
+	/**
+	 * @return the vueCreationBDD
+	 */
+	public VueCreationBDD getVueCreationBDD() {
+		return vueCreationBDD;
+	}
+
+	/**
+	 * @param vueCreationBDD the vueCreationBDD to set
+	 */
+	public void setVueCreationBDD(VueCreationBDD vueCreationBDD) {
+		this.vueCreationBDD = vueCreationBDD;
+	}
 	
 }

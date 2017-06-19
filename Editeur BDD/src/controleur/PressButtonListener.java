@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 import modele.ELFichier;
 import vue.Fenetre;
@@ -91,7 +92,26 @@ public class PressButtonListener implements ActionListener {
 					}
 				}
 			}
+			else if(bouton.getName().equals("valider")){
+				if(true){
+					
+				}
+				else if(false){
+					fenetre.getVueCreationBDD().getlErreur().setText("message d'erreur");
+				}
+			}
 			
+		}
+		if(e.getSource() instanceof JRadioButton){
+			JRadioButton radioBouton= (JRadioButton)e.getSource();
+			
+			if(radioBouton.getName().equals("hebergement local")){
+				fenetre.getVueCreationBDD().getfURL().setEnabled(false);
+				fenetre.getVueCreationBDD().getBoutonServeur().setSelected(false);
+			}
+			else if(radioBouton.getName().equals("hebergement distant")){
+				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
+			}
 		}
 		
 		
