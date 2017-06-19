@@ -11,6 +11,7 @@ public class Fenetre{
 	private VueDeConnexion vueDeConnexion;
 	private VueDeCreationDUtilisateur vueCreationUtilisateur;
 	private Session session;
+	private VueCreationBDD vueCreationBDD;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -21,6 +22,20 @@ public class Fenetre{
 		fenetre.pack();
 	}
 	
+	/**
+	 * @return the vueCreationBDD
+	 */
+	public VueCreationBDD getVueCreationBDD() {
+		return vueCreationBDD;
+	}
+
+	/**
+	 * @param vueCreationBDD the vueCreationBDD to set
+	 */
+	public void setVueCreationBDD(VueCreationBDD vueCreationBDD) {
+		this.vueCreationBDD = vueCreationBDD;
+	}
+
 	public JFrame getFenetre(){
 		return fenetre;
 	}
