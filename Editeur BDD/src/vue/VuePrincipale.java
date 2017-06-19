@@ -1,19 +1,14 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -38,6 +33,7 @@ public class VuePrincipale extends JPanel{
 	
 	private JMenu fichier;
 	private JMenuItem nouveau;
+	private JMenuItem supprimerBDD;
 	private JMenuItem ouvrir;
 	private JMenuItem enregistrer;
 	private JMenuItem enregistrerSous;
@@ -69,7 +65,6 @@ public class VuePrincipale extends JPanel{
 	private JScrollPane panneauTableau;
 	private JList<String> tableauListeTable;
 	private DefaultListModel<String> modeleListe;
-	private JButton nouvelleTable;
 	
 	//boutons
 	 private JPanel panneauBoutons;
@@ -132,6 +127,9 @@ public class VuePrincipale extends JPanel{
 		nouveau = new JMenuItem("Nouveau");
 		nouveau.setName("MenuNouveau");
 		nouveau.addActionListener(new PresserBoutonListener(this.fenetre));
+		supprimerBDD = new JMenuItem("SupprimerBDD");
+		supprimerBDD.setName("supprimerBDD");
+		supprimerBDD.addActionListener(new PresserBoutonListener(this.fenetre));
 		ouvrir = new JMenuItem("Ouvrir");
 		ouvrir.setName("MenuOuvrir");
 		ouvrir.addActionListener(new PresserBoutonListener(this.fenetre));
@@ -196,13 +194,11 @@ public class VuePrincipale extends JPanel{
 		lTitreBDD.setHorizontalAlignment(SwingConstants.CENTER);
 		panneauListeTable = new JPanel();
 		modeleListe = new DefaultListModel<String>();
+		modeleListe.addElement("+ NouvelleTable");
 		tableauListeTable = new JList<String>(modeleListe);
 		tableauListeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableauListeTable.setLayoutOrientation(JList.VERTICAL);
 		tableauListeTable.setVisibleRowCount(5);
-		nouvelleTable = new JButton("+ Nouvelle BDD");
-		nouvelleTable.setForeground(new Color(100,100,0));
-		tableauListeTable.add(nouvelleTable);
 		panneauTableau = new JScrollPane(tableauListeTable);
 		panneauTableau.setPreferredSize(new Dimension(250, 80));
 		panneauListeTable.setLayout(new BorderLayout());
@@ -485,14 +481,6 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the nouvelleTable
-	 */
-	public JButton getNouvelleTable() {
-		return nouvelleTable;
-	}
-
-
-	/**
 	 * @return the ajouterTuple
 	 */
 	public JButton getAjouterTuple() {
@@ -555,14 +543,8 @@ public class VuePrincipale extends JPanel{
 		return table;
 	}
 	
-	/**
-	 * @param 
-	 */
-	public void ajouterTable(String s){
-		modeleListe.addElement(s);
-	}
-	
-	public void setValeurTableau(String[][] donnees){
-		
+	public void ajouterTable(String table){
+		modeleListe.set(tableauListeTable.getModel().getSize(),table);
+		modeleListe.addElement("+ Nouvelle table");
 	}
 }

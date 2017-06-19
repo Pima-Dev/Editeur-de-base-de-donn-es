@@ -12,6 +12,7 @@ public class Fenetre{
 	private VueDeCreationDUtilisateur vueCreationUtilisateur;
 	private Session session;
 	private VueCreationBDD vueCreationBDD;
+	private VuePrincipale vuePrincipale;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -74,6 +75,20 @@ public class Fenetre{
 	
 	public void setSesstion(Session session){
 		this.session = session;
+	}
+
+	/**
+	 * @return the vuePrincipale
+	 */
+	public VuePrincipale getVuePrincipale() {
+		return vuePrincipale;
+	}
+
+	/**
+	 * @param vuePrincipale the vuePrincipale to set
+	 */
+	public void setVuePrincipale(VuePrincipale vuePrincipale) {
+		this.vuePrincipale = vuePrincipale;
 	}
 	
 }
