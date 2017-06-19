@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -187,6 +188,9 @@ public class VuePrincipale extends JPanel{
 		tableauListeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableauListeTable.setLayoutOrientation(JList.VERTICAL);
 		tableauListeTable.setVisibleRowCount(5);
+		nouvelleTable = new JButton("+ Nouvelle BDD");
+		nouvelleTable.setForeground(new Color(100,100,0));
+		tableauListeTable.add(nouvelleTable);
 		panneauTableau = new JScrollPane(tableauListeTable);
 		panneauTableau.setPreferredSize(new Dimension(250, 80));
 		panneauListeTable.setLayout(new BorderLayout());
