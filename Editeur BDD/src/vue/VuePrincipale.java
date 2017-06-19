@@ -99,13 +99,13 @@ public class VuePrincipale extends JPanel{
 	 private JPanel panneauTable;
 	 
 	public VuePrincipale(Fenetre fenetre){
+		this.fenetre = fenetre;
 		this.panneauTable = new JPanel();
 		menu();
 		listeTable();
 		boutons();
 		String[][] tab = new String[][]{ {"1", "1", "1", "1"}, {"2", "2", "2", "2"} };
 		table(tab, new String[]{"test1", "test2", "test3", "test4"});
-		this.fenetre = fenetre;
 		panneauBoutonTable = new JPanel();
 		panneauBoutonTable.setLayout(new BorderLayout());
 		panneauBoutonTable.add(marge,BorderLayout.SOUTH);
@@ -329,14 +329,15 @@ public class VuePrincipale extends JPanel{
 		
 	}
 	
-	
+	/*
 	public static void main(String[] args){
 		JFrame fenetre = new JFrame("Connexion");
 		fenetre.setContentPane(new VuePrincipale(new Fenetre()));
 		fenetre.setVisible(true);
 		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		fenetre.pack();
-	}
+	*/
+	
 	
 
 	/**

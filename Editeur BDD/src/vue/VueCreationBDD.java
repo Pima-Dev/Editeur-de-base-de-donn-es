@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
+import controleur.PresserBoutonListener;
+
 public class VueCreationBDD extends JPanel{
 
 	private JLabel lTitre;
@@ -26,8 +28,9 @@ public class VueCreationBDD extends JPanel{
 	private Fenetre fenetre;
 	
 	public VueCreationBDD(Fenetre fenetre) {
-		decoration();
 		this.fenetre = fenetre;
+		this.fenetre.setVueCreationBDD(this);
+		decoration();
 		panneauPrincipal.setLayout(new GridLayout(0,1));
 		panneauBoutons.setLayout(new GridLayout(1,2));
 		this.setLayout(new BorderLayout());
@@ -50,8 +53,8 @@ public class VueCreationBDD extends JPanel{
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		JFrame fenetreNouvelleBDD = new JFrame("Connexion");
 		fenetreNouvelleBDD.setContentPane(this);
-		fenetreNouvelleBDD.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		fenetreNouvelleBDD.pack();
+		fenetreNouvelleBDD.setLocationRelativeTo(null);
 		fenetreNouvelleBDD.setVisible(true);
 	}
 	
@@ -66,8 +69,10 @@ public class VueCreationBDD extends JPanel{
 		lCodeURL = new JLabel("Serveur");
 		boutonLocal = new JRadioButton("Hebergement Local");
 		boutonLocal.setName("hebergement local");
+		boutonLocal.addActionListener(new PresserBoutonListener(this.fenetre));
 		boutonServeur = new JRadioButton("Hebergement Distant");
-		boutonLocal.setName("hebergement distant");
+		boutonServeur.setName("hebergement distant");
+		boutonServeur.addActionListener(new PresserBoutonListener(this.fenetre));
 		fURL = new JTextField();
 		lNomUtilisateur = new JLabel("Nom de l'utilisateur");
 		fNomUtilisateur = new JTextField();

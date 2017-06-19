@@ -43,7 +43,7 @@ public class VueMotDePasseOublieNouveau extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bValider.setName("Valider mdp oublié");
-		this.bValider.addActionListener(new PresserBoutonListener(fenetre));
+		this.bValider.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	public void decoration(){

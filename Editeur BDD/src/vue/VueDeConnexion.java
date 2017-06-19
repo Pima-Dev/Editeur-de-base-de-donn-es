@@ -40,11 +40,11 @@ public class VueDeConnexion extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bConnection.setName("Connexion");
-		this.bConnection.addActionListener(new PresserBoutonListener(fenetre));
+		this.bConnection.addActionListener(new PresserBoutonListener(this.fenetre));
 		this.bCreationUtilisateur.setName("Nouvel utilisateur");
-		this.bCreationUtilisateur.addActionListener(new PresserBoutonListener(fenetre));
+		this.bCreationUtilisateur.addActionListener(new PresserBoutonListener(this.fenetre));
 		this.bMotDePasseOublie.setName("Mot de passe oublie");
-		this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(fenetre));
+		this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	public void decoration(){

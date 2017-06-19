@@ -13,6 +13,7 @@ import javax.swing.JRadioButton;
 import modele.ELFichier;
 import modele.Session;
 import vue.Fenetre;
+import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
 import vue.VuePrincipale;
@@ -118,14 +119,14 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			else if(radioBouton.getName().equals("hebergement distant")){
 				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
+				fenetre.getVueCreationBDD().getfURL().setEnabled(true);
 			}
 		}
 		
 		else if(e.getSource() instanceof JMenuItem){
 			JMenuItem item = (JMenuItem) e.getSource();
 			if(item.getName().equals("MenuNouveau")){
-				//BaseDeDonnees BDD = new BaseDeDonnees(nom, nomUtilisateur, motDePasse, tables)
-				System.out.println("nouveau");
+				new VueCreationBDD(this.fenetre);
 			}
 			else if(item.getName().equals("MenuOuvrir")){
 				//BaseDeDonnees BDD = new BaseDeDonnees(nom, nomUtilisateur, motDePasse, tables)

@@ -84,7 +84,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.fMotDePasse.addFocusListener(new CreationChampMotDePasse(this));
 		this.fConfirmation.addFocusListener(new CreationChampConfirmation(this));
 		this.bCreation.setName("Valider creation nouvel utilisateur");
-		this.bCreation.addActionListener(new PresserBoutonListener(fenetre));
+		this.bCreation.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 

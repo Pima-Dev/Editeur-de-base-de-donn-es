@@ -283,7 +283,7 @@ public class Table {
 	 */
 	public String toString(){
 		String ret = "";
-		ret+="\nDans la BDD: "+this.BDD.getName();
+		ret+="\nDans la BDD: "+this.BDD.getNomBDD();
 		ret+="\nNom: "+this.nom;
 		ret+="\nListe colonne:";
 		for(Colonne col : this.listeColonnes){

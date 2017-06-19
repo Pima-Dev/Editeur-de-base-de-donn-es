@@ -37,7 +37,7 @@ public class VueMotDePasseOublieEmail extends JPanel{
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
 		this.bEnvoyer.setName("envoyer mail");
-		this.bEnvoyer.addActionListener(new PresserBoutonListener(fenetre));
+		this.bEnvoyer.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	public void decoration(){
