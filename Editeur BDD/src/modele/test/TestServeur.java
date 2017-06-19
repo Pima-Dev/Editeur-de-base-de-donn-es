@@ -19,7 +19,7 @@ public class TestServeur {
 	public static void main(String[] args){
 		BaseDeDonnees bdd = null;
 		try{
-			bdd = new BaseDeDonnees("UneBDD", "root", "azerty", new ArrayList<Table>());
+			//bdd = new BaseDeDonnees("UneBDD", "root", "azerty", new ArrayList<Table>());
 			
 			Table table1 = new Table(bdd, "table1");
 			Table table2 = new Table(bdd, "table2");
@@ -68,7 +68,7 @@ public class TestServeur {
 			//table2.editerTuple("1", "colonne3", "3");
 
 			//table2.supprimerTupleById("test");
-			
+			/*
 			bdd = new BaseDeDonnees("UneBDD", "root", "azerty", new ArrayList<Table>());
 			bdd.chargerBDD();
 			for(Table t : bdd.getListeTable()){
@@ -77,10 +77,11 @@ public class TestServeur {
 					System.out.println(col);
 				}
 			}
+			*/
 		}
 		catch(CustomException e){}
 		
-		catch(SQLException e){}
+		//catch(SQLException e){}
 		finally{
 			//bdd.supprimerBDD();
 		}

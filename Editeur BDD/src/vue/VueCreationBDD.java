@@ -4,7 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controleur.PresserBoutonListener;
 
@@ -26,6 +33,9 @@ public class VueCreationBDD extends JPanel{
 	private JPanel panneauBoutons;
 	private JPanel panneauPrincipal;
 	private Fenetre fenetre;
+	private JTextField port;
+	private JLabel lPort;
+	private JFrame fenetreNouvelleBDD;
 	
 	public VueCreationBDD(Fenetre fenetre) {
 		this.fenetre = fenetre;
@@ -46,12 +56,14 @@ public class VueCreationBDD extends JPanel{
 		panneauPrincipal.add(fNomUtilisateur);
 		panneauPrincipal.add(lMotDePasse);
 		panneauPrincipal.add(fMotDePasse);
+		panneauPrincipal.add(this.lPort);
+		panneauPrincipal.add(this.port);
 		panneauPrincipal.add(valider);
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
 		this.add(new JLabel("      "),BorderLayout.EAST);
 		this.add(panneauPrincipal,BorderLayout.CENTER);
-		JFrame fenetreNouvelleBDD = new JFrame("Connexion");
+		fenetreNouvelleBDD = new JFrame("Connexion");
 		fenetreNouvelleBDD.setContentPane(this);
 		fenetreNouvelleBDD.pack();
 		fenetreNouvelleBDD.setLocationRelativeTo(null);
@@ -79,9 +91,12 @@ public class VueCreationBDD extends JPanel{
 		lMotDePasse = new JLabel("Mot de passe");
 		fMotDePasse = new JPasswordField();
 		valider = new JButton("Valider");
-		valider.setName("valider");
+		valider.setName("valider creation bdd");
+		valider.addActionListener(new PresserBoutonListener(this.fenetre));
 		panneauBoutons = new JPanel();
 		panneauPrincipal = new JPanel();
+		this.port = new JTextField();
+		this.lPort = new JLabel("Port du serveur distant");
 	}
 
 	/**
@@ -131,6 +146,14 @@ public class VueCreationBDD extends JPanel{
 	 */
 	public JPasswordField getfMotDePasse() {
 		return fMotDePasse;
+	}
+	
+	public JTextField getfPort(){
+		return this.port;
+	}
+	
+	public JFrame getFrame(){
+		return this.fenetreNouvelleBDD;
 	}
 	
 }

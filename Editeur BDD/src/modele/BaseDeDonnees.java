@@ -47,9 +47,9 @@ public class BaseDeDonnees {
 	/**
 	 * Constructeur
 	 * @param nom Nom de la base de données
-	 * @param tables qui seront dans la base de données
+	 * @throws CustomException 
 	 */
-	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, ArrayList<Table> tables, Session session, String url, int port){
+	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, Session session, String url, int port) throws CustomException{
 		this.nom = nom;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
@@ -57,6 +57,9 @@ public class BaseDeDonnees {
 		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
 		this.session = session;
+		if(this.session.getListeBDD().contains(nom)){
+			throw new CustomException("Erreur", "Cette base de données est déjà existente");
+		}
 	}
 		
 	/**

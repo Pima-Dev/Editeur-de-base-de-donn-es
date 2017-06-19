@@ -20,7 +20,7 @@ public class Session {
 	 */
 	public Session(String nom){
 		this.nom = nom;
-		this.BDDPath = ELFichier.getRacine()+this.nom+"/ListeBDD/";
+		this.BDDPath = this.nom+"/ListeBDD/";
 	}
 	
 	/**

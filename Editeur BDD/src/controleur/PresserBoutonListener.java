@@ -10,8 +10,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import modele.BaseDeDonnees;
+import modele.CustomException;
 import modele.ELFichier;
 import modele.Session;
+import modele.Util;
 import vue.Fenetre;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
@@ -100,12 +103,14 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			}
-			else if(bouton.getName().equals("valider")){
-				if(true){
-					
-				}
-				else if(false){
-					fenetre.getVueCreationBDD().getlErreur().setText("message d'erreur");
+			else if(bouton.getName().equals("valider creation bdd")){
+				int port = modele.Util.isInteger(this.fenetre.getVueCreationBDD().getfPort().getText()) ? Integer.parseInt(this.fenetre.getVueCreationBDD().getfPort().getText()) : 3306;
+				try {
+					BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.getVueCreationBDD().getfNomBDD().getText(), this.fenetre.getVueCreationBDD().getfNomUtilisateur().getText(), this.fenetre.getVueCreationBDD().getfMotDePasse().getText(), this.fenetre.getSession(), this.fenetre.getVueCreationBDD().getfURL().getText(), port);
+					bdd.creerBDD();
+					this.fenetre.getVueCreationBDD().getFrame().dispose();
+				} catch (CustomException e1) {
+					Util.logErreur(e1.getMessage());
 				}
 			}
 			
@@ -116,10 +121,14 @@ public class PresserBoutonListener implements ActionListener {
 			if(radioBouton.getName().equals("hebergement local")){
 				fenetre.getVueCreationBDD().getfURL().setEnabled(false);
 				fenetre.getVueCreationBDD().getBoutonServeur().setSelected(false);
+				fenetre.getVueCreationBDD().getfURL().setText("");
+				fenetre.getVueCreationBDD().getfPort().setText("");
+				fenetre.getVueCreationBDD().getfPort().setEnabled(false);
 			}
 			else if(radioBouton.getName().equals("hebergement distant")){
 				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
 				fenetre.getVueCreationBDD().getfURL().setEnabled(true);
+				fenetre.getVueCreationBDD().getfPort().setEnabled(true);
 			}
 		}
 		

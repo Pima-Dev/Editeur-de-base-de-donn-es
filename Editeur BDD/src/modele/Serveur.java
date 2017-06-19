@@ -78,10 +78,10 @@ public class Serveur {
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			if(this.url.equalsIgnoreCase("localhost"))
+			if(this.url == null || this.url.equals(""))
 				this.connect = DriverManager.getConnection("jdbc:mysql://localhost/"+base, this.nomUtilisateur, this.motDePasse);
 			else
-				this.connect = DriverManager.getConnection("jdbc:mysql://www.jouets.noel.fr:"+this.port+"/"+base+":"+this.port, this.nomUtilisateur, this.motDePasse);
+				this.connect = DriverManager.getConnection("jdbc:mysql://"+this.url+":"+this.port+"/"+base+":"+this.port, this.nomUtilisateur, this.motDePasse);
 			this.stmt = this.connect.createStatement();
 		}
 		
@@ -213,7 +213,7 @@ public class Serveur {
 			Util.log("Création de la base de données "+this.nomBase+" réalisé.");
 		} catch (SQLException e) {
 			if(e.getMessage().contains("database exists")){
-				throw new CustomException("Erreur", "La table "+this.nomBase+" existe déjà.");
+				throw new CustomException("Erreur", "La base "+this.nomBase+" existe déjà.");
 			}
 			else{
 				e.printStackTrace();
