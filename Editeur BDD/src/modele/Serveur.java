@@ -496,5 +496,33 @@ public class Serveur {
 		this.fermerConnexion();
 	}
 	
+	/**
+	 * Récupérer le nom de toutes les
+	 * @return
+	 * @throws CustomException
+	 */
+	public ArrayList<String> getListeBDD() throws CustomException{
+		ArrayList<String> ret = new ArrayList<String>();
+		try {
+			this.connexion("");
+			ResultSet rs = this.stmt.executeQuery("SHOW DATABASES");
+			while(rs.next()){
+				if(!rs.getString("Database").equals("information_schema") && !rs.getString("Database").equals("mysql") && !rs.getString("Database").equals("performance_schema")  && !rs.getString("Database").equals("sys")){
+					ret.add(rs.getString("Database"));
+				}
+			}
+			this.fermerConnexion();
+		} catch (SQLException e) {
+			if(e.getMessage().contains("database exists")){
+				throw new CustomException("Erreur", "La base "+this.nomBase+" existe déjà.");
+			}
+			else{
+				e.printStackTrace();
+			}
+		}
+		
+		return ret;
+	}
+	
 	
 }

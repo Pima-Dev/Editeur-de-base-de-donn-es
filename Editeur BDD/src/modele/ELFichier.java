@@ -24,7 +24,7 @@ public class ELFichier {
 		}
 		catch(FileNotFoundException e){
 			try{
-				File file = new File("data");
+				File file = new File(racine+fichier.replaceAll(fichier.split("/")[fichier.split("/").length-1], ""));
 				file.mkdir();
 				out = new FileOutputStream(racine+fichier, false);
 				prop.setProperty(cle, valeur);

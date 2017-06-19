@@ -61,14 +61,12 @@ public class Table {
 			}
 		}
 		
-		try {
-			this.BDD.getServeur().insererTuples(this.nom, attributs);
-			for(int i = 0; i<attributs.size(); i++){
-				this.listeColonnes.get(i).getListeValeurs().add(attributs.get(i).getValue(0));
-			}
-		} catch (CustomException e) {
-			Util.logErreur(e.getMessage());
+		this.BDD.getServeur().insererTuples(this.nom, attributs);
+		for(int i = 0; i<attributs.size(); i++){
+			this.listeColonnes.get(i).getListeValeurs().add(attributs.get(i).getValue(0));
 		}
+			
+		
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package controleur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -12,7 +14,7 @@ import javax.swing.JTextField;
 import modele.ELFichier;
 import vue.Fenetre;
 
-public class ChampsListener implements ActionListener{
+public class ChampsListener implements FocusListener{
 
 	private Fenetre fenetre;
 
@@ -21,7 +23,7 @@ public class ChampsListener implements ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void focusLost(FocusEvent e) {
 		if(e.getSource() instanceof JTextField){
 			JTextField champ= (JTextField)e.getSource();
 			ImageIcon vrai = new ImageIcon("src/ressources/check.png");
@@ -93,4 +95,9 @@ public class ChampsListener implements ActionListener{
 		}
 		return ret;
 	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {		
+	}
+
 }

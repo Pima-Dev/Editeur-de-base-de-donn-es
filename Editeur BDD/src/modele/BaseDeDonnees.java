@@ -73,15 +73,14 @@ public class BaseDeDonnees {
 	/**
 	 * Permet d'ajouter une table à la base
 	 * @param table La table qui sera ajouté à la base de donnés
+	 * @throws CustomException 
 	 */
-	public void ajouterTable(Table table){
-		try {
-			this.serveur.creerTable(table.getNom(), table.getListeColonnes());
+	public void ajouterTable(Table table) throws CustomException{
+
+		this.serveur.creerTable(table.getNom(), table.getListeColonnes());
 			
-			this.listeTable.add(table);
-		} catch (CustomException e) {
-			Util.logErreur(e.getMessage());
-		}
+		this.listeTable.add(table);
+		
 	}
 	
 	/**
@@ -94,13 +93,10 @@ public class BaseDeDonnees {
 	
 	/**
 	 * Supprimer la base de données courante
+	 * @throws CustomException 
 	 */
-	public void supprimerBDD(){
-		try {
-			this.serveur.supprimerBaseDeDonnes();
-		} catch (CustomException e) {
-			Util.log(e.getMessage());
-		}
+	public void supprimerBDD() throws CustomException{
+		this.serveur.supprimerBaseDeDonnes();
 	}
 	
 	public Table getTable(String nom){
@@ -130,15 +126,14 @@ public class BaseDeDonnees {
 		this.listeTable = tables;
 	}
 	
-	public void creerBDD(){
-		try {
-			this.serveur.creerBaseDeDonnees();
-			ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", this.nom);
-			ELFichier.setCle(this.session.getBDDPath()+this.nom, "MDP", this.motDePasse);
-			ELFichier.setCle(this.session.getBDDPath()+this.nom, "port", this.port+"");
-		} catch (CustomException e) {
-			Util.log(e.getMessage());
-		}
+	public void creerBDD() throws CustomException{
+
+		this.serveur.creerBaseDeDonnees();
+		ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", this.url);
+		ELFichier.setCle(this.session.getBDDPath()+this.nom, "MDP", this.motDePasse);
+		ELFichier.setCle(this.session.getBDDPath()+this.nom, "port", this.port+"");
+		
+		
 	}
 	
 	public String getNomBDD(){
