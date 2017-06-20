@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -47,10 +48,10 @@ public class VueCreationBDD extends JPanel{
 		panneauPrincipal.add(lTitre);
 		panneauPrincipal.add(lNomBDD);
 		panneauPrincipal.add(fNomBDD);
-		panneauPrincipal.add(lCodeURL);
 		panneauBoutons.add(boutonLocal);
 		panneauBoutons.add(boutonServeur);
 		panneauPrincipal.add(panneauBoutons);
+		panneauPrincipal.add(lCodeURL);
 		panneauPrincipal.add(fURL);
 		panneauPrincipal.add(lNomUtilisateur);
 		panneauPrincipal.add(fNomUtilisateur);
@@ -65,7 +66,8 @@ public class VueCreationBDD extends JPanel{
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		fenetreNouvelleBDD = new JFrame("Créer une nouvelle base de données");
 		fenetreNouvelleBDD.setContentPane(this);
-		fenetreNouvelleBDD.pack();
+		fenetreNouvelleBDD.setSize(new Dimension(400, 500));
+		fenetreNouvelleBDD.setResizable(false);
 		fenetreNouvelleBDD.setLocationRelativeTo(null);
 		fenetreNouvelleBDD.setVisible(true);
 	}
@@ -78,12 +80,12 @@ public class VueCreationBDD extends JPanel{
 		lErreur.setHorizontalAlignment(SwingConstants.CENTER);
 		lNomBDD = new JLabel("Nom de la BDD");
 		fNomBDD = new JTextField();
-		lCodeURL = new JLabel("Serveur");
+		lCodeURL = new JLabel("URL du serveur distant");
 		boutonLocal = new JRadioButton("Hebergement Local");
-		boutonLocal.setName("hebergement local");
+		boutonLocal.setName("creer bdd hebergement local");
 		boutonLocal.addActionListener(new PresserBoutonListener(this.fenetre));
 		boutonServeur = new JRadioButton("Hebergement Distant");
-		boutonServeur.setName("hebergement distant");
+		boutonServeur.setName("creer bdd hebergement distant");
 		boutonServeur.addActionListener(new PresserBoutonListener(this.fenetre));
 		fURL = new JTextField();
 		lNomUtilisateur = new JLabel("Nom de l'utilisateur");

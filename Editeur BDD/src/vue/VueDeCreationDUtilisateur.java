@@ -35,6 +35,12 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	private JPanel panneau;
 	private JPanel panneauChamps;
 	private JPanel verif;
+	private JLabel lQ1;
+	private JLabel lQ2;
+	private JLabel lQ3;
+	private JTextField tQ1;
+	private JTextField tQ2;
+	private JTextField tQ3;
 	
 	private boolean vUtilisateur;
 	private boolean vEmail;
@@ -58,6 +64,12 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		panneauChamps.add(fMotDePasse);
 		panneauChamps.add(lConfirmation);
 		panneauChamps.add(fConfirmation);
+		panneauChamps.add(this.lQ1);
+		panneauChamps.add(this.tQ1);
+		panneauChamps.add(this.lQ2);
+		panneauChamps.add(this.tQ2);
+		panneauChamps.add(this.lQ3);
+		panneauChamps.add(this.tQ3);
 		panneauChamps.add(bCreation);
 		
 		verif.add(new JLabel(""));
@@ -91,11 +103,11 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	public void decoration(){
 		this.setLayout(new BorderLayout());
 		panneauChamps = new JPanel();
-		panneauChamps.setLayout(new GridLayout(10,1,5,5));
+		panneauChamps.setLayout(new GridLayout(16,1,5,5));
 		panneau = new JPanel();
 		panneau.setLayout(new BorderLayout());
 		verif = new JPanel();
-		verif.setLayout(new GridLayout(10,1,5,10));
+		verif.setLayout(new GridLayout(16,1,5,10));
 		lTitre = new JLabel("CREATION DE COMPTE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lUtilisateur = new JLabel("Utilisateur");
@@ -111,7 +123,12 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		fMotDePasse = new JPasswordField();
 		fConfirmation = new JPasswordField();
 		bCreation = new JButton("Créer");
-		
+		this.lQ1 = new JLabel("Quel est le nom de votre meilleur(e) ami(e) ?");
+		this.lQ2 = new JLabel("Dans quel ville êtes vous né ?");
+		this.lQ3 = new JLabel("Quel est le nom de votre mère ?");
+		this.tQ1 = new JTextField();
+		this.tQ2 = new JTextField();
+		this.tQ3 = new JTextField();
 	}
 
 	/**
@@ -236,6 +253,36 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 */
 	public void setvConfirmation(boolean vConfirmation) {
 		this.vConfirmation = vConfirmation;
+	}
+
+
+	public JTextField gettQ1() {
+		return tQ1;
+	}
+
+
+	public JTextField gettQ2() {
+		return tQ2;
+	}
+
+
+	public JTextField gettQ3() {
+		return tQ3;
+	}
+
+
+	public JLabel getlQ1() {
+		return lQ1;
+	}
+
+
+	public JLabel getlQ2() {
+		return lQ2;
+	}
+
+
+	public JLabel getlQ3() {
+		return lQ3;
 	}
 
 	

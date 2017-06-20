@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,9 +54,7 @@ class EditeurCellule extends DefaultCellEditor {
         if (isPushed) {
             if(name.equals("modifier")){
             	if(!fenetre.getVuePrincipale().getDm().isEditable()){
-            		dm.setCellEditable(fenetre.getVuePrincipale().getTable().getSelectedRow());
-            		JButton bouton = (JButton)fenetre.getVuePrincipale().getTable().getValueAt(fenetre.getVuePrincipale().getTable().getSelectedRow(), fenetre.getVuePrincipale().getTable().getSelectedColumn());
-            		bouton.setSelected(true);
+            		
             	}
             	else{
             		dm.setCellNonEditable();

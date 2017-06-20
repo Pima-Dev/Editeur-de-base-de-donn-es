@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -63,7 +64,7 @@ public class PresserBoutonListener implements ActionListener {
 			else if(bouton.getName().equals("Nouvel utilisateur")){
 				fenetre.getFenetre().setContentPane(new VueDeCreationDUtilisateur(fenetre));
 				fenetre.getFenetre().setVisible(true);
-				fenetre.getFenetre().setSize(new Dimension(300,400));
+				fenetre.getFenetre().setSize(new Dimension(400,600));
 				fenetre.getFenetre().setLocationRelativeTo(null);
 			}
 			else if(bouton.getName().equals("Mot de passe oublie")){
@@ -95,6 +96,9 @@ public class PresserBoutonListener implements ActionListener {
 							ELFichier.setCle(nom+"/session", "user", nom);
 							ELFichier.setCle(nom+"/session", "MDP", ELFichier.cryptMDP(new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
 							ELFichier.setCle(nom+"/session", "email", this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
+							ELFichier.setCle(nom+"/session", "Q1", this.fenetre.getVueCreationUtilisateur().gettQ1().getText());
+							ELFichier.setCle(nom+"/session", "Q2", this.fenetre.getVueCreationUtilisateur().gettQ2().getText());
+							ELFichier.setCle(nom+"/session", "Q3", this.fenetre.getVueCreationUtilisateur().gettQ3().getText());
 							VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 							this.fenetre.setVueDeConnexion(vueCo);
 							fenetre.getFenetre().setContentPane(vueCo);
@@ -125,24 +129,37 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			
 			else if(bouton.getName().equals("valider ouverture bdd")){
-				
+
 			}
 			
 		}
 		else if(e.getSource() instanceof JRadioButton){
 			JRadioButton radioBouton= (JRadioButton)e.getSource();
 			
-			if(radioBouton.getName().equals("hebergement local")){
+			if(radioBouton.getName().equals("creer bdd hebergement local")){
 				fenetre.getVueCreationBDD().getfURL().setEnabled(false);
 				fenetre.getVueCreationBDD().getBoutonServeur().setSelected(false);
 				fenetre.getVueCreationBDD().getfURL().setText("");
 				fenetre.getVueCreationBDD().getfPort().setText("");
 				fenetre.getVueCreationBDD().getfPort().setEnabled(false);
 			}
-			else if(radioBouton.getName().equals("hebergement distant")){
+			else if(radioBouton.getName().equals("creer bdd hebergement distant")){
 				fenetre.getVueCreationBDD().getBoutonLocal().setSelected(false);
 				fenetre.getVueCreationBDD().getfURL().setEnabled(true);
 				fenetre.getVueCreationBDD().getfPort().setEnabled(true);
+			}
+			
+			else if(radioBouton.getName().equals("ouvir bdd hebergement local")){
+				fenetre.getVueOuvrirBDD().getfURL().setEnabled(false);
+				fenetre.getVueOuvrirBDD().getBoutonServeur().setSelected(false);
+				fenetre.getVueOuvrirBDD().getfURL().setText("");
+				fenetre.getVueOuvrirBDD().getfPort().setText("");
+				fenetre.getVueOuvrirBDD().getfPort().setEnabled(false);
+			}
+			else if(radioBouton.getName().equals("ouvrir bdd hebergement distant")){
+				fenetre.getVueOuvrirBDD().getBoutonLocal().setSelected(false);
+				fenetre.getVueOuvrirBDD().getfURL().setEnabled(true);
+				fenetre.getVueOuvrirBDD().getfPort().setEnabled(true);
 			}
 		}
 		
@@ -159,6 +176,39 @@ public class PresserBoutonListener implements ActionListener {
 				int validation = messageComfirmation.showConfirmDialog(null,"Voulez-vous supprimer la BDD courante?","Suppression de la BDD",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(validation == JOptionPane.OK_OPTION){
 					
+				}
+			}
+		}
+		
+		else if(e.getSource() instanceof JComboBox){
+			JComboBox box = (JComboBox) e.getSource();
+			if(box.getName().equals("ouvrir bdd liste bdd")){
+				if(box.getSelectedItem().toString().equals("")){
+					fenetre.getVueOuvrirBDD().getfURL().setEnabled(true);
+					fenetre.getVueOuvrirBDD().getfPort().setEnabled(true);
+					fenetre.getVueOuvrirBDD().getfNomUtilisateur().setEnabled(true);
+					fenetre.getVueOuvrirBDD().getfMotDePasse().setEnabled(true);
+					fenetre.getVueOuvrirBDD().gettNom().setEnabled(true);
+					fenetre.getVueOuvrirBDD().getBoutonLocal().setEnabled(true);
+					fenetre.getVueOuvrirBDD().getBoutonServeur().setEnabled(true);
+
+				}
+				else {
+					fenetre.getVueOuvrirBDD().getfURL().setEnabled(false);
+					fenetre.getVueOuvrirBDD().getfPort().setEnabled(false);
+					fenetre.getVueOuvrirBDD().getfNomUtilisateur().setEnabled(false);
+					fenetre.getVueOuvrirBDD().getfMotDePasse().setEnabled(false);
+					fenetre.getVueOuvrirBDD().gettNom().setEnabled(false);
+					fenetre.getVueOuvrirBDD().getBoutonLocal().setEnabled(false);
+					fenetre.getVueOuvrirBDD().getBoutonServeur().setEnabled(false);
+					
+					fenetre.getVueOuvrirBDD().getfURL().setText("");
+					fenetre.getVueOuvrirBDD().getfPort().setText("");
+					fenetre.getVueOuvrirBDD().getfNomUtilisateur().setText("");
+					fenetre.getVueOuvrirBDD().getfMotDePasse().setText("");
+					fenetre.getVueOuvrirBDD().gettNom().setText("");
+					fenetre.getVueOuvrirBDD().getBoutonServeur().setSelected(false);
+					fenetre.getVueOuvrirBDD().getBoutonLocal().setSelected(false);
 				}
 			}
 		}
