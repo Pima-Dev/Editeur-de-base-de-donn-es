@@ -8,6 +8,7 @@ public class ModeleTable extends DefaultTableModel {
 	private int hauteur;
 	private int largeur;
 	private boolean editable;
+	private int ligneAEditer;
 	public ModeleTable(int hauteur, int largeur){
 		editable = false;
 		this.hauteur = hauteur;
@@ -29,7 +30,7 @@ public class ModeleTable extends DefaultTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if(editable){
-			if(columnIndex > 0){
+			if(columnIndex > 0 && ligneAEditer == rowIndex){
 				ret = true;
 			}
 			else{
@@ -47,8 +48,9 @@ public class ModeleTable extends DefaultTableModel {
 		return ret;
     }
 	
-	public void setCellEditable(){
+	public void setCellEditable(int row){
 		editable = true;
+		this.ligneAEditer = row;
 	}
 	
 	

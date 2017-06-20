@@ -16,11 +16,13 @@ class EditeurCellule extends DefaultCellEditor {
     private String label;
     private boolean isPushed;
     private ModeleTable dm;
+    private Fenetre fenetre;
 
-    public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm) {
+    public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm,Fenetre fenetre) {
         super(checkBox);
         this.name = name;
         this.dm = dm;
+        this.fenetre = fenetre;
         button = new JButton();
         button.addActionListener(new ActionListener() {
             @Override
@@ -50,7 +52,7 @@ class EditeurCellule extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (isPushed) {
             if(name.equals("modifier")){
-            	dm.setCellEditable();
+            	dm.setCellEditable(fenetre.getVuePrincipale().getTable().getSelectedRow());
             }
             else if(name.equals("supprimer")){
             	

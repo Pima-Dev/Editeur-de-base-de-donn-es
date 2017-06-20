@@ -154,6 +154,13 @@ public class PresserBoutonListener implements ActionListener {
 			else if(item.getName().equals("MenuOuvrir")){
 				new VueOuvrirBDD(this.fenetre);
 			}
+			else if(item.getName().equals("MenuSupprimerBDD")){
+				JOptionPane messageComfirmation = new JOptionPane();
+				int validation = messageComfirmation.showConfirmDialog(null,"Voulez-vous supprimer la BDD courante?","Suppression de la BDD",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(validation == JOptionPane.OK_OPTION){
+					
+				}
+			}
 		}
 		
 		

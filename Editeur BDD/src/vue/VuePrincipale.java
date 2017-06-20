@@ -95,6 +95,7 @@ public class VuePrincipale extends JPanel{
 	 
 	public VuePrincipale(Fenetre fenetre){
 		this.fenetre = fenetre;
+		this.fenetre.setVuePrincipale(this);
 		this.panneauTable = new JPanel();
 		menu();
 		listeTable();
@@ -128,14 +129,20 @@ public class VuePrincipale extends JPanel{
 		nouveau.setName("MenuNouveau");
 		nouveau.addActionListener(new PresserBoutonListener(this.fenetre));
 		supprimerBDD = new JMenuItem("SupprimerBDD");
-		supprimerBDD.setName("supprimerBDD");
+		supprimerBDD.setName("MenuSupprimerBDD");
 		supprimerBDD.addActionListener(new PresserBoutonListener(this.fenetre));
 		ouvrir = new JMenuItem("Ouvrir");
 		ouvrir.setName("MenuOuvrir");
 		ouvrir.addActionListener(new PresserBoutonListener(this.fenetre));
 		enregistrer = new JMenuItem("Enregistrer");
+		enregistrer.setName("MenuEnregistrer");
+		enregistrer.addActionListener(new PresserBoutonListener(this.fenetre));
 		enregistrerSous = new JMenuItem("Enregistrer sous");
+		enregistrerSous.setName("MenuEnregistrerSous");
+		enregistrerSous.addActionListener(new PresserBoutonListener(this.fenetre));
 		exporterEnPDF = new JMenuItem("Exporter en PDF");
+		exporterEnPDF.setName("MenuExporterEnPDF");
+		exporterEnPDF.addActionListener(new PresserBoutonListener(this.fenetre));
 		
 		editer = new JMenu("    Editer    ");
 		retourArriere = new JMenuItem("Retour arrière");
@@ -165,6 +172,7 @@ public class VuePrincipale extends JPanel{
 		fichier.add(ouvrir);
 		fichier.add(enregistrer);
 		fichier.add(enregistrerSous);
+		fichier.add(supprimerBDD);
 		fichier.add(exporterEnPDF);
 		
 		editer.add(retourArriere);
@@ -316,9 +324,9 @@ public class VuePrincipale extends JPanel{
         dm.setDataVector(tab, lesTitres);
         table = new JTable(dm);
         table.getColumn("Modifier").setCellRenderer(new RenduCellule());
-        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm));
+        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm,fenetre));
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule());
-        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm));
+        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm,fenetre));
         table.setRowHeight(30);
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
