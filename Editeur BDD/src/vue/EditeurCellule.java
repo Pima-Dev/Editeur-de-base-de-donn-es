@@ -52,7 +52,14 @@ class EditeurCellule extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (isPushed) {
             if(name.equals("modifier")){
-            	dm.setCellEditable(fenetre.getVuePrincipale().getTable().getSelectedRow());
+            	if(!fenetre.getVuePrincipale().getDm().isEditable()){
+            		dm.setCellEditable(fenetre.getVuePrincipale().getTable().getSelectedRow());
+            		JButton bouton = (JButton)fenetre.getVuePrincipale().getTable().getValueAt(fenetre.getVuePrincipale().getTable().getSelectedRow(), fenetre.getVuePrincipale().getTable().getSelectedColumn());
+            		bouton.setSelected(true);
+            	}
+            	else{
+            		dm.setCellNonEditable();
+            	}
             }
             else if(name.equals("supprimer")){
             	

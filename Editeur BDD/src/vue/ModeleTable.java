@@ -1,7 +1,6 @@
 package vue;
 
-import java.util.ArrayList;
-
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 public class ModeleTable extends DefaultTableModel {
 	
@@ -9,8 +8,10 @@ public class ModeleTable extends DefaultTableModel {
 	private int largeur;
 	private boolean editable;
 	private int ligneAEditer;
-	public ModeleTable(int hauteur, int largeur){
+	private Fenetre fenetre;
+	public ModeleTable(int hauteur, int largeur, Fenetre fenetre){
 		editable = false;
+		this.fenetre = fenetre;
 		this.hauteur = hauteur;
 		this.largeur = largeur;
 	}
@@ -52,7 +53,15 @@ public class ModeleTable extends DefaultTableModel {
 		editable = true;
 		this.ligneAEditer = row;
 	}
-	
-	
 
+	/**
+	 * @return the editable
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+	
+	public void setCellNonEditable(){
+		editable = false;
+	}
 }

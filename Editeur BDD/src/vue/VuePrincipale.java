@@ -92,6 +92,7 @@ public class VuePrincipale extends JPanel{
 	 private JTable table;
 	 private JScrollPane scrollTable;
 	 private JPanel panneauTable;
+	 private ModeleTable dm;
 	 
 	public VuePrincipale(Fenetre fenetre){
 		this.fenetre = fenetre;
@@ -312,7 +313,7 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void table(String[][] tab, String[] titre){
-		ModeleTable dm = new ModeleTable(tab.length, tab[0].length+2);
+		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
 
 		for(int i = 0; i<titre.length; i++){
@@ -556,5 +557,13 @@ public class VuePrincipale extends JPanel{
 	public void ajouterTable(String table){
 		modeleListe.set(tableauListeTable.getModel().getSize(),table);
 		modeleListe.addElement("+ Nouvelle table");
+	}
+
+
+	/**
+	 * @return the dm
+	 */
+	public ModeleTable getDm() {
+		return dm;
 	}
 }
