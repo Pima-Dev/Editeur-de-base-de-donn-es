@@ -103,8 +103,8 @@ public class VuePrincipale extends JPanel{
 		menu();
 		listeTable();
 		boutons();
-		String[][] tab = new String[][]{ {"1", "1", "1", "1"}, {"2", "2", "2", "2"} };
-		table(tab, new String[]{"test1", "test2", "test3", "test4"});
+		//String[][] tab = new String[][]{ {"1", "1", "1", "1"}, {"2", "2", "2", "2"} };
+		//table(tab, new String[]{"test1", "test2", "test3", "test4"});
 		panneauBoutonTable = new JPanel();
 		panneauBoutonTable.setLayout(new BorderLayout());
 		panneauBoutonTable.add(marge,BorderLayout.SOUTH);
@@ -314,7 +314,7 @@ public class VuePrincipale extends JPanel{
 		 marge.add(panneauBoutons, BorderLayout.CENTER);
 	}
 	
-	public void table(String[][] tab, String[] titre){
+	public void insererValeursDansTab(String[][] tab, String[] titre){
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
 

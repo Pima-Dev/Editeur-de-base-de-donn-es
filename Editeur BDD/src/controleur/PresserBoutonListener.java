@@ -129,7 +129,7 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			
 			else if(bouton.getName().equals("valider ouverture bdd")){
-
+				//BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.get, nomUtilisateur, motDePasse, fenetre, url, port)
 			}
 			
 		}
