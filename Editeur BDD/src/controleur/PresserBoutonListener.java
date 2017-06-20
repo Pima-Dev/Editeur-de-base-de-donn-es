@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,7 +46,8 @@ public class PresserBoutonListener implements ActionListener {
 			if(bouton.getName().equals("Connexion")){
 				String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 				String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
-				if(bonMDP(nom, motDePasse)){
+				//if(bonMDP(nom, motDePasse)){
+				if(true){
 					fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
 					fenetre.getFenetre().setVisible(true);
 					Toolkit tk = Toolkit.getDefaultToolkit();
@@ -129,7 +131,21 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			
 			else if(bouton.getName().equals("valider ouverture bdd")){
-				//BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.get, nomUtilisateur, motDePasse, fenetre, url, port)
+				if(this.fenetre.getVueOuvrirBDD().getListeBDD().getSelectedItem().toString().equals("")){
+					int port = modele.Util.isInteger(this.fenetre.getVueOuvrirBDD().getfPort().getText()) ? Integer.parseInt(this.fenetre.getVueOuvrirBDD().getfPort().getText()) : 3306;		
+					try {
+						BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.getVueOuvrirBDD().gettNom().getText(), this.fenetre.getVueOuvrirBDD().getfNomUtilisateur().getText(), new String(this.fenetre.getVueOuvrirBDD().getfMotDePasse().getPassword()), this.fenetre, this.fenetre.getVueOuvrirBDD().getfURL().getText(),  port);
+						bdd.chargerBDD();
+						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
+					} catch (CustomException e1) {
+						Util.logErreur(e1.getMessage());
+					}
+					catch(SQLException e1){
+						new CustomException("Erreur", e1.getMessage());
+						e1.printStackTrace();
+					}
+				}
+				
 			}
 			
 		}
