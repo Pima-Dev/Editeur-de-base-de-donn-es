@@ -23,7 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
+import controleur.TouchePresseListener;
 
 public class VuePrincipale extends JPanel{
 	
@@ -278,6 +280,9 @@ public class VuePrincipale extends JPanel{
 		 lChercher.setFont(font);
 		 lChercher.setHorizontalAlignment(SwingConstants.CENTER);
 		 fChercher = new JTextField("Chercher les occurences");
+		 fChercher.setName("BarreRecherche");
+		 fChercher.addFocusListener(new ChampsListener(this.fenetre));
+		 fChercher.addKeyListener(new TouchePresseListener(this.fenetre));
 		 optionRecherche = new JButton(new ImageIcon("src/ressources/parametre.png"));
 		 optionRecherche.setBorderPainted(false);
 		 optionRecherche.setContentAreaFilled(false);
