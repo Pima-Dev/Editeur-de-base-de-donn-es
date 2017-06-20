@@ -17,6 +17,7 @@ public class Fenetre{
 	private BaseDeDonnees BDD;
 	private VueAjouterAttribut vueAjouterAttribut;
 	private VueOuvrirBDD vueOuvrirBDD;
+	private VueLogConsole vueLogConsole;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -117,6 +118,20 @@ public class Fenetre{
 
 	public void setVueOuvrirBDD(VueOuvrirBDD vueOuvrirBDD) {
 		this.vueOuvrirBDD = vueOuvrirBDD;
+	}
+
+	/**
+	 * @return the vueLogConsole
+	 */
+	public VueLogConsole getVueLogConsole() {
+		return vueLogConsole;
+	}
+
+	/**
+	 * @param vueLogConsole the vueLogConsole to set
+	 */
+	public void setVueLogConsole(VueLogConsole vueLogConsole) {
+		this.vueLogConsole = vueLogConsole;
 	}
 	
 }
