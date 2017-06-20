@@ -65,9 +65,6 @@ public class BaseDeDonnees {
 		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
 		this.session = this.fenetre.getSession();
-		if (this.session.getListeBDD().contains(nom)) {
-			throw new CustomException("Erreur", "Cette base de données est déjà existente");
-		}
 		this.fenetre.setBDD(this);
 		saveDonneesBDD();
 	}
@@ -160,6 +157,9 @@ public class BaseDeDonnees {
 	 * @throws CustomException
 	 */
 	public void creerBDD() throws CustomException {
+		if (this.session.getListeBDD().contains(nom)) {
+			throw new CustomException("Erreur", "Cette base de données est déjà existente");
+		}
 		this.serveur.creerBaseDeDonnees();
 	}
 
@@ -168,12 +168,13 @@ public class BaseDeDonnees {
 	 * données
 	 */
 	public void saveDonneesBDD() {
-		File file = new File(this.session.getBDDPath() + this.nom);
+		File file = new File(ELFichier.getRacine()+this.session.getBDDPath() + this.nom);
 		if (!file.exists()) {
 			if (this.url != null)
 				ELFichier.setCle(this.session.getBDDPath() + this.nom, "adresse", this.url);
 			else
 				ELFichier.setCle(this.session.getBDDPath() + this.nom, "adresse", "");
+			ELFichier.setCle(this.session.getBDDPath() + this.nom, "user", this.nomUtilisateur);
 			ELFichier.setCle(this.session.getBDDPath() + this.nom, "MDP", this.motDePasse);
 			ELFichier.setCle(this.session.getBDDPath() + this.nom, "port", this.port + "");
 		}
@@ -209,19 +210,40 @@ public class BaseDeDonnees {
 		}
 		ArrayList<Colonne> listeColonnes = this.getTable(table).getListeColonnes();
 
-		if (listeColonnes.size() >= 0) {
+		if (listeColonnes.size() < 0) {
 			throw new IllegalArgumentException("La table ne contient aucune colonne");
 		}
 
-		String[][] ret = new String[listeColonnes.size()][listeColonnes.get(0).getListeValeurs().size()];
+		String[][] ret = new String[listeColonnes.get(0).getListeValeurs().size()][listeColonnes.size()];
 
-		for (int j = 0; j < listeColonnes.get(0).getListeValeurs().size(); j++) {
+		if(listeColonnes.get(0).getListeValeurs().size() > 0){
+			for (int j = 0; j < listeColonnes.size(); j++) {
+				for (int i = 0; i < listeColonnes.get(0).getListeValeurs().size(); i++) {
+					ret[i][j] = listeColonnes.get(j).getValue(i).toString();
+				}
+			}
+		}
+		else{
+			ret = new String[1][listeColonnes.size()];
 			for (int i = 0; i < listeColonnes.size(); i++) {
-				ret[j][i] = listeColonnes.get(j).getValue(i).toString();
+				ret[0][i] = "";
 			}
 		}
 
 		return ret;
+	}
+
+	public void refreshTable() {
+		if (this.listeTable.size() > 0)
+			this.fenetre.getVuePrincipale().insererValeursDansTab(this.formatValeurs(this.listeTable.get(0).getNom()),
+					this.formatTitres(this.listeTable.get(0).getNom()));
+		this.fenetre.getVuePrincipale().resetListeTable();
+		for (Table table : this.listeTable) {
+			this.fenetre.getVuePrincipale().ajouterTable(table.getNom());
+		}
+		if (!this.fenetre.getVuePrincipale().getListModel().isEmpty()) {
+			this.fenetre.getVuePrincipale().getJList().setSelectedIndex(0);
+		}
 	}
 
 	public String getNomBDD() {

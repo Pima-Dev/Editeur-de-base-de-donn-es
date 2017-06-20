@@ -320,9 +320,10 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void insererValeursDansTab(String[][] tab, String[] titre){
+				
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
-
+		
 		for(int i = 0; i<titre.length; i++){
 			lesTitres[i]=titre[i];
 		}
@@ -340,7 +341,7 @@ public class VuePrincipale extends JPanel{
 		scrollTable.createVerticalScrollBar();
 		panneauTable.setLayout(new BorderLayout());
 		panneauTable.add(scrollTable, BorderLayout.CENTER);
-		
+		this.fenetre.getFenetre().setVisible(true);
 	}
 	
 	/*
@@ -562,15 +563,27 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void ajouterTable(String table){
-		modeleListe.set(tableauListeTable.getModel().getSize(),table);
+		modeleListe.set(tableauListeTable.getModel().getSize()-1,table);
 		modeleListe.addElement("+ Nouvelle table");
 	}
 
-
+	public void resetListeTable(){
+		this.modeleListe.removeAllElements();
+		this.modeleListe.addElement("+ NouvelleTable");
+	}
+	
+	public DefaultListModel getListModel(){
+		return this.modeleListe;
+	}
+	
 	/**
 	 * @return the dm
 	 */
 	public ModeleTable getDm() {
 		return dm;
+	}
+	
+	public JList<String> getJList(){
+		return this.tableauListeTable;
 	}
 }

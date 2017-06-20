@@ -16,6 +16,7 @@ import modele.BaseDeDonnees;
 import modele.CustomException;
 import modele.ELFichier;
 import modele.Session;
+import modele.Table;
 import modele.Util;
 import vue.Fenetre;
 import vue.VueAjouterAttribut;
@@ -136,12 +137,32 @@ public class PresserBoutonListener implements ActionListener {
 					try {
 						BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.getVueOuvrirBDD().gettNom().getText(), this.fenetre.getVueOuvrirBDD().getfNomUtilisateur().getText(), new String(this.fenetre.getVueOuvrirBDD().getfMotDePasse().getPassword()), this.fenetre, this.fenetre.getVueOuvrirBDD().getfURL().getText(),  port);
 						bdd.chargerBDD();
+						bdd.refreshTable();
 						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
 					} catch (CustomException e1) {
 						Util.logErreur(e1.getMessage());
 					}
 					catch(SQLException e1){
 						new CustomException("Erreur", e1.getMessage());
+						e1.printStackTrace();
+					}
+				}
+				else{
+					String nomBdd = this.fenetre.getVueOuvrirBDD().getListeBDD().getSelectedItem().toString();
+					String path = this.fenetre.getSession().getBDDPath()+nomBdd;
+					try {
+						BaseDeDonnees bdd = new BaseDeDonnees(nomBdd, ELFichier.chargerValeur(path, "user"), ELFichier.chargerValeur(path, "MDP"), this.fenetre, ELFichier.chargerValeur(path, "url"), Integer.parseInt(ELFichier.chargerValeur(path, "port")));
+						bdd.chargerBDD();
+						bdd.refreshTable();
+						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
+					} catch (NumberFormatException e1) {
+						Util.logErreur(e1.getMessage());
+						e1.printStackTrace();
+					} catch (CustomException e1) {
+						Util.logErreur(e1.getMessage());
+						e1.printStackTrace();
+					} catch (SQLException e1){
+						Util.logErreur(e1.getMessage());
 						e1.printStackTrace();
 					}
 				}
