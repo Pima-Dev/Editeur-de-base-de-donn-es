@@ -75,10 +75,13 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		
+		this.fUtilisateur.setName("nom nouvel utilisateur");
 		this.fUtilisateur.addFocusListener(new ChampsListener(this.fenetre));
+		this.fEmail.setName("email nouvel utilisateur");
 		this.fEmail.addFocusListener(new ChampsListener(this.fenetre));
+		this.fMotDePasse.setName("mot de passe nouvel utilisateur");
 		this.fMotDePasse.addFocusListener(new ChampsListener(this.fenetre));
+		this.fConfirmation.setName("confirmation mot de passe nouvel utilisateur");
 		this.fConfirmation.addFocusListener(new ChampsListener(this.fenetre));
 		this.bCreation.setName("Valider creation nouvel utilisateur");
 		this.bCreation.addActionListener(new PresserBoutonListener(this.fenetre));

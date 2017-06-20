@@ -1,6 +1,7 @@
 package vue;
 import javax.swing.JFrame;
 
+import modele.BaseDeDonnees;
 import modele.Session;
 
 
@@ -13,6 +14,8 @@ public class Fenetre{
 	private Session session;
 	private VueCreationBDD vueCreationBDD;
 	private VuePrincipale vuePrincipale;
+	private BaseDeDonnees BDD;
+	private VueAjouterAttribut vueAjouterAttribut;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -89,6 +92,22 @@ public class Fenetre{
 	 */
 	public void setVuePrincipale(VuePrincipale vuePrincipale) {
 		this.vuePrincipale = vuePrincipale;
+	}
+
+	public BaseDeDonnees getBDD() {
+		return BDD;
+	}
+
+	public void setBDD(BaseDeDonnees bDD) {
+		BDD = bDD;
+	}
+
+	public VueAjouterAttribut getVueAjouterAttribut() {
+		return vueAjouterAttribut;
+	}
+
+	public void setVueAjouterAttribut(VueAjouterAttribut vueAjouterAttribut) {
+		this.vueAjouterAttribut = vueAjouterAttribut;
 	}
 	
 }

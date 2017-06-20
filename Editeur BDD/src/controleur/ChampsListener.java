@@ -28,7 +28,7 @@ public class ChampsListener implements FocusListener{
 			JTextField champ= (JTextField)e.getSource();
 			ImageIcon vrai = new ImageIcon("src/ressources/check.png");
 			ImageIcon faux = new ImageIcon("src/ressources/croix.png");
-			if(champ.getName().equals("Utilisateur")){
+			if(champ.getName().equals("nom nouvel utilisateur")){
 				String pseudo = fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
 				if(validePseudo(pseudo)){
 					fenetre.getVueCreationUtilisateur().getiUtilisateur().setIcon(vrai);
@@ -39,7 +39,7 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().setvUtilisateur(false);
 				}
 			}
-			else if(champ.getName().equals("email")){
+			else if(champ.getName().equals("email nouvel utilisateur")){
 				String email = fenetre.getVueCreationUtilisateur().getfEmail().getText();
 				if(email.contains("@") && email.contains(".")){
 					fenetre.getVueCreationUtilisateur().getiEmail().setIcon(vrai);
@@ -50,9 +50,9 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().setvEmail(false);
 				}
 			}
-			else if(champ.getName().equals("MotDePasse")){
+			else if(champ.getName().equals("mot de passe nouvel utilisateur")){
 				String motDePasse = new String(fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword());
-				if(motDePasse.isEmpty() || motDePasse.length() < 6){
+				if(motDePasse.length() >= 5){
 					fenetre.getVueCreationUtilisateur().getiMotDePasse().setIcon(vrai);
 					fenetre.getVueCreationUtilisateur().setvMotDePasse(true);
 				}
@@ -61,7 +61,7 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().setvMotDePasse(false);
 				}
 			}
-			else if(champ.getName().equals("email")){
+			else if(champ.getName().equals("confirmation mot de passe nouvel utilisateur")){
 				String confirmation = new String(fenetre.getVueCreationUtilisateur().getfConfirmation().getPassword());
 				String motDePasse = new String(fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword());
 				if(motDePasse.equals(confirmation)){

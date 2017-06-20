@@ -16,6 +16,7 @@ import modele.ELFichier;
 import modele.Session;
 import modele.Util;
 import vue.Fenetre;
+import vue.VueAjouterAttribut;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
@@ -106,7 +107,7 @@ public class PresserBoutonListener implements ActionListener {
 			else if(bouton.getName().equals("valider creation bdd")){
 				int port = modele.Util.isInteger(this.fenetre.getVueCreationBDD().getfPort().getText()) ? Integer.parseInt(this.fenetre.getVueCreationBDD().getfPort().getText()) : 3306;
 				try {
-					BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.getVueCreationBDD().getfNomBDD().getText(), this.fenetre.getVueCreationBDD().getfNomUtilisateur().getText(), this.fenetre.getVueCreationBDD().getfMotDePasse().getText(), this.fenetre.getSession(), this.fenetre.getVueCreationBDD().getfURL().getText(), port);
+					BaseDeDonnees bdd = new BaseDeDonnees(this.fenetre.getVueCreationBDD().getfNomBDD().getText(), this.fenetre.getVueCreationBDD().getfNomUtilisateur().getText(), new String(this.fenetre.getVueCreationBDD().getfMotDePasse().getPassword()), this.fenetre, this.fenetre.getVueCreationBDD().getfURL().getText(), port);
 					bdd.creerBDD();
 					this.fenetre.getVueCreationBDD().getFrame().dispose();
 				} catch (CustomException e1) {
@@ -115,7 +116,11 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			
 			else if(bouton.getName().equals("ajouter attribut")){
-				
+				try {
+					new VueAjouterAttribut(this.fenetre);
+				} catch (CustomException e1) {
+					Util.logErreur(e1.getMessage());
+				}
 			}
 			
 		}

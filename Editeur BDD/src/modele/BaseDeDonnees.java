@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import vue.Fenetre;
+
 public class BaseDeDonnees {
 
 	/**
@@ -45,22 +47,25 @@ public class BaseDeDonnees {
 	 */
 	private int port;
 	
+	private Fenetre fenetre;
+	
 	/**
 	 * Constructeur
 	 * @param nom Nom de la base de données
 	 * @throws CustomException 
 	 */
-	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, Session session, String url, int port) throws CustomException{
+	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, Fenetre fenetre, String url, int port) throws CustomException{
 		this.nom = nom;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
-		this.listeTable = listeTable;
+		this.fenetre = fenetre;
 		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
-		this.session = session;
+		this.session = this.fenetre.getSession();
 		if(this.session.getListeBDD().contains(nom)){
 			throw new CustomException("Erreur", "Cette base de données est déjà existente");
 		}
+		this.fenetre.setBDD(this);
 	}
 		
 	/**

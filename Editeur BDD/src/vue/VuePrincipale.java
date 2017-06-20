@@ -253,6 +253,8 @@ public class VuePrincipale extends JPanel{
 		 ajouterTuple = new JButton("Ajouter un tuple");
 		 ajouter.add(ajouterTuple);
 		 ajouterAttribut = new JButton("Ajouter un attribut");
+		 ajouterAttribut.setName("ajouter attribut");
+		 ajouterAttribut.addActionListener(new PresserBoutonListener(this.fenetre));
 		 ajouter.add(ajouterAttribut);
 		 panneauBoutons.add(ajouter);
 		 
