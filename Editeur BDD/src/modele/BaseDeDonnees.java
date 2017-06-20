@@ -138,10 +138,12 @@ public class BaseDeDonnees {
 	public void creerBDD() throws CustomException{
 
 		this.serveur.creerBaseDeDonnees();
-		ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", this.url);
+		if(this.url != null)
+			ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", this.url);
+		else
+			ELFichier.setCle(this.session.getBDDPath()+this.nom, "adresse", "");
 		ELFichier.setCle(this.session.getBDDPath()+this.nom, "MDP", this.motDePasse);
 		ELFichier.setCle(this.session.getBDDPath()+this.nom, "port", this.port+"");
-		
 		
 	}
 	

@@ -16,6 +16,7 @@ public class Fenetre{
 	private VuePrincipale vuePrincipale;
 	private BaseDeDonnees BDD;
 	private VueAjouterAttribut vueAjouterAttribut;
+	private VueOuvrirBDD vueOuvrirBDD;
 	
 	public Fenetre(){
 		this.fenetre = new JFrame("Connexion");
@@ -108,6 +109,14 @@ public class Fenetre{
 
 	public void setVueAjouterAttribut(VueAjouterAttribut vueAjouterAttribut) {
 		this.vueAjouterAttribut = vueAjouterAttribut;
+	}
+
+	public VueOuvrirBDD getVueOuvrirBDD() {
+		return vueOuvrirBDD;
+	}
+
+	public void setVueOuvrirBDD(VueOuvrirBDD vueOuvrirBDD) {
+		this.vueOuvrirBDD = vueOuvrirBDD;
 	}
 	
 }

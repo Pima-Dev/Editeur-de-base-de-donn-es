@@ -20,6 +20,7 @@ import vue.VueAjouterAttribut;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
+import vue.VueOuvrirBDD;
 import vue.VuePrincipale;
 
 /**
@@ -123,6 +124,10 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			}
 			
+			else if(bouton.getName().equals("valider ouverture bdd")){
+				
+			}
+			
 		}
 		else if(e.getSource() instanceof JRadioButton){
 			JRadioButton radioBouton= (JRadioButton)e.getSource();
@@ -147,7 +152,7 @@ public class PresserBoutonListener implements ActionListener {
 				new VueCreationBDD(this.fenetre);
 			}
 			else if(item.getName().equals("MenuOuvrir")){
-				
+				new VueOuvrirBDD(this.fenetre);
 			}
 		}
 		

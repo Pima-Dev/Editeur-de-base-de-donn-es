@@ -30,7 +30,7 @@ public class Session {
 	public ArrayList<String> getListeBDD(){
 		
 		ArrayList<String> ret = new ArrayList<String>();
-		File file = new File(this.BDDPath);
+		File file = new File(ELFichier.getRacine()+this.BDDPath);
 		File[] files = file.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
