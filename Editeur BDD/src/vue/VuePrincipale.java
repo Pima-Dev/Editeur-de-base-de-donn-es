@@ -98,9 +98,7 @@ public class VuePrincipale extends JPanel{
 	 private JScrollPane scrollTable;
 	 private JPanel panneauTable;
 	 private ModeleTable dm;
-	 
-	 private String currentTable;
-	 
+	 	 
 	public VuePrincipale(Fenetre fenetre){
 		this.fenetre = fenetre;
 		this.fenetre.setVuePrincipale(this);
@@ -136,7 +134,7 @@ public class VuePrincipale extends JPanel{
 		nouveau = new JMenuItem("Nouveau");
 		nouveau.setName("MenuNouveau");
 		nouveau.addActionListener(new PresserBoutonListener(this.fenetre));
-		supprimerBDD = new JMenuItem("SupprimerBDD");
+		supprimerBDD = new JMenuItem("Supprimer la BDD");
 		supprimerBDD.setName("MenuSupprimerBDD");
 		supprimerBDD.addActionListener(new PresserBoutonListener(this.fenetre));
 		ouvrir = new JMenuItem("Ouvrir");
@@ -351,17 +349,10 @@ public class VuePrincipale extends JPanel{
 		this.fenetre.getFenetre().setVisible(true);
 	}
 	
-	/*
-	public static void main(String[] args){
-		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setContentPane(new VuePrincipale(new Fenetre()));
-		fenetre.setVisible(true);
-		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		fenetre.pack();
-	*/
+	public String getCurrentTable(){
+		return this.tableauListeTable.getSelectedValue().toString();
+	}
 	
-	
-
 	/**
 	 * @return the accederALaConsole
 	 */
@@ -569,6 +560,11 @@ public class VuePrincipale extends JPanel{
 		return table;
 	}
 	
+	public void resetJTable(){
+		this.panneauTable.removeAll();
+		this.panneauTable.repaint();
+	}
+	
 	public void ajouterTable(String table){
 		modeleListe.set(tableauListeTable.getModel().getSize()-1,table);
 		modeleListe.addElement("+ Nouvelle Table");
@@ -594,11 +590,5 @@ public class VuePrincipale extends JPanel{
 		return this.tableauListeTable;
 	}
 	
-	public String getCurrentTable(){
-		return this.currentTable;
-	}
 	
-	public void setCurrentTable(String nom){
-		this.currentTable = nom;
-	}
 }

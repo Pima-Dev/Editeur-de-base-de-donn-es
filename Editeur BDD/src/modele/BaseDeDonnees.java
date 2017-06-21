@@ -66,7 +66,6 @@ public class BaseDeDonnees {
 		this.listeTable = new ArrayList<Table>();
 		this.session = this.fenetre.getSession();
 		this.fenetre.setBDD(this);
-		saveDonneesBDD();
 	}
 
 	/**
@@ -161,6 +160,7 @@ public class BaseDeDonnees {
 			throw new CustomException("Erreur", "Cette base de données est déjà existente");
 		}
 		this.serveur.creerBaseDeDonnees();
+		this.saveDonneesBDD();
 	}
 
 	/**
@@ -237,13 +237,15 @@ public class BaseDeDonnees {
 		if (this.listeTable.size() > 0)
 			this.fenetre.getVuePrincipale().insererValeursDansTab(this.formatValeurs(this.listeTable.get(0).getNom()),
 					this.formatTitres(this.listeTable.get(0).getNom()));
+		else{
+			this.fenetre.getVuePrincipale().resetJTable();
+		}
 		this.fenetre.getVuePrincipale().resetListeTable();
 		for (Table table : this.listeTable) {
 			this.fenetre.getVuePrincipale().ajouterTable(table.getNom());
 		}
 		if (this.fenetre.getVuePrincipale().getListModel().size() > 1) {
 			this.fenetre.getVuePrincipale().getJList().setSelectedIndex(0);
-			this.fenetre.getVuePrincipale().setCurrentTable(this.fenetre.getVuePrincipale().getListModel().getElementAt(0).toString());
 		}
 	}
 

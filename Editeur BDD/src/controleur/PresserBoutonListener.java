@@ -133,6 +133,7 @@ public class PresserBoutonListener implements ActionListener {
 							new String(this.fenetre.getVueCreationBDD().getfMotDePasse().getPassword()), this.fenetre,
 							this.fenetre.getVueCreationBDD().getfURL().getText(), port);
 					bdd.creerBDD();
+					bdd.refreshAllBDD();
 					this.fenetre.getVueCreationBDD().getFrame().dispose();
 				} catch (CustomException e1) {
 					Util.logErreur(e1.getMessage());
@@ -142,7 +143,7 @@ public class PresserBoutonListener implements ActionListener {
 			else if (bouton.getName().equals("ajouter attribut")) {
 
 				new VueAjouterAttribut(this.fenetre);
-				 
+
 			}
 
 			else if (bouton.getName().equals("valider ouverture bdd")) {
@@ -156,6 +157,7 @@ public class PresserBoutonListener implements ActionListener {
 								this.fenetre.getVueOuvrirBDD().getfURL().getText(), port);
 						bdd.chargerBDD();
 						bdd.refreshAllBDD();
+						bdd.saveDonneesBDD();
 						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
 					} catch (CustomException e1) {
 						Util.logErreur(e1.getMessage());
@@ -171,6 +173,7 @@ public class PresserBoutonListener implements ActionListener {
 								ELFichier.chargerValeur(path, "MDP"), this.fenetre,
 								ELFichier.chargerValeur(path, "url"),
 								Integer.parseInt(ELFichier.chargerValeur(path, "port")));
+						bdd.saveDonneesBDD();
 						bdd.chargerBDD();
 						bdd.refreshAllBDD();
 						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
@@ -187,52 +190,79 @@ public class PresserBoutonListener implements ActionListener {
 				}
 
 			}
-			
-			else if(bouton.getName().equals("ajouter un tuple")){
-				if(this.fenetre.getBDD() == null){
+
+			else if (bouton.getName().equals("ajouter un tuple")) {
+				if (this.fenetre.getBDD() == null) {
 					new CustomException("Erreur", "Aucune table n'est ouverte.");
 					throw new IllegalArgumentException("Aucune BDD d'ouverte");
 				}
 				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				ArrayList<Object> tuple = new ArrayList<Object> ();
-				
-				if(table == null){
+				ArrayList<Object> tuple = new ArrayList<Object>();
+
+				if (table == null) {
 					new CustomException("Erreur", "Aucune table n'est ouverte.");
 					throw new IllegalArgumentException("Aucune BDD d'ouverte");
-				}
-				else{
-					for(Colonne col : table.getListeColonnes()){
+				} else {
+					for (Colonne col : table.getListeColonnes()) {
 						String contrainte = "\n";
-						for(Contrainte c : (ArrayList<Contrainte>)col.getListeContraintes()){
-							contrainte+=c.getContrainteType()+"\n";
+						for (Contrainte c : (ArrayList<Contrainte>) col.getListeContraintes()) {
+							contrainte += c.getContrainteType() + "\n";
 						}
-						
-						Object s = null;
-						
-						if(col.getTypeDonnees() == TypeDonnee.DATE){
-							while (!Util.isValidDate((String)s))	
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' (dd-MM-yyyy) pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
+
+						Object s = "";
+
+						if (col.getTypeDonnees() == TypeDonnee.DATE) {
+							while (!Util.isValidDate((String) s) && s != null)
+								s = JOptionPane.showInputDialog(null,
+										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+												+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
+												+ "' ayant ces contraintes: " + contrainte,
+										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+										JOptionPane.QUESTION_MESSAGE);
+							if (s == null)
+								return;
 							tuple.add(s);
 						}
-						
-						else if(col.getTypeDonnees() == TypeDonnee.INTEGER){
-							while(!Util.isInteger((String)s))
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
-							tuple.add(Integer.parseInt((String)s));
+
+						else if (col.getTypeDonnees() == TypeDonnee.INTEGER) {
+							while (!Util.isInteger((String) s) && s != null)
+								s = JOptionPane.showInputDialog(null,
+										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+												+ contrainte,
+										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+										JOptionPane.QUESTION_MESSAGE);
+							if (s == null)
+								return;
+							tuple.add(Integer.parseInt((String) s));
 						}
-						
-						else if(col.getTypeDonnees() == TypeDonnee.DOUBLE){
-							while(!Util.isDouble((String)s))
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
-							tuple.add(Double.parseDouble((String)s));
+
+						else if (col.getTypeDonnees() == TypeDonnee.DOUBLE) {
+							while (!Util.isDouble((String) s) && s != null)
+								s = JOptionPane.showInputDialog(null,
+										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+												+ contrainte,
+										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+										JOptionPane.QUESTION_MESSAGE);
+							if (s == null)
+								return;
+							tuple.add(Double.parseDouble((String) s));
 						}
-						
-						else{
-							s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
+
+						else {
+							s = JOptionPane.showInputDialog(null,
+									"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+											+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+											+ contrainte,
+									"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+									JOptionPane.QUESTION_MESSAGE);
+							if (s == null)
+								return;
 							tuple.add(s);
 						}
 					}
-					
+
 					try {
 						table.insererTuple(tuple);
 						table.refreshTable();
@@ -278,10 +308,21 @@ public class PresserBoutonListener implements ActionListener {
 				new VueOuvrirBDD(this.fenetre);
 			} else if (item.getName().equals("MenuSupprimerBDD")) {
 				JOptionPane messageComfirmation = new JOptionPane();
-				int validation = messageComfirmation.showConfirmDialog(null, "Voulez-vous supprimer la BDD courante?",
-						"Suppression de la BDD", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (validation == JOptionPane.OK_OPTION) {
-
+				if (this.fenetre.getBDD() == null) {
+					new CustomException("Erreur", "Aucune BDD d'ouverte à supprimer.");
+				} else {
+					int validation = messageComfirmation.showConfirmDialog(null,
+							"Voulez-vous supprimer la BDD courante?", "Suppression de la BDD",
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (validation == JOptionPane.OK_OPTION) {
+						try {
+							this.fenetre.getBDD().supprimerBDD();
+							this.fenetre.getBDD().refreshAllBDD();
+							this.fenetre.getVuePrincipale().resetListeTable();
+						} catch (CustomException e1) {
+							e1.printStackTrace();
+						}
+					}
 				}
 			}
 		}
@@ -317,15 +358,14 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			}
 		}
-		
+
 		if (e.getSource() instanceof JCheckBox) {
 			JCheckBox check = (JCheckBox) e.getSource();
-			if(check.getName().equals("selectionnerLigne")){
-				if(check.isSelected()){
+			if (check.getName().equals("selectionnerLigne")) {
+				if (check.isSelected()) {
 					fenetre.getVueRechercheAvance().getLigneMax().setEnabled(true);
 					fenetre.getVueRechercheAvance().getLigneMin().setEnabled(true);
-				}
-				else{
+				} else {
 					fenetre.getVueRechercheAvance().getLigneMax().setEnabled(false);
 					fenetre.getVueRechercheAvance().getLigneMin().setEnabled(false);
 				}
