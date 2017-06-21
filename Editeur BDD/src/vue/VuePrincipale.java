@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 
 import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
+import controleur.SelectionListener;
 import controleur.TouchePresseListener;
 
 public class VuePrincipale extends JPanel{
@@ -97,6 +98,8 @@ public class VuePrincipale extends JPanel{
 	 private JScrollPane scrollTable;
 	 private JPanel panneauTable;
 	 private ModeleTable dm;
+	 
+	 private String currentTable;
 	 
 	public VuePrincipale(Fenetre fenetre){
 		this.fenetre = fenetre;
@@ -209,6 +212,8 @@ public class VuePrincipale extends JPanel{
 		modeleListe = new DefaultListModel<String>();
 		modeleListe.addElement("+ NouvelleTable");
 		tableauListeTable = new JList<String>(modeleListe);
+		tableauListeTable.setName("jlist des tables");
+		tableauListeTable.addListSelectionListener(new SelectionListener(this.fenetre));
 		tableauListeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableauListeTable.setLayoutOrientation(JList.VERTICAL);
 		tableauListeTable.setVisibleRowCount(5);
@@ -264,6 +269,8 @@ public class VuePrincipale extends JPanel{
 		 ajouter = new JPanel();
 		 ajouter.setLayout(new GridLayout(2,1,10,5));
 		 ajouterTuple = new JButton("Ajouter un tuple");
+		 ajouterTuple.setName("ajouter un tuple");
+		 ajouterTuple.addActionListener(new PresserBoutonListener(this.fenetre));
 		 ajouter.add(ajouterTuple);
 		 ajouterAttribut = new JButton("Ajouter un attribut");
 		 ajouterAttribut.setName("ajouter attribut");
@@ -585,5 +592,13 @@ public class VuePrincipale extends JPanel{
 	
 	public JList<String> getJList(){
 		return this.tableauListeTable;
+	}
+	
+	public String getCurrentTable(){
+		return this.currentTable;
+	}
+	
+	public void setCurrentTable(String nom){
+		this.currentTable = nom;
 	}
 }

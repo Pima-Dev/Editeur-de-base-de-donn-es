@@ -275,6 +275,11 @@ public class Table {
 		return colonne;
 	}
 	
+	public void refreshTable(){
+			this.BDD.getFenetre().getVuePrincipale().insererValeursDansTab(this.BDD.formatValeurs(this.nom),
+					this.BDD.formatTitres(this.nom));
+	}
+	
 	/**
 	 * Récupérer un résumé d'une Table
 	 * @return Un résumé d'une Table

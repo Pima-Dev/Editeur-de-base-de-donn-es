@@ -68,10 +68,12 @@ public class Util {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    dateFormat.setLenient(false);
 	    try {
-	    	System.out.println(inDate);
 	    	dateFormat.parse(inDate.trim());
 	    } 
 	    catch (ParseException pe) {
+	    	return false;
+	    }
+	    catch(NullPointerException e){
 	    	return false;
 	    }
 	    return true;
@@ -80,6 +82,17 @@ public class Util {
 	public static boolean isInteger(String s) {
 	    try { 
 	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	public static boolean isDouble(String s) {
+	    try { 
+	        Double.parseDouble(s); 
 	    } catch(NumberFormatException e) { 
 	        return false; 
 	    } catch(NullPointerException e) {

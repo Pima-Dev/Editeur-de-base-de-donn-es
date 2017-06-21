@@ -233,7 +233,7 @@ public class BaseDeDonnees {
 		return ret;
 	}
 
-	public void refreshTable() {
+	public void refreshAllBDD() {
 		if (this.listeTable.size() > 0)
 			this.fenetre.getVuePrincipale().insererValeursDansTab(this.formatValeurs(this.listeTable.get(0).getNom()),
 					this.formatTitres(this.listeTable.get(0).getNom()));
@@ -241,8 +241,9 @@ public class BaseDeDonnees {
 		for (Table table : this.listeTable) {
 			this.fenetre.getVuePrincipale().ajouterTable(table.getNom());
 		}
-		if (!this.fenetre.getVuePrincipale().getListModel().isEmpty()) {
+		if (this.fenetre.getVuePrincipale().getListModel().size() > 1) {
 			this.fenetre.getVuePrincipale().getJList().setSelectedIndex(0);
+			this.fenetre.getVuePrincipale().setCurrentTable(this.fenetre.getVuePrincipale().getListModel().getElementAt(0).toString());
 		}
 	}
 
@@ -264,5 +265,8 @@ public class BaseDeDonnees {
 
 	public int getPort() {
 		return this.port;
+	}
+	public Fenetre getFenetre(){
+		return this.fenetre;
 	}
 }
