@@ -2,7 +2,6 @@ package vue;
 
 import java.util.ArrayList;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -70,7 +69,6 @@ public class ModeleTable extends DefaultTableModel {
 	public void removeRow(int index){
 		super.removeRow(index);
 		fireTableRowsDeleted(index, index);
-		fireTableStructureChanged();
 	}
 	
 	public void rechercher(String texte) {
@@ -90,9 +88,7 @@ public class ModeleTable extends DefaultTableModel {
 						}
 					}
 				}
-
 				System.out.println("nombre row : " + getRowCount());
-				
 				for (Integer i : lignesValides) {
 					System.out.println("ligne a remove: " + i);
 					int index = fenetre.getVuePrincipale().getTable().convertRowIndexToModel(i);
