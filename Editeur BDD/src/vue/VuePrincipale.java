@@ -210,7 +210,7 @@ public class VuePrincipale extends JPanel{
 		lTitreBDD.setHorizontalAlignment(SwingConstants.CENTER);
 		panneauListeTable = new JPanel();
 		modeleListe = new DefaultListModel<String>();
-		modeleListe.addElement("+ NouvelleTable");
+		modeleListe.addElement("+ Nouvelle Table");
 		tableauListeTable = new JList<String>(modeleListe);
 		tableauListeTable.setName("jlist des tables");
 		tableauListeTable.addListSelectionListener(new SelectionListener(this.fenetre));
@@ -571,12 +571,12 @@ public class VuePrincipale extends JPanel{
 	
 	public void ajouterTable(String table){
 		modeleListe.set(tableauListeTable.getModel().getSize()-1,table);
-		modeleListe.addElement("+ Nouvelle table");
+		modeleListe.addElement("+ Nouvelle Table");
 	}
 
 	public void resetListeTable(){
 		this.modeleListe.removeAllElements();
-		this.modeleListe.addElement("+ NouvelleTable");
+		this.modeleListe.addElement("+ Nouvelle Table");
 	}
 	
 	public DefaultListModel getListModel(){

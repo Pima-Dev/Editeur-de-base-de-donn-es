@@ -280,8 +280,8 @@ public class Serveur {
 			sqlCode.append(foreignKey);
 			sqlCode.append(");");
 			String sql = "CREATE TABLE "+nom +sqlCode;
-			this.executerCode(sql);
 			Util.logSqlCode(sql);
+			this.executerCode(sql);
 			Util.log("Création de la table "+nom+" effectué.");
 		} 
 		catch (SQLException e) {
