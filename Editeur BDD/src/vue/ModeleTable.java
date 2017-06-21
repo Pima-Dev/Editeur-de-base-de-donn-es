@@ -77,7 +77,6 @@ public class ModeleTable extends DefaultTableModel {
 			@Override
 			public void run() {
 				int colonnes = fenetre.getVuePrincipale().getTable().getColumnCount()-2;
-				fenetre.setVueResultatRecherche(new VueResultatRecherche(fenetre));
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
 				for (int i = 0; i < getRowCount(); i++) {
 					for (int j = 0; j < getColumnCount() - 2; j++) {
