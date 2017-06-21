@@ -280,6 +280,10 @@ public class Table {
 					this.BDD.formatTitres(this.nom));
 	}
 	
+	public void supprimerTable() throws CustomException{
+		this.BDD.getServeur().supprimerTable(this.nom);
+	}
+	
 	/**
 	 * Récupérer un résumé d'une Table
 	 * @return Un résumé d'une Table

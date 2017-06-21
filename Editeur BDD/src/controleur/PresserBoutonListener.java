@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import modele.CustomException;
 import modele.ELFichier;
 import modele.Session;
 import modele.Table;
+import modele.TypeContrainte;
 import modele.TypeDonnee;
 import modele.Util;
 import vue.Fenetre;
@@ -272,6 +274,88 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			}
 
+			else if (bouton.getName().equals("valider creation attribut")) {
+				
+				Table backup = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				
+				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().isEmpty()) {
+					new CustomException("Erreur", "Vous n'avez pas indiqué le nom de l'attribut.");
+				} else {
+					String sType = this.fenetre.getVueAjouterAttribut().getComboboxType().getSelectedItem().toString();
+					TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
+							: (sType.equals("FLOAT") ? TypeDonnee.DOUBLE
+									: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
+					Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
+					try {
+						if (this.fenetre.getVueAjouterAttribut().getNotNull().isSelected()) {
+							col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+						}
+						if (this.fenetre.getVueAjouterAttribut().getUnique().isSelected()) {
+							col.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
+						}
+						if (this.fenetre.getVueAjouterAttribut().getReferencesKey().isSelected()) {
+							String referenceTable = this.fenetre.getVueAjouterAttribut().getReference()
+									.getSelectedItem().toString();
+							col.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY,
+									this.fenetre.getBDD().getTable(referenceTable)));
+						}
+						Object obj = "";
+						for (int i = 0; i < current.getClePrimaire()
+								.getListeValeurs().size(); i++) {
+							obj = "";
+							if (type.equals(TypeDonnee.INTEGER)) {
+								while (!Util.isInteger((String) obj) && obj != null) {
+									obj = JOptionPane.showInputDialog(null,
+											"Entrez la " + i + "ème valeur de la colonne",
+											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+								}
+								if (obj == null)
+									return;
+								col.ajouterValeur(Integer.parseInt((String)obj));
+							}
+							else if (type.equals(TypeDonnee.DOUBLE)) {
+								while (!Util.isDouble((String) obj) && obj != null) {
+									obj = JOptionPane.showInputDialog(null,
+											"Entrez la " + i + "ème valeur de la colonne",
+											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+								}
+								if (obj == null)
+									return;
+								col.ajouterValeur(Double.parseDouble((String)obj));
+							}
+							else if (type.equals(TypeDonnee.DATE)) {
+								while (!Util.isValidDate((String) obj) && obj != null) {
+									obj = JOptionPane.showInputDialog(null,
+											"Entrez la " + i + "ème valeur de la colonne",
+											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+								}
+								if (obj == null)
+									return;
+								col.ajouterValeur(obj);
+							}
+							else{
+								if (obj == null)
+									return;
+								col.ajouterValeur(obj);
+							}
+						}
+						current.ajouterAttribut(col);
+						this.fenetre.getBDD().getServeur().supprimerTable(current.getNom());
+						System.out.println("nombre colonnes :"+current.getListeColonnes().size());
+						this.fenetre.getBDD().getServeur().creerTable(current.getNom(), current.getListeColonnes());
+						
+					} catch (CustomException e1) {
+						new CustomException("Erreur", "Une erreur est survenu:\n"+e1.getMessage()+"\nTentative de recreation de la table sans le nouvelle attribut");
+						try {
+							this.fenetre.getBDD().getServeur().creerTable(backup.getNom(), backup.getListeColonnes());
+						} catch (CustomException e2) {
+							new CustomException("Erreur fatale", "La table n'a pas pu être recréé et est donc supprimé\n"+e2.getMessage());
+						}
+					}
+				}
+			}
+
 		} else if (e.getSource() instanceof JRadioButton) {
 			JRadioButton radioBouton = (JRadioButton) e.getSource();
 
@@ -298,6 +382,7 @@ public class PresserBoutonListener implements ActionListener {
 				fenetre.getVueOuvrirBDD().getfURL().setEnabled(true);
 				fenetre.getVueOuvrirBDD().getfPort().setEnabled(true);
 			}
+
 		}
 
 		else if (e.getSource() instanceof JMenuItem) {
@@ -368,6 +453,12 @@ public class PresserBoutonListener implements ActionListener {
 				} else {
 					fenetre.getVueRechercheAvance().getLigneMax().setEnabled(false);
 					fenetre.getVueRechercheAvance().getLigneMin().setEnabled(false);
+				}
+			} else if (check.getName().equals("checkbox reference key")) {
+				if (check.isSelected()) {
+					this.fenetre.getVueAjouterAttribut().getReference().setEnabled(true);
+				} else {
+					this.fenetre.getVueAjouterAttribut().getReference().setEnabled(false);
 				}
 			}
 		}

@@ -282,11 +282,22 @@ public class Serveur {
 			String sql = "CREATE TABLE "+nom +sqlCode;
 			Util.logSqlCode(sql);
 			this.executerCode(sql);
+			
+			if(colonnes.size() >0){
+				for(int i = 0; i<colonnes.get(0).getListeValeurs().size(); i++){
+					ArrayList<Object> tuple = new ArrayList<Object>();
+					for(Colonne col : colonnes){
+						tuple.add(col.getListeValeurs().get(i));
+					}
+					this.BDD.getTable(nom).insererTuple(tuple);
+				}
+			}
+			
 			Util.log("Création de la table "+nom+" effectué.");
 		} 
 		catch (SQLException e) {
 			if(e.getMessage().contains("Cannot add foreign key")){
-				throw new CustomException("Erreur de contrainte", "Un tuple viole un contrainte.\n"+e.getMessage());
+				throw new CustomException("Erreur de contrainte", "Un tuple viole une contrainte.\n"+e.getMessage());
 			}
 			e.printStackTrace();
 		}
