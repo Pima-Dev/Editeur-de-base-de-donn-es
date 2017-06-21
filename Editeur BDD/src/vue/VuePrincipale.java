@@ -350,7 +350,7 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public String getCurrentTable(){
-		return this.tableauListeTable.getSelectedValue().toString();
+		return this.tableauListeTable.getSelectedValue();
 	}
 	
 	/**

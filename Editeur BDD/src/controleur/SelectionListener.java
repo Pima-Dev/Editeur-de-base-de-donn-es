@@ -36,7 +36,7 @@ public class SelectionListener implements ListSelectionListener {
 					}
 					if (this.fenetre.getBDD() == null) {
 						new CustomException("Erreur", "Vous devez d'abord ouvrir ou créer une base de données.");
-						throw new IllegalArgumentException("Aucune base de données n'est ouverte");
+						return;
 					}
 					String s = JOptionPane.showInputDialog(null, "Saisir le nom de la nouvelle table", "Nouvelle table",
 							JOptionPane.QUESTION_MESSAGE);

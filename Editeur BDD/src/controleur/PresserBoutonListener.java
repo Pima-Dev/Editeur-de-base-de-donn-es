@@ -317,7 +317,7 @@ public class PresserBoutonListener implements ActionListener {
 					if (validation == JOptionPane.OK_OPTION) {
 						try {
 							this.fenetre.getBDD().supprimerBDD();
-							this.fenetre.getBDD().refreshAllBDD();
+							this.fenetre.getVuePrincipale().resetJTable();
 							this.fenetre.getVuePrincipale().resetListeTable();
 						} catch (CustomException e1) {
 							e1.printStackTrace();

@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.PresserBoutonListener;
 import modele.CustomException;
 import modele.Table;
 
@@ -30,7 +31,6 @@ public class VueAjouterAttribut extends JPanel{
 	private JCheckBox unique;
 	private JCheckBox referencesKey;
 	private JLabel lTitre;
-	private JLabel lErreur;
 	private JLabel lContrainte;
 	private JLabel lReference;
 	private JComboBox<String> reference;
@@ -57,13 +57,13 @@ public class VueAjouterAttribut extends JPanel{
 		this.notNull = new JCheckBox("NOT NULL");
 		this.unique = new JCheckBox("UNIQUE");
 		this.referencesKey = new JCheckBox("REFERENCE KEY");
+		this.referencesKey.setName("checkbow reference key");
+		this.referencesKey.addActionListener(new PresserBoutonListener(this.fenetre));
 		this.lTitre = new JLabel("AJOUTER UN ATTRIBUT");
 		this.lTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		this.lNom = new JLabel("Nom de l'attribut: ");
 		this.lNom.setHorizontalAlignment(SwingConstants.CENTER);
-		this.lErreur = new JLabel("");
-		this.lErreur.setForeground(new Color(255,0,0));
-		this.lErreur.setHorizontalAlignment(SwingConstants.CENTER);
+
 		this.lContrainte = new JLabel("Ajouter des contraintes");
 		this.lReference = new JLabel("Table référencé par l'attribut");
 		this.tNom = new JTextField();
@@ -73,9 +73,12 @@ public class VueAjouterAttribut extends JPanel{
 		}
 		ArrayList<Table> tables = this.fenetre.getBDD().getListeTable();
 		for(Table table : tables){
-			this.reference.addItem(table.getNom());
+			if(!table.getNom().equals(this.fenetre.getVuePrincipale().getCurrentTable()))
+				this.reference.addItem(table.getNom());
 		}
 		this.valider = new JButton("Créer la contrainte");
+		this.valider.setName("valider creation attribut");
+		this.valider.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 
 	public void creer() throws CustomException{
@@ -85,7 +88,6 @@ public class VueAjouterAttribut extends JPanel{
 		this.decoration();
 		this.panneauPrincipal.setLayout(new GridLayout(0,1));
 		this.panneauPrincipal.add(this.lTitre);
-		this.panneauPrincipal.add(this.lErreur);
 		this.panneauPrincipal.add(this.lNom);
 		this.panneauPrincipal.add(this.tNom);
 		this.panneauPrincipal.add(this.lContrainte);
@@ -95,13 +97,14 @@ public class VueAjouterAttribut extends JPanel{
 		this.panneauPrincipal.add(this.referencesKey);
 		this.panneauPrincipal.add(this.lReference);
 		this.panneauPrincipal.add(this.reference);
+		this.panneauPrincipal.add(this.valider);
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
 		this.add(new JLabel("      "),BorderLayout.EAST);
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		this.frame = new JFrame("Ajouter un attribut");
 		this.frame.setContentPane(this);
-		this.frame.setSize(new Dimension(250, 400));
+		this.frame.setSize(new Dimension(350, 400));
 		this.frame.setLocationRelativeTo(null);
 		this.frame.setResizable(false);
 		this.frame.setVisible(true);
@@ -133,10 +136,6 @@ public class VueAjouterAttribut extends JPanel{
 
 	public JLabel getlTitre() {
 		return lTitre;
-	}
-
-	public JLabel getlErreur() {
-		return lErreur;
 	}
 
 	public JLabel getlContrainte() {

@@ -111,6 +111,7 @@ public class BaseDeDonnees {
 		File file = new File(ELFichier.getRacine() + this.session.getBDDPath() + this.nom);
 		if (file.exists())
 			file.delete();
+		this.fenetre.setBDD(null);
 	}
 
 	/**
@@ -271,4 +272,5 @@ public class BaseDeDonnees {
 	public Fenetre getFenetre(){
 		return this.fenetre;
 	}
+	
 }
