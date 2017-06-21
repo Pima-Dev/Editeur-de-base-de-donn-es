@@ -76,23 +76,16 @@ public class ModeleTable extends DefaultTableModel {
 
 			@Override
 			public void run() {
-				// System.out.println(getValueAt(0,0));
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
-				// System.out.println(getRowCount());
 				for (int i = 0; i < getRowCount(); i++) {
 					for (int j = 0; j < getColumnCount() - 2; j++) {
-						// System.out.println(getValueAt(i,j));
-						System.out.println(getValueAt(i, j));
-						if (((String) getValueAt(i, j)).contains(texte)) {
+						if (((String) getValueAt(i, j)).contains(texte) && !lignesValides.contains(i)) {
 							lignesValides.add(i);
 						}
 					}
 				}
-				System.out.println("nombre row : " + getRowCount());
 				for (Integer i : lignesValides) {
-					System.out.println("ligne a remove: " + i);
-					int index = fenetre.getVuePrincipale().getTable().convertRowIndexToModel(i);
-					removeRow(index);
+					fenetre.getVueResultatRecherche().addRow(i);
 				}
 			}
 		});

@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JCheckBox;
@@ -32,6 +33,7 @@ public class VueRechercheAvance extends JPanel{
 	private JPanel panneauSelectionnerLigne;
 	private JSpinner.NumberEditor ligneMinEditeur;
 	private JSpinner.NumberEditor ligneMaxEditeur;
+	private JFrame fenetreRechercheAvance;
 	
 	public VueRechercheAvance(Fenetre fenetre) {
 		this.fenetre = fenetre;
@@ -68,6 +70,12 @@ public class VueRechercheAvance extends JPanel{
 		this.add(new JLabel("      "),BorderLayout.WEST);
 		this.add(new JLabel("      "),BorderLayout.EAST);
 		this.add(panneauPrincipal,BorderLayout.CENTER);
+		fenetreRechercheAvance = new JFrame("Créer une nouvelle base de données");
+		fenetreRechercheAvance.setContentPane(this);
+		fenetreRechercheAvance.setSize(new Dimension(400, 500));
+		fenetreRechercheAvance.setResizable(false);
+		fenetreRechercheAvance.setLocationRelativeTo(null);
+		fenetreRechercheAvance.setVisible(true);
 	}
 
 	private void declaration(){
@@ -83,15 +91,6 @@ public class VueRechercheAvance extends JPanel{
 		panneauPrincipal = new JPanel();
 		panneauCasseMotComplet = new JPanel();
 		panneauSelectionnerLigne = new JPanel();
-	}
-	
-	public static void main(String[] args){
-		JFrame fenetre = new JFrame("Connexion");
-		fenetre.setVisible(true);
-		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		fenetre.setContentPane(new VueRechercheAvance(new Fenetre()));
-		fenetre.setLocation(500, 200);
-		fenetre.pack();
 	}
 
 	/**
