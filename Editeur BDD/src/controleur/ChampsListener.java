@@ -87,8 +87,8 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().setvConfirmation(true);
 				}
 			}
-			else if(champ.getName().equals("BarreRecherche") && fenetre.getVuePrincipale().getfChercher().getText().equals("")){
-				fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
+			else if(champ.getName().equals("BarreRecherche") && champ.getText().equals("")){
+				champ.setText("Chercher les occurences");
 			}
 		}
 	}
@@ -125,8 +125,8 @@ public class ChampsListener implements FocusListener{
 	public void focusGained(FocusEvent e) {
 		if(e.getSource() instanceof JTextField){
 			JTextField champ= (JTextField)e.getSource();
-			if(champ.getName().equals("BarreRecherche") && fenetre.getVuePrincipale().getfChercher().getText().equals("Chercher les occurences")){
-				fenetre.getVuePrincipale().getfChercher().setText("");
+			if(champ.getName().equals("BarreRecherche") && champ.getText().equals("Chercher les occurences")){
+				champ.setText("");
 			}
 		}
 	}

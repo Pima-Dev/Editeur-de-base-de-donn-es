@@ -13,7 +13,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import controleur.ChampsListener;
+import controleur.PresserBoutonListener;
 import controleur.TouchePresseListener;
+import controleur.ValeurListener;
 
 public class VueRechercheAvance extends JPanel{
 
@@ -33,13 +35,18 @@ public class VueRechercheAvance extends JPanel{
 	
 	public VueRechercheAvance(Fenetre fenetre) {
 		this.fenetre = fenetre;
+		fenetre.setVueRechercheAvance(this);
 		declaration();
+		ligneMin.setEnabled(false);
+		ligneMax.setEnabled(false);
+		selectionnerLigne.setName("selectionnerLigne");
+		selectionnerLigne.addActionListener(new PresserBoutonListener(this.fenetre));
 		ligneMin.setEditor(ligneMinEditeur);
+		ligneMin.addChangeListener(new ValeurListener(fenetre));
 		ligneMax.setEditor(ligneMaxEditeur);
-		ligneMinEditeur.getModel().setMaximum((int)ligneMaxEditeur.getModel().getNumber());
+		ligneMax.addChangeListener(new ValeurListener(fenetre));
 		ligneMinEditeur.getModel().setMinimum(0);
-		ligneMaxEditeur.getModel().setMaximum(100);
-		ligneMaxEditeur.getModel().setMinimum((int)ligneMinEditeur.getModel().getNumber());
+		ligneMaxEditeur.getModel().setMaximum(10);//fenetre.getVuePrincipale().getTable().getRowCount());
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		panneauCasseMotComplet.setLayout(new GridLayout(1,2));
 		panneauCasseMotComplet.add(sensibleALaCasse);
@@ -54,7 +61,7 @@ public class VueRechercheAvance extends JPanel{
 		panneauPrincipal.add(panneauCasseMotComplet);
 		panneauPrincipal.add(panneauSelectionnerLigne);
 		fRecherche.setName("BarreRecherche");
-		//fRecherche.addFocusListener(new ChampsListener(this.fenetre));
+		fRecherche.addFocusListener(new ChampsListener(this.fenetre));
 		//fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
@@ -85,5 +92,33 @@ public class VueRechercheAvance extends JPanel{
 		fenetre.setContentPane(new VueRechercheAvance(new Fenetre()));
 		fenetre.setLocation(500, 200);
 		fenetre.pack();
+	}
+
+	/**
+	 * @return the ligneMinEditeur
+	 */
+	public JSpinner.NumberEditor getLigneMinEditeur() {
+		return ligneMinEditeur;
+	}
+
+	/**
+	 * @return the ligneMaxEditeur
+	 */
+	public JSpinner.NumberEditor getLigneMaxEditeur() {
+		return ligneMaxEditeur;
+	}
+
+	/**
+	 * @return the ligneMin
+	 */
+	public JSpinner getLigneMin() {
+		return ligneMin;
+	}
+
+	/**
+	 * @return the ligneMax
+	 */
+	public JSpinner getLigneMax() {
+		return ligneMax;
 	}
 }

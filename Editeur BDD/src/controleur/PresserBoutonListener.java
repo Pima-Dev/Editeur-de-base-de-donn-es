@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -316,7 +317,20 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			}
 		}
-
+		
+		if (e.getSource() instanceof JCheckBox) {
+			JCheckBox check = (JCheckBox) e.getSource();
+			if(check.getName().equals("selectionnerLigne")){
+				if(check.isSelected()){
+					fenetre.getVueRechercheAvance().getLigneMax().setEnabled(true);
+					fenetre.getVueRechercheAvance().getLigneMin().setEnabled(true);
+				}
+				else{
+					fenetre.getVueRechercheAvance().getLigneMax().setEnabled(false);
+					fenetre.getVueRechercheAvance().getLigneMin().setEnabled(false);
+				}
+			}
+		}
 	}
 
 	public boolean bonMDP(String nom, String mdp) {

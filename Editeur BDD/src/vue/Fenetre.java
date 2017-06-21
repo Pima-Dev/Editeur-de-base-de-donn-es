@@ -19,6 +19,7 @@ public class Fenetre{
 	private VueAjouterAttribut vueAjouterAttribut;
 	private VueOuvrirBDD vueOuvrirBDD;
 	private VueLogConsole vueLogConsole;
+	private VueRechercheAvance vueRechercheAvance;
 	
 	public Fenetre(){
 		SwingUtilities.invokeLater(new Runnable() {
@@ -143,6 +144,20 @@ public class Fenetre{
 	 */
 	public void setVueLogConsole(VueLogConsole vueLogConsole) {
 		this.vueLogConsole = vueLogConsole;
+	}
+
+	/**
+	 * @return the vueRechercheAvance
+	 */
+	public VueRechercheAvance getVueRechercheAvance() {
+		return vueRechercheAvance;
+	}
+
+	/**
+	 * @param vueRechercheAvance the vueRechercheAvance to set
+	 */
+	public void setVueRechercheAvance(VueRechercheAvance vueRechercheAvance) {
+		this.vueRechercheAvance = vueRechercheAvance;
 	}
 	
 }
