@@ -32,8 +32,6 @@ public class TouchePresseListener implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		System.out.println("touche : "+e.getKeyChar());
-
 		fenetre.getVuePrincipale().insererValeursDansTab(new String[][]{{"5","5","5"},{"2","3","4"}},new String[]{"1","2","3"});
 
 		if(e.getSource() instanceof JTextField){

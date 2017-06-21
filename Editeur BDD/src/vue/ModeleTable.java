@@ -76,6 +76,8 @@ public class ModeleTable extends DefaultTableModel {
 
 			@Override
 			public void run() {
+				int colonnes = fenetre.getVuePrincipale().getTable().getColumnCount()-2;
+				fenetre.setVueResultatRecherche(new VueResultatRecherche(fenetre));
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
 				for (int i = 0; i < getRowCount(); i++) {
 					for (int j = 0; j < getColumnCount() - 2; j++) {
@@ -84,8 +86,14 @@ public class ModeleTable extends DefaultTableModel {
 						}
 					}
 				}
+				String[][] donnees = new String[colonnes][lignesValides.size()];
+				String[] titres = new String[colonnes];
 				for (Integer i : lignesValides) {
-					fenetre.getVueResultatRecherche().addRow(i);
+					for(int j = 0; i < colonnes ;j++){
+						donnees[i][j] = (String)fenetre.getVuePrincipale().getTable().getValueAt(i, j);
+						titres[i] = (String)fenetre.getVuePrincipale().getTable().getColumnName(i);
+						fenetre.getVuePrincipale().insererValeursDansTab(donnees, titres);
+					}
 				}
 			}
 		});
