@@ -212,24 +212,24 @@ public class PresserBoutonListener implements ActionListener {
 						
 						if(col.getTypeDonnees() == TypeDonnee.DATE){
 							while (!Util.isValidDate((String)s))	
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' (dd-MM-yyyy) pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.INFORMATION_MESSAGE); 
+								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' (dd-MM-yyyy) pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
 							tuple.add(s);
 						}
 						
 						else if(col.getTypeDonnees() == TypeDonnee.INTEGER){
 							while(!Util.isInteger((String)s))
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.INFORMATION_MESSAGE); 
+								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
 							tuple.add(Integer.parseInt((String)s));
 						}
 						
 						else if(col.getTypeDonnees() == TypeDonnee.DOUBLE){
 							while(!Util.isDouble((String)s))
-								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.INFORMATION_MESSAGE); 
+								s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
 							tuple.add(Double.parseDouble((String)s));
 						}
 						
 						else{
-							s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.INFORMATION_MESSAGE); 
+							s = JOptionPane.showInputDialog(null, "Entrez une valeur de type '"+col.getTypeDonnees().getSQLType()+"' pour \nl'attribut '"+col.getNom()+"' ayant ces contraintes: "+contrainte, "Entrez un '"+col.getTypeDonnees().getSQLType()+"'", JOptionPane.QUESTION_MESSAGE); 
 							tuple.add(s);
 						}
 					}
