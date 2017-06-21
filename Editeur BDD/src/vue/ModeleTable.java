@@ -85,15 +85,19 @@ public class ModeleTable extends DefaultTableModel {
 						}
 					}
 				}
-				String[][] donnees = new String[colonnes][lignesValides.size()];
+				String[][] donnees = new String[lignesValides.size()][colonnes];
 				String[] titres = new String[colonnes];
+				System.out.println("nb colonnes tableau: "+colonnes);
+				System.out.println("nb lignes tableau: "+lignesValides.size());
 				for (Integer i : lignesValides) {
-					for(int j = 0; i < colonnes ;j++){
+					for(int j = 0; j < colonnes ;j++){
+						System.out.println("i:"+i);
+						System.out.println("j:"+j);
 						donnees[i][j] = (String)fenetre.getVuePrincipale().getTable().getValueAt(i, j);
-						titres[i] = (String)fenetre.getVuePrincipale().getTable().getColumnName(i);
-						fenetre.getVuePrincipale().insererValeursDansTab(donnees, titres);
+						titres[i] = (String)fenetre.getVuePrincipale().getTable().getColumnName(j);
 					}
 				}
+				fenetre.getVuePrincipale().insererValeursDansTab(donnees, titres);
 			}
 		});
 
