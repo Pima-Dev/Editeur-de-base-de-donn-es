@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import modele.CustomException;
 import modele.Table;
@@ -36,34 +37,19 @@ public class VueAjouterAttribut extends JPanel{
 	private JFrame frame;
 	private JButton valider;
 	
-	public VueAjouterAttribut(Fenetre fenetre) throws CustomException{
+	public VueAjouterAttribut(Fenetre fenetre){
 		this.fenetre = fenetre;
-		this.fenetre.setVueAjouterAttribut(this);
-		this.panneauPrincipal = new JPanel();
-		this.setLayout(new BorderLayout());
-		this.decoration();
-		this.panneauPrincipal.setLayout(new GridLayout(0,1));
-		this.panneauPrincipal.add(this.lTitre);
-		this.panneauPrincipal.add(this.lErreur);
-		this.panneauPrincipal.add(this.lNom);
-		this.panneauPrincipal.add(this.tNom);
-		this.panneauPrincipal.add(this.lContrainte);
-		this.panneauPrincipal.add(this.primaryKey);
-		this.panneauPrincipal.add(this.notNull);
-		this.panneauPrincipal.add(this.unique);
-		this.panneauPrincipal.add(this.referencesKey);
-		this.panneauPrincipal.add(this.lReference);
-		this.panneauPrincipal.add(this.reference);
-		this.add(new JLabel("      "),BorderLayout.SOUTH);
-		this.add(new JLabel("      "),BorderLayout.WEST);
-		this.add(new JLabel("      "),BorderLayout.EAST);
-		this.add(panneauPrincipal,BorderLayout.CENTER);
-		this.frame = new JFrame("Ajouter un attribut");
-		this.frame.setContentPane(this);
-		this.frame.setSize(new Dimension(250, 400));
-		this.frame.setLocationRelativeTo(null);
-		this.frame.setResizable(false);
-		this.frame.setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					creer();
+				} catch (CustomException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	private void decoration() throws CustomException{
@@ -92,7 +78,35 @@ public class VueAjouterAttribut extends JPanel{
 		this.valider = new JButton("Créer la contrainte");
 	}
 
-
+	public void creer() throws CustomException{
+		this.fenetre.setVueAjouterAttribut(this);
+		this.panneauPrincipal = new JPanel();
+		this.setLayout(new BorderLayout());
+		this.decoration();
+		this.panneauPrincipal.setLayout(new GridLayout(0,1));
+		this.panneauPrincipal.add(this.lTitre);
+		this.panneauPrincipal.add(this.lErreur);
+		this.panneauPrincipal.add(this.lNom);
+		this.panneauPrincipal.add(this.tNom);
+		this.panneauPrincipal.add(this.lContrainte);
+		this.panneauPrincipal.add(this.primaryKey);
+		this.panneauPrincipal.add(this.notNull);
+		this.panneauPrincipal.add(this.unique);
+		this.panneauPrincipal.add(this.referencesKey);
+		this.panneauPrincipal.add(this.lReference);
+		this.panneauPrincipal.add(this.reference);
+		this.add(new JLabel("      "),BorderLayout.SOUTH);
+		this.add(new JLabel("      "),BorderLayout.WEST);
+		this.add(new JLabel("      "),BorderLayout.EAST);
+		this.add(panneauPrincipal,BorderLayout.CENTER);
+		this.frame = new JFrame("Ajouter un attribut");
+		this.frame.setContentPane(this);
+		this.frame.setSize(new Dimension(250, 400));
+		this.frame.setLocationRelativeTo(null);
+		this.frame.setResizable(false);
+		this.frame.setVisible(true);
+	}
+	
 	public Fenetre getFenetre() {
 		return fenetre;
 	}

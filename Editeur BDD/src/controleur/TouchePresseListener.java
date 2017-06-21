@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import vue.Fenetre;
 
@@ -31,7 +32,10 @@ public class TouchePresseListener implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		System.out.println("touche : "+e.getKeyChar());
+
 		fenetre.getVuePrincipale().insererValeursDansTab(new String[][]{{"5","5","5"},{"2","3","4"}},new String[]{"1","2","3"});
+
 		if(e.getSource() instanceof JTextField){
 			String nom = this.fenetre.getVuePrincipale().getfChercher().getName();
 			if(nom.equals("BarreRecherche")){
@@ -40,7 +44,8 @@ public class TouchePresseListener implements KeyListener{
 					messageTableau.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
-					fenetre.getVuePrincipale().getDm().rechercher(fenetre.getVuePrincipale().getfChercher().getText());
+					if(fenetre.getVuePrincipale().getfChercher().getText().length()>0)
+						fenetre.getVuePrincipale().getDm().rechercher(fenetre.getVuePrincipale().getfChercher().getText());
 				}
 			}
 		}

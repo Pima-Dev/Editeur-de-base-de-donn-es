@@ -1,5 +1,6 @@
 package vue;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import modele.BaseDeDonnees;
 import modele.Session;
@@ -20,6 +21,16 @@ public class Fenetre{
 	private VueLogConsole vueLogConsole;
 	
 	public Fenetre(){
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				creerFenetre();
+			}
+		});
+	}
+	
+	public void creerFenetre(){
 		this.fenetre = new JFrame("Connexion");
 		fenetre.setVisible(true);
 		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

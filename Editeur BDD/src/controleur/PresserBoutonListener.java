@@ -139,11 +139,9 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("ajouter attribut")) {
-				try {
-					new VueAjouterAttribut(this.fenetre);
-				} catch (CustomException e1) {
-					Util.logErreur(e1.getMessage());
-				}
+
+				new VueAjouterAttribut(this.fenetre);
+				 
 			}
 
 			else if (bouton.getName().equals("valider ouverture bdd")) {

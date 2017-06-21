@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import controleur.PresserBoutonListener;
 
@@ -45,6 +46,16 @@ public class VueOuvrirBDD extends JPanel {
 	public VueOuvrirBDD(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		this.fenetre.setVueOuvrirBDD(this);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				creer();
+			}
+		});
+	}
+
+	public void creer(){
 		decoration();
 		panneauPrincipal.setLayout(new GridLayout(0, 1));
 		panneauBoutons.setLayout(new GridLayout(1, 2));
@@ -79,7 +90,7 @@ public class VueOuvrirBDD extends JPanel {
 		fenetreOuvrirBDD.setLocationRelativeTo(null);
 		fenetreOuvrirBDD.setVisible(true);
 	}
-
+	
 	public void decoration() {
 		lTitre = new JLabel("OUVRIR UNE BDD SAUVEGARDE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);

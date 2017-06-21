@@ -13,6 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import controleur.PresserBoutonListener;
 
@@ -40,6 +41,45 @@ public class VueCreationBDD extends JPanel{
 	
 	public VueCreationBDD(Fenetre fenetre) {
 		this.fenetre = fenetre;
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				creer();
+			}
+		});
+	}
+	
+	public void decoration(){
+		lTitre = new JLabel("CREATION D'UNE BDD");
+		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
+		lErreur = new JLabel("");
+		lErreur.setForeground(new Color(255,0,0));
+		lErreur.setHorizontalAlignment(SwingConstants.CENTER);
+		lNomBDD = new JLabel("Nom de la BDD");
+		fNomBDD = new JTextField();
+		lCodeURL = new JLabel("URL du serveur distant");
+		boutonLocal = new JRadioButton("Hebergement Local");
+		boutonLocal.setName("creer bdd hebergement local");
+		boutonLocal.addActionListener(new PresserBoutonListener(this.fenetre));
+		boutonServeur = new JRadioButton("Hebergement Distant");
+		boutonServeur.setName("creer bdd hebergement distant");
+		boutonServeur.addActionListener(new PresserBoutonListener(this.fenetre));
+		fURL = new JTextField();
+		lNomUtilisateur = new JLabel("Nom de l'utilisateur");
+		fNomUtilisateur = new JTextField();
+		lMotDePasse = new JLabel("Mot de passe");
+		fMotDePasse = new JPasswordField();
+		valider = new JButton("Valider");
+		valider.setName("valider creation bdd");
+		valider.addActionListener(new PresserBoutonListener(this.fenetre));
+		panneauBoutons = new JPanel();
+		panneauPrincipal = new JPanel();
+		this.port = new JTextField();
+		this.lPort = new JLabel("Port du serveur distant");
+	}
+
+	public void creer(){
 		this.fenetre.setVueCreationBDD(this);
 		decoration();
 		panneauPrincipal.setLayout(new GridLayout(0,1));
@@ -72,35 +112,6 @@ public class VueCreationBDD extends JPanel{
 		fenetreNouvelleBDD.setVisible(true);
 	}
 	
-	public void decoration(){
-		lTitre = new JLabel("CREATION D'UNE BDD");
-		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
-		lErreur = new JLabel("");
-		lErreur.setForeground(new Color(255,0,0));
-		lErreur.setHorizontalAlignment(SwingConstants.CENTER);
-		lNomBDD = new JLabel("Nom de la BDD");
-		fNomBDD = new JTextField();
-		lCodeURL = new JLabel("URL du serveur distant");
-		boutonLocal = new JRadioButton("Hebergement Local");
-		boutonLocal.setName("creer bdd hebergement local");
-		boutonLocal.addActionListener(new PresserBoutonListener(this.fenetre));
-		boutonServeur = new JRadioButton("Hebergement Distant");
-		boutonServeur.setName("creer bdd hebergement distant");
-		boutonServeur.addActionListener(new PresserBoutonListener(this.fenetre));
-		fURL = new JTextField();
-		lNomUtilisateur = new JLabel("Nom de l'utilisateur");
-		fNomUtilisateur = new JTextField();
-		lMotDePasse = new JLabel("Mot de passe");
-		fMotDePasse = new JPasswordField();
-		valider = new JButton("Valider");
-		valider.setName("valider creation bdd");
-		valider.addActionListener(new PresserBoutonListener(this.fenetre));
-		panneauBoutons = new JPanel();
-		panneauPrincipal = new JPanel();
-		this.port = new JTextField();
-		this.lPort = new JLabel("Port du serveur distant");
-	}
-
 	/**
 	 * @return the lErreur
 	 */

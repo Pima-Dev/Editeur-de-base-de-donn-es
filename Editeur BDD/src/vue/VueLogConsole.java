@@ -14,6 +14,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 public class VueLogConsole extends JPanel{
 
@@ -30,6 +31,17 @@ public class VueLogConsole extends JPanel{
 	private JPanel margeExecuter;
 	
 	public VueLogConsole(Fenetre fenetre) {
+		this.fenetre = fenetre;
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				creer();
+			}
+		});
+	}
+	
+	public void creer(){
 		panneauPrincipal = new JPanel();
 		commande = new JPanel();
 		modeleLog = new DefaultListModel<String>();
