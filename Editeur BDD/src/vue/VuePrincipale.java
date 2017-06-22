@@ -344,11 +344,11 @@ public class VuePrincipale extends JPanel{
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule());
         table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm,fenetre));
         table.setRowHeight(30);
-        /*if(table.getColumnCount()>15){
+        if(table.getColumnCount()>15){
         	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }
         table.getTableHeader().setReorderingAllowed(false);
-        table.getTableHeader().setResizingAllowed(false);*/
+        table.getTableHeader().setResizingAllowed(false);
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
 		scrollTable.createHorizontalScrollBar();

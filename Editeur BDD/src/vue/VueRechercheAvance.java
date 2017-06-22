@@ -52,7 +52,7 @@ public class VueRechercheAvance extends JPanel{
 		ligneMax.setEditor(ligneMaxEditeur);
 		ligneMax.addChangeListener(new ValeurListener(fenetre));
 		ligneMinEditeur.getModel().setMinimum(0);
-		ligneMaxEditeur.getModel().setMaximum(10);//fenetre.getVuePrincipale().getTable().getRowCount());
+		ligneMaxEditeur.getModel().setMaximum(fenetre.getVuePrincipale().getTable().getRowCount());
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		panneauCasseMotComplet.setLayout(new GridLayout(1,2));
 		panneauCasseMotComplet.add(sensibleALaCasse);

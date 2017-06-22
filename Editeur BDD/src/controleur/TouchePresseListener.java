@@ -32,7 +32,6 @@ public class TouchePresseListener implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		fenetre.getVuePrincipale().insererValeursDansTab(new String[][]{{"5","5","po"},{"2","3","4"},{"5","5","5"}},new String[]{"1","2","3"});
 		if(e.getSource() instanceof JTextField){
 			String nom = this.fenetre.getVuePrincipale().getfChercher().getName();
 			if(nom.equals("BarreRecherche")){

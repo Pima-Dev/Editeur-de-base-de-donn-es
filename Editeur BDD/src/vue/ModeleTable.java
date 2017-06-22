@@ -79,6 +79,7 @@ public class ModeleTable extends DefaultTableModel {
 
 			@Override
 			public void run() {
+				fenetre.getBDD().getTable(fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
 				int colonnes = fenetre.getVuePrincipale().getTable().getColumnCount()-2;
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
 				if(fenetre.getVueRechercheAvance() != null){
