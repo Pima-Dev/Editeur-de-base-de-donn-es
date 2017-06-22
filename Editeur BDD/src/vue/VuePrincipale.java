@@ -221,41 +221,6 @@ public class VuePrincipale extends JPanel{
 		panneauListeTable.add(panneauTableau, BorderLayout.CENTER);
 		panneauListeTable.add(lTitreBDD, BorderLayout.NORTH);
 		
-		//modeleListe.addElement("nouvelle BDD");
-		
-		/*panneauListeTable = new JPanel();
-		//tableauListeTable = new JTable(new String[][]{ {"0","2","4","6","8"} }, new String[]{"Nouvelle BDD"});
-		DefaultTableModel dm = new DefaultTableModel();
-        dm.setDataVector(new Object[][]{{"button 1"},{"button 2"}}, new Object[]{"Nouvelle BDD"});
-        tableauListeTable = new JTable(dm);
-		tableauListeTable.getColumn("Nouvelle BDD").setCellRenderer(new RenduCellule());
-		tableauListeTable.getColumn("Nouvelle BDD").setCellEditor(new EditeurCellule(new JCheckBox()));
-		tableauListeTable.getTableHeader().setReorderingAllowed(false);
-		panneauTableau = new JScrollPane(tableauListeTable);
-		panneauListeTable.add(panneauTableau);
-        CellEditor tce = new CellEditor("Nouvelle table");
-		tce.setBorderPainted(false);
-		tce.setContentAreaFilled(false);
-		tce.setForeground(new Color(142,162,198));
-		
-		// TableColumn maColonne = tableauListeTable.getColumnModel().getColumn(0);
-		tableauListeTable.setCellEditor(new ButtonColumn);
-		panneauTableau = new JScrollPane(tableauListeTable);
-		panneauListeTable = new JPanel();
-		panneauListeTable.setLayout(new BorderLayout());
-		panneauListeTable.add(tableauListeTable);
-		
-		
-		tableauListeTable = new JPanel();
-		tableauListeTable.setLayout(new GridLayout(0,1));
-		titreTableau = new JLabel("Nouvelle BDD");
-		titreTableau.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		
-		tableauListeTable.add(nouvelleTable);
-		panneauListeTable.add(titreTableau,BorderLayout.NORTH);
-		panneauListeTable.add(panneauTableau,BorderLayout.CENTER);*/
-		
 		
 	}
 	
@@ -327,6 +292,7 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void insererValeursDansTab(String[][] tab, String[] titre){
+				
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
 		
