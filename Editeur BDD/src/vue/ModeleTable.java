@@ -1,9 +1,18 @@
 package vue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.pdfbox.cos.COSDictionary;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 public class ModeleTable extends DefaultTableModel {
 
@@ -137,5 +146,22 @@ public class ModeleTable extends DefaultTableModel {
 			}
 		});
 
+	}
+	
+	public void exporterPDF(){
+		try{
+			PDDocument document = new PDDocument();
+			PDPage PageDocument = new PDPage(new PDRectangle(5, 5));
+			document.addPage(PageDocument);
+			PDDocumentInformation info = document.getDocumentInformation();
+			info.setTitle("test");
+			document.save("dossier.pdf");
+			PDPageContentStream contentStream = new PDPageContentStream(document, PageDocument);
+			document.close();
+		}
+		catch(IOException e){
+			JOptionPane erreur = new JOptionPane();
+			erreur.showMessageDialog(null, "Document de destination invalide", "Erreur", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }
