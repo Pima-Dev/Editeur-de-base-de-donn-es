@@ -60,10 +60,10 @@ public class TestServeur {
 			tuple4.add(9.582);
 			tuple4.add(2);
 			
-			table1.insererTuple(tuple1);
-			table2.insererTuple(tuple2);
-			table2.insererTuple(tuple3);
-			table2.insererTuple(tuple4);
+			table1.insererTuple(tuple1, true);
+			table2.insererTuple(tuple2, true);
+			table2.insererTuple(tuple3, true);
+			table2.insererTuple(tuple4, true);
 			
 			//table2.editerTuple("1", "colonne3", "3");
 

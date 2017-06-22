@@ -143,7 +143,6 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("ajouter attribut")) {
-
 				new VueAjouterAttribut(this.fenetre);
 
 			}
@@ -266,7 +265,7 @@ public class PresserBoutonListener implements ActionListener {
 					}
 
 					try {
-						table.insererTuple(tuple);
+						table.insererTuple(tuple, true);
 						table.refreshTable();
 					} catch (CustomException e1) {
 						Util.logErreur(e1.getMessage());
@@ -275,9 +274,9 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("valider creation attribut")) {
-				
-				Table backup = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
 				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				Table backup = new Table(this.fenetre.getBDD(), current.getNom());
+				//backup = 
 				
 				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().isEmpty()) {
 					new CustomException("Erreur", "Vous n'avez pas indiqué le nom de l'attribut.");
@@ -344,13 +343,20 @@ public class PresserBoutonListener implements ActionListener {
 						this.fenetre.getBDD().getServeur().supprimerTable(current.getNom());
 						System.out.println("nombre colonnes :"+current.getListeColonnes().size());
 						this.fenetre.getBDD().getServeur().creerTable(current.getNom(), current.getListeColonnes());
+						this.fenetre.getVueAjouterAttribut().getFrame().dispose();
+						current.refreshTable();
 						
 					} catch (CustomException e1) {
 						new CustomException("Erreur", "Une erreur est survenu:\n"+e1.getMessage()+"\nTentative de recreation de la table sans le nouvelle attribut");
 						try {
+							if(this.fenetre.getBDD().tableExiste(backup.getNom()))
+								this.fenetre.getBDD().getServeur().supprimerTable(backup.getNom());
 							this.fenetre.getBDD().getServeur().creerTable(backup.getNom(), backup.getListeColonnes());
 						} catch (CustomException e2) {
 							new CustomException("Erreur fatale", "La table n'a pas pu être recréé et est donc supprimé\n"+e2.getMessage());
+						}
+						catch(SQLException e2){
+							Util.logErreur(e2.getMessage());
 						}
 					}
 				}

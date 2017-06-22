@@ -250,6 +250,10 @@ public class BaseDeDonnees {
 		}
 	}
 
+	public boolean tableExiste(String table) throws CustomException, SQLException{
+		return this.getServeur().tableExiste(table);
+	}
+	
 	public String getNomBDD() {
 		return this.nom;
 	}
@@ -272,5 +276,4 @@ public class BaseDeDonnees {
 	public Fenetre getFenetre(){
 		return this.fenetre;
 	}
-	
 }

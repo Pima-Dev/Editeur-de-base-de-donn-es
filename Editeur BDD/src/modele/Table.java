@@ -42,7 +42,7 @@ public class Table {
 	 * @param attributs Liste des attributs
 	 * @throws CustomException 
 	 */
-	private void insererUnTuple(ArrayList<Colonne> attributs) throws CustomException{
+	private void insererUnTuple(ArrayList<Colonne> attributs, boolean ajouterListe) throws CustomException{
 		
 		
 		if(attributs.size() != this.listeColonnes.size()){
@@ -62,10 +62,11 @@ public class Table {
 		}
 		
 		this.BDD.getServeur().insererTuples(this.nom, attributs);
-		for(int i = 0; i<attributs.size(); i++){
-			this.listeColonnes.get(i).getListeValeurs().add(attributs.get(i).getValue(0));
-		}
-			
+		if(ajouterListe){
+			for(int i = 0; i<attributs.size(); i++){
+				this.listeColonnes.get(i).getListeValeurs().add(attributs.get(i).getValue(0));
+			}
+		}	
 		
 	}
 	
@@ -74,7 +75,7 @@ public class Table {
 	 * @param attributs La liste des objects formant le tuple
 	 * @throws CustomException
 	 */
-	public void insererTuple(ArrayList<Object> attributs) throws CustomException{
+	public void insererTuple(ArrayList<Object> attributs, boolean ajouterListe) throws CustomException{
 				
 		ArrayList<Colonne> tuple = new ArrayList<Colonne>();
 		
@@ -104,7 +105,7 @@ public class Table {
 				throw new CustomException("Erreur", obj+" est de type incompatible pour être inséré dans un tuple");
 			}
 		}
-		this.insererUnTuple(tuple);
+		this.insererUnTuple(tuple, ajouterListe);
 		
 	}
 	

@@ -284,12 +284,16 @@ public class Serveur {
 			this.executerCode(sql);
 			
 			if(colonnes.size() >0){
-				for(int i = 0; i<colonnes.get(0).getListeValeurs().size(); i++){
+				int size = colonnes.get(0).getListeValeurs().size();
+				for(int i = 0; i<size; i++){
+					System.out.println(colonnes.get(0).getListeValeurs().get(i));
+					System.out.println("size: "+colonnes.get(0).getListeValeurs().size());
 					ArrayList<Object> tuple = new ArrayList<Object>();
 					for(Colonne col : colonnes){
 						tuple.add(col.getListeValeurs().get(i));
 					}
-					this.BDD.getTable(nom).insererTuple(tuple);
+					System.out.println("DEBUG: "+i);
+					this.BDD.getTable(nom).insererTuple(tuple, false);
 				}
 			}
 			
@@ -535,5 +539,12 @@ public class Serveur {
 		return ret;
 	}
 	
+	public boolean tableExiste(String table) throws CustomException, SQLException{
+		ResultSet rs = this.executeRequete("SHOW TABLES LIKE '"+table+"'");
+		if(rs.next()){
+			return true;
+		}
+		return false;
+	}
 	
 }
