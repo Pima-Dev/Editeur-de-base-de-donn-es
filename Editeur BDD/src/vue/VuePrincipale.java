@@ -91,7 +91,6 @@ public class VuePrincipale extends JPanel{
 	 private ModeleTable dm;
 	 	 
 	public VuePrincipale(Fenetre fenetre){
-		this.resetJTable();
 		this.fenetre = fenetre;
 		this.fenetre.setVuePrincipale(this);
 		this.panneauTable = new JPanel();
@@ -267,7 +266,7 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void insererValeursDansTab(String[][] tab, String[] titre){
-				
+		this.resetJTable();
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
 		

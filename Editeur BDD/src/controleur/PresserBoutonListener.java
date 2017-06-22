@@ -463,8 +463,13 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			} else if (item.getName().equals("MenuExporterEnPDF")) {
-				JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-			    String nom = jop.showInputDialog(null, "Veuillez renseigner la destination de ", "Exporter en PDF", JOptionPane.QUESTION_MESSAGE);
+				if(fenetre.getVuePrincipale().getDm() == null){
+					JOptionPane messageTableau = new JOptionPane();
+					messageTableau.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}else{
+					JOptionPane jop = new JOptionPane();
+					String destination = jop.showInputDialog(null, "Destination du PDF", "Exporter en PDF", JOptionPane.QUESTION_MESSAGE);
+				}
 			}
 		}
 
