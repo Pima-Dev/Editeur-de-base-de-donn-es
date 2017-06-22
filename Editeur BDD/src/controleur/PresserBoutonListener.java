@@ -129,6 +129,10 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			} else if (bouton.getName().equals("valider creation bdd")) {
+				if(this.fenetre.getVueCreationBDD().getfNomBDD().getText().contains(" ")){
+					new CustomException("Erreur", "Le nom de la BDD ne doit pas contenir d'espaces");
+					return;
+				}
 				int port = modele.Util.isInteger(this.fenetre.getVueCreationBDD().getfPort().getText())
 						? Integer.parseInt(this.fenetre.getVueCreationBDD().getfPort().getText()) : 3306;
 				try {
@@ -254,12 +258,13 @@ public class PresserBoutonListener implements ActionListener {
 						}
 
 						else {
-							s = JOptionPane.showInputDialog(null,
-									"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
-											+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
-											+ contrainte,
-									"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-									JOptionPane.QUESTION_MESSAGE);
+							while (s.toString().contains(" ") && s != null)
+								s = JOptionPane.showInputDialog(null,
+										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+												+ contrainte,
+										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
 							tuple.add(s);
@@ -277,15 +282,20 @@ public class PresserBoutonListener implements ActionListener {
 
 			else if (bouton.getName().equals("valider creation attribut")) {
 				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				Table backup = new Table(this.fenetre.getBDD(), current.getNom());
-				//backup = 
+				Table backup = (Table) current.clone();
+				backup.setListeColonnes((ArrayList<Colonne>) current.getListeColonnes().clone());
+				
 				
 				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().isEmpty()) {
 					new CustomException("Erreur", "Vous n'avez pas indiqué le nom de l'attribut.");
 				} else {
+					if (this.fenetre.getVueAjouterAttribut().gettNom().getText().contains(" ")){
+						new CustomException("Erreur", "Le nom de l'attribut ne doit pas contenir d'espace.");
+						return;
+					}
 					String sType = this.fenetre.getVueAjouterAttribut().getComboboxType().getSelectedItem().toString();
 					TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
-							: (sType.equals("FLOAT") ? TypeDonnee.DOUBLE
+							: (sType.equals("DOUBLE") ? TypeDonnee.DOUBLE
 									: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
 					Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
 					try {
@@ -351,11 +361,12 @@ public class PresserBoutonListener implements ActionListener {
 					} catch (CustomException e1) {
 						new CustomException("Erreur", "Une erreur est survenu:\n"+e1.getMessage()+"\nTentative de recreation de la table sans le nouvelle attribut");
 						try {
+							this.fenetre.getBDD().remplacerTable(backup.getNom(), backup);
 							if(this.fenetre.getBDD().tableExiste(backup.getNom()))
 								this.fenetre.getBDD().getServeur().supprimerTable(backup.getNom());
 							this.fenetre.getBDD().getServeur().creerTable(backup.getNom(), backup.getListeColonnes());
 						} catch (CustomException e2) {
-							new CustomException("Erreur fatale", "La table n'a pas pu être recréé et est donc supprimé\n"+e2.getMessage());
+							new CustomException("Erreur fatale", "La table n'a pas pu être recréé et des données ont pû être supprimés\n"+e2.getMessage());
 						}
 						catch(SQLException e2){
 							Util.logErreur(e2.getMessage());

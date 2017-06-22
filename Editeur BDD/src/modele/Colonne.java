@@ -2,7 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 
-public class Colonne<V> {
+public class Colonne<V> implements Cloneable{
 
 	/**
 	 * Nom de la colonne
@@ -169,5 +169,14 @@ public class Colonne<V> {
 		return ret;
 	}
 	
+	@Override
+	public Object clone(){
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
 

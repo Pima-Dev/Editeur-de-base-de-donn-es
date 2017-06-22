@@ -13,13 +13,14 @@ import modele.ELFichier;
 import modele.Table;
 import modele.TypeContrainte;
 import modele.TypeDonnee;
+import vue.Fenetre;
 
 public class TestServeur {
 
 	public static void main(String[] args){
 		BaseDeDonnees bdd = null;
 		try{
-			//bdd = new BaseDeDonnees("UneBDD", "root", "azerty", new ArrayList<Table>());
+			/*bdd = new BaseDeDonnees("testtt", "root", "azerty", new Fenetre(), "", 0);
 			
 			Table table1 = new Table(bdd, "table1");
 			Table table2 = new Table(bdd, "table2");
@@ -32,13 +33,13 @@ public class TestServeur {
 			Colonne<Double> colonne2 = new Colonne<Double>("colonne2", TypeDonnee.DOUBLE);
 			colonne2.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
 			//colonne2.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, table1));
-			
+			*/
 			Colonne<Integer> colonne3 = new Colonne<Integer>("colonne3", TypeDonnee.INTEGER);
 			//colonne3.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
-			//colonne3.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
-			colonne3.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, table1));
+			colonne3.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
+			//colonne3.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, table1));
 			
-			table1.ajouterAttribut(colonne1);
+			/*table1.ajouterAttribut(colonne1);
 			table2.ajouterAttribut(colonne2);
 			table2.ajouterAttribut(colonne3);
 			
@@ -64,7 +65,11 @@ public class TestServeur {
 			table2.insererTuple(tuple2, true);
 			table2.insererTuple(tuple3, true);
 			table2.insererTuple(tuple4, true);
+			*/
 			
+			Colonne clone = (Colonne) colonne3.clone();
+			System.out.println(clone.getNom());
+			System.out.println(clone.getListeContraintes().size());
 			//table2.editerTuple("1", "colonne3", "3");
 
 			//table2.supprimerTupleById("test");
