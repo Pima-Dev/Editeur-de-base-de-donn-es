@@ -220,7 +220,10 @@ public class BaseDeDonnees {
 		if(listeColonnes.get(0).getListeValeurs().size() > 0){
 			for (int j = 0; j < listeColonnes.size(); j++) {
 				for (int i = 0; i < listeColonnes.get(0).getListeValeurs().size(); i++) {
-					ret[i][j] = listeColonnes.get(j).getValue(i).toString();
+					if(listeColonnes.get(j).getValue(i) != null)	
+						ret[i][j] = listeColonnes.get(j).getValue(i).toString();
+					else
+						ret[i][j] = "null";
 				}
 			}
 		}

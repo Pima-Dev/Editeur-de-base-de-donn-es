@@ -349,7 +349,10 @@ public class Serveur {
 		for(int i = 0; i<valeurs.size(); i++){
 			sqlCode = new StringBuilder("INSERT INTO "+table+ " VALUES (");
 			for(int j = 0; j<listeColonnes.size(); j++){
-				if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.INTEGER || listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DOUBLE){
+				if(listeColonnes.get(j).getTypeDonnees() == null){
+					sqlCode.append("NULL, ");
+				}
+				else if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.INTEGER || listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DOUBLE){
 					sqlCode.append(listeColonnes.get(j).getListeValeurs().get(i)+", ");
 				} 
 				else if(listeColonnes.get(j).getTypeDonnees() == TypeDonnee.DATE){

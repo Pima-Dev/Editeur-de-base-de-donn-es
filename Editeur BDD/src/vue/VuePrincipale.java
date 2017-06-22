@@ -327,7 +327,6 @@ public class VuePrincipale extends JPanel{
 	}
 	
 	public void insererValeursDansTab(String[][] tab, String[] titre){
-				
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
 		String[] lesTitres = new String[titre.length+2];
 		

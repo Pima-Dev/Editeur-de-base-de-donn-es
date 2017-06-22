@@ -11,6 +11,7 @@ import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -59,12 +60,10 @@ public class PresserBoutonListener implements ActionListener {
 				// if(bonMDP(nom, motDePasse)){
 				if (true) {
 					fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
-					fenetre.getFenetre().setVisible(true);
-					Toolkit tk = Toolkit.getDefaultToolkit();
-					int xSize = ((int) tk.getScreenSize().getWidth());
-					int ySize = ((int) tk.getScreenSize().getHeight());
-					fenetre.getFenetre().setSize(xSize, ySize);
+					fenetre.getFenetre().setExtendedState(JFrame.MAXIMIZED_BOTH);
+					fenetre.getFenetre().setTitle("Editeur de base de données");
 					fenetre.getFenetre().setLocationRelativeTo(null);
+					fenetre.getFenetre().setVisible(true);
 					fenetre.setSesstion(new Session(nom));
 				} else {
 					this.fenetre.getVueDeConnexion().getlErreurIdentifiant()
@@ -216,10 +215,10 @@ public class PresserBoutonListener implements ActionListener {
 							contrainte += c.getContrainteType() + "\n";
 						}
 
-						Object s = "";
+						Object s = " ";
 
 						if (col.getTypeDonnees() == TypeDonnee.DATE) {
-							while (!Util.isValidDate((String) s) && s != null)
+							while (!Util.isValidDate((String) s) && s != null  && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
@@ -228,11 +227,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							tuple.add(s);
+							if(!s.toString().replaceAll(" ", "").equals(""))
+								tuple.add(s);
+							else
+								tuple.add(null);
 						}
 
 						else if (col.getTypeDonnees() == TypeDonnee.INTEGER) {
-							while (!Util.isInteger((String) s) && s != null)
+							while (!Util.isInteger((String) s) && s != null  && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -241,11 +243,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							tuple.add(Integer.parseInt((String) s));
+							if(!s.toString().replaceAll(" ", "").equals(""))
+								tuple.add(Integer.parseInt((String) s));
+							else
+								tuple.add(null);
 						}
 
 						else if (col.getTypeDonnees() == TypeDonnee.DOUBLE) {
-							while (!Util.isDouble((String) s) && s != null)
+							while (!Util.isDouble((String) s) && s != null  && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -254,11 +259,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							tuple.add(Double.parseDouble((String) s));
+							if(!s.toString().replaceAll(" ", "").equals(""))
+								tuple.add(Double.parseDouble((String) s));
+							else
+								tuple.add(null);
 						}
 
 						else {
-							while (s.toString().contains(" ") && s != null)
+							while (s.toString().contains(" ") && s != null  && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -267,7 +275,10 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							tuple.add(s);
+							if(!s.toString().replaceAll(" ", "").equals(""))
+								tuple.add(s);
+							else
+								tuple.add(null);
 						}
 					}
 
@@ -311,44 +322,56 @@ public class PresserBoutonListener implements ActionListener {
 							col.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY,
 									this.fenetre.getBDD().getTable(referenceTable)));
 						}
-						Object obj = "";
+						Object obj = " ";
 						for (int i = 0; i < current.getClePrimaire()
 								.getListeValeurs().size(); i++) {
-							obj = "";
+							obj = " ";
 							if (type.equals(TypeDonnee.INTEGER)) {
-								while (!Util.isInteger((String) obj) && obj != null) {
+								while (!Util.isInteger((String) obj)&& obj != null  && !obj.toString().equals("")) {
 									obj = JOptionPane.showInputDialog(null,
 											"Entrez la " + i + "ème valeur de la colonne",
 											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 								}
 								if (obj == null)
 									return;
-								col.ajouterValeur(Integer.parseInt((String)obj));
+								if(!obj.toString().replaceAll(" ", "").equals(""))
+									col.ajouterValeur(Integer.parseInt((String)obj));
+								else
+									col.ajouterValeur(null);
 							}
 							else if (type.equals(TypeDonnee.DOUBLE)) {
-								while (!Util.isDouble((String) obj) && obj != null) {
+								while (!Util.isDouble((String) obj) && obj != null  && !obj.toString().equals("")) {
 									obj = JOptionPane.showInputDialog(null,
 											"Entrez la " + i + "ème valeur de la colonne",
 											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 								}
 								if (obj == null)
 									return;
-								col.ajouterValeur(Double.parseDouble((String)obj));
+								if(!obj.toString().replaceAll(" ", "").equals(""))
+									col.ajouterValeur(Double.parseDouble((String)obj));
+								else
+									col.ajouterValeur(null);
 							}
 							else if (type.equals(TypeDonnee.DATE)) {
-								while (!Util.isValidDate((String) obj) && obj != null) {
+								while (!Util.isValidDate((String) obj) && obj != null  && !obj.toString().equals("")) {
 									obj = JOptionPane.showInputDialog(null,
 											"Entrez la " + i + "ème valeur de la colonne",
 											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 								}
 								if (obj == null)
 									return;
-								col.ajouterValeur(obj);
+								if(!obj.toString().replaceAll(" ", "").equals(""))	
+									col.ajouterValeur(obj);
+								else
+									col.ajouterValeur(null);
 							}
 							else{
 								if (obj == null)
 									return;
-								col.ajouterValeur(obj);
+								if(!obj.toString().replaceAll(" ", "").equals(""))
+									col.ajouterValeur(obj);
+								else
+									col.ajouterValeur(null);
 							}
 						}
 						current.ajouterAttribut(col);

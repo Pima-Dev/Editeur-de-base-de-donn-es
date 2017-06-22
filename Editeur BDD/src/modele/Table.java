@@ -61,7 +61,8 @@ public class Table implements Cloneable {
 		}
 
 		for (int i = 0; i < attributs.size(); i++) {
-			if (this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()) {
+			System.out.println(this.listeColonnes.get(i).getTypeDonnees());
+			if (attributs.get(i).getListeValeurs().get(0) != null && this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()) {
 				throw new CustomException("Erreur de type",
 						"La valeur '" + attributs.get(i).getListeValeurs().get(0) + "'  est de type "
 								+ attributs.get(i).getTypeDonnees() + " alors qu'il est attendu un type "
@@ -91,7 +92,12 @@ public class Table implements Cloneable {
 
 		for (Object obj : attributs) {
 			System.out.println(obj);
-			if (Util.isInteger(obj.toString())) {
+			if(obj == null){
+				Colonne<Integer> col = new Colonne<Integer>("colonne", null);
+				col.ajouterValeur(null);
+				tuple.add(col);
+			}
+			else if (Util.isInteger(obj.toString())) {
 				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER);
 				col.ajouterValeur((int) obj);
 				tuple.add(col);
