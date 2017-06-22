@@ -77,7 +77,7 @@ public class VueRechercheAvance extends JPanel{
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		fenetreRechercheAvance = new JFrame("Créer une nouvelle base de données");
 		fenetreRechercheAvance.setContentPane(this);
-		fenetreRechercheAvance.setSize(new Dimension(400, 500));
+		fenetreRechercheAvance.setSize(new Dimension(400, 300));
 		fenetreRechercheAvance.setResizable(false);
 		fenetreRechercheAvance.setLocationRelativeTo(null);
 		fenetreRechercheAvance.setVisible(true);
