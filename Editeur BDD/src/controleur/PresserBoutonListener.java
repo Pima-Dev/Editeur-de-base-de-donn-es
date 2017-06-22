@@ -401,8 +401,7 @@ public class PresserBoutonListener implements ActionListener {
 				if(fenetre.getVuePrincipale().getTable() != null){
 					new VueRechercheAvance(fenetre);
 					}else{
-						JOptionPane erreur = new JOptionPane();
-						erreur.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
 					}
 			} else if (bouton.getName().equals("LancerRechercheAvance")) {
 				((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
@@ -464,11 +463,16 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			} else if (item.getName().equals("MenuExporterEnPDF")) {
 				if(fenetre.getVuePrincipale().getDm() == null){
-					JOptionPane messageTableau = new JOptionPane();
-					messageTableau.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}else{
-					JOptionPane jop = new JOptionPane();
-					String destination = jop.showInputDialog(null, "Destination du PDF", "Exporter en PDF", JOptionPane.QUESTION_MESSAGE);
+					JFileChooser choix = new JFileChooser();
+					choix.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					int retour = choix.showOpenDialog(new JFrame());
+					if(retour == JFileChooser.APPROVE_OPTION) {
+						((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).exporterPDF(choix.getSelectedFile().getAbsolutePath());
+					} else {
+						JOptionPane.showMessageDialog(null, "Le dossier n'a pas été choisi!", "Erreur", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		}

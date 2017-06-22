@@ -149,20 +149,20 @@ public class ModeleTable extends DefaultTableModel {
 
 	}
 	
-	public void exporterPDF(){
+	public void exporterPDF(String destination){
 		try{
 			PDDocument document = new PDDocument();
 			PDPage PageDocument = new PDPage(new PDRectangle(5, 5));
 			document.addPage(PageDocument);
 			PDDocumentInformation info = document.getDocumentInformation();
 			info.setTitle("test");
-			document.save("dossier.pdf");
 			PDPageContentStream contentStream = new PDPageContentStream(document, PageDocument);
 			contentStream.beginText();
 			contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
 			contentStream.newLineAtOffset(25, 500);
 			contentStream.showText("test");
 			contentStream.endText();
+			document.save(destination+"/"+info.getTitle()+".pdf");
 			document.close();
 		}
 		catch(IOException e){
