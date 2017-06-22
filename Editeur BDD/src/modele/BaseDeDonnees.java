@@ -254,6 +254,16 @@ public class BaseDeDonnees {
 		return this.getServeur().tableExiste(table);
 	}
 	
+	public void remplacerTable(String nomTable, Table table){
+		for(int i = 0; i<this.listeTable.size(); i++){
+			if(this.listeTable.get(i).getNom().equals(nomTable)){
+				this.listeTable.remove(i);
+				this.listeTable.add(table);
+				return;
+			}
+		}
+	}
+	
 	public String getNomBDD() {
 		return this.nom;
 	}

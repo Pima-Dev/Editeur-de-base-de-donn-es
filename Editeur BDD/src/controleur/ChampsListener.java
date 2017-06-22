@@ -100,7 +100,7 @@ public class ChampsListener implements FocusListener{
 	 */
 	private boolean validePseudo(String pseudo) {
 		boolean ret = true;
-		if(pseudo.length()>5){
+		if(pseudo.length()>5 && !pseudo.contains(" ")){
 			File file = new File(ELFichier.getRacine());
 	        File[] files = file.listFiles();
 	        if (files != null) {
