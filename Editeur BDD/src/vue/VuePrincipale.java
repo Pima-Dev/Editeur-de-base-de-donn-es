@@ -44,13 +44,22 @@ public class VuePrincipale extends JPanel{
 	private JMenuItem enregistrerSous;
 	private JMenuItem exporterEnPDF;
 	
+	private JMenu editer;
+	private JMenuItem retourArriere;
+	private JMenuItem couper;
+	private JMenuItem copier;
+	private JMenuItem coller;
+	private JMenuItem supprimer;
+	private JMenuItem toutSelectionner;
+	
+	
 	private JMenu outils;
 	private JMenuItem accederALaConsole;
 	private JMenuItem rechercher;
 	private JMenuItem ajouterUnTuple;
 	private JMenuItem modifierUnTuple;
 	private JMenuItem supprimerUnTuple;
-	private JMenuItem supprimerUneTable;
+	private JMenuItem gererDesAttributs;
 	
 	private JMenu aide;
 	private JMenuItem aideEnLigne;
@@ -141,18 +150,27 @@ public class VuePrincipale extends JPanel{
 		exporterEnPDF.setName("MenuExporterEnPDF");
 		exporterEnPDF.addActionListener(new PresserBoutonListener(this.fenetre));
 		
+		editer = new JMenu("    Editer    ");
+		retourArriere = new JMenuItem("Retour arrière");
+		couper = new JMenuItem("Couper");
+		copier = new JMenuItem("Copier");
+		coller = new JMenuItem("Coller");
+		supprimer = new JMenuItem("Supprimer");
+		toutSelectionner = new JMenuItem("Tout supprimer");
+		
 		outils = new JMenu("    Outils    ");
 		accederALaConsole = new JMenuItem("Accéder à la console");
 		rechercher = new JMenuItem("Rechercher");
 		ajouterUnTuple = new JMenuItem("Ajouter un tupe");
 		modifierUnTuple = new JMenuItem("Modifier un tuple");
 		supprimerUnTuple = new JMenuItem("Supprimer un tuple");
-		supprimerUneTable = new JMenuItem("Supprimer une table");
+		gererDesAttributs = new JMenuItem("Gerer des attributs");
 		
 		aide = new JMenu("    Aide    ");
 		aideEnLigne = new JMenuItem("Aide en ligne");
 		
 		menu.add(fichier);
+		menu.add(editer);
 		menu.add(outils);
 		menu.add(aide);
 		
@@ -163,12 +181,20 @@ public class VuePrincipale extends JPanel{
 		fichier.add(supprimerBDD);
 		fichier.add(exporterEnPDF);
 		
+		editer.add(retourArriere);
+		editer.add(couper);
+		editer.add(copier);
+		editer.add(coller);
+		editer.add(supprimer);
+		editer.add(toutSelectionner);
+		editer.add(retourArriere);
+		
 		outils.add(accederALaConsole);
 		outils.add(rechercher);
 		outils.add(ajouterUnTuple);
 		outils.add(modifierUnTuple);
 		outils.add(supprimerUnTuple);
-		outils.add(supprimerUneTable);
+		outils.add(gererDesAttributs);
 		
 		aide.add(aideEnLigne);
 		
@@ -398,6 +424,55 @@ public class VuePrincipale extends JPanel{
 		return exporterEnPDF;
 	}
 
+
+	/**
+	 * @return the retourArriere
+	 */
+	public JMenuItem getRetourArriere() {
+		return retourArriere;
+	}
+
+
+	/**
+	 * @return the couper
+	 */
+	public JMenuItem getCouper() {
+		return couper;
+	}
+
+
+	/**
+	 * @return the copier
+	 */
+	public JMenuItem getCopier() {
+		return copier;
+	}
+
+
+	/**
+	 * @return the coller
+	 */
+	public JMenuItem getColler() {
+		return coller;
+	}
+
+
+	/**
+	 * @return the supprimer
+	 */
+	public JMenuItem getSupprimer() {
+		return supprimer;
+	}
+
+
+	/**
+	 * @return the toutSelectionner
+	 */
+	public JMenuItem getToutSelectionner() {
+		return toutSelectionner;
+	}
+
+
 	/**
 	 * @return the ajouterUnTuple
 	 */
@@ -425,8 +500,8 @@ public class VuePrincipale extends JPanel{
 	/**
 	 * @return the gererDesAttributs
 	 */
-	public JMenuItem getSupprimerUneTable() {
-		return supprimerUneTable;
+	public JMenuItem getGererDesAttributs() {
+		return gererDesAttributs;
 	}
 
 
