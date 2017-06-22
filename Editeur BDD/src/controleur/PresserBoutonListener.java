@@ -26,12 +26,14 @@ import modele.TypeContrainte;
 import modele.TypeDonnee;
 import modele.Util;
 import vue.Fenetre;
+import vue.ModeleTable;
 import vue.VueAjouterAttribut;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
 import vue.VueOuvrirBDD;
 import vue.VuePrincipale;
+import vue.VueRechercheAvance;
 
 /**
  * @author Utilisateur
@@ -360,6 +362,16 @@ public class PresserBoutonListener implements ActionListener {
 						}
 					}
 				}
+			} else if (bouton.getName().equals("OptionRecherche")) {
+				if(fenetre.getVuePrincipale().getTable() != null){
+					new VueRechercheAvance(fenetre);
+					}else{
+						JOptionPane erreur = new JOptionPane();
+						erreur.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
+					}
+			} else if (bouton.getName().equals("LancerRechercheAvance")) {
+				((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
+				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
 			}
 
 		} else if (e.getSource() instanceof JRadioButton) {

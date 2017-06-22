@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ import controleur.ValeurListener;
 public class VueRechercheAvance extends JPanel{
 
 	private JLabel lTitre;
+	private JButton bValider;
 	private JTextField fRecherche;
 	private JCheckBox sensibleALaCasse;
 	private JCheckBox motComplet;
@@ -39,6 +41,8 @@ public class VueRechercheAvance extends JPanel{
 		this.fenetre = fenetre;
 		fenetre.setVueRechercheAvance(this);
 		declaration();
+		bValider.setName("LancerRechercheAvance");
+		bValider.addActionListener(new PresserBoutonListener(fenetre));
 		ligneMin.setEnabled(false);
 		ligneMax.setEnabled(false);
 		selectionnerLigne.setName("selectionnerLigne");
@@ -62,9 +66,10 @@ public class VueRechercheAvance extends JPanel{
 		panneauPrincipal.add(fRecherche);
 		panneauPrincipal.add(panneauCasseMotComplet);
 		panneauPrincipal.add(panneauSelectionnerLigne);
+		panneauPrincipal.add(bValider);
 		fRecherche.setName("BarreRecherche");
 		fRecherche.addFocusListener(new ChampsListener(this.fenetre));
-		fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
+		//fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
@@ -80,6 +85,7 @@ public class VueRechercheAvance extends JPanel{
 
 	private void declaration(){
 		lTitre = new JLabel("Recherche Avancée");
+		bValider = new JButton("Valider recherche");
 		fRecherche = new JTextField("Chercher les occurences");
 		sensibleALaCasse = new JCheckBox("Sensible à la casse");
 		motComplet = new JCheckBox("Mot complet");
@@ -140,5 +146,19 @@ public class VueRechercheAvance extends JPanel{
 	 */
 	public JCheckBox getSelectionnerLigne() {
 		return selectionnerLigne;
+	}
+
+	/**
+	 * @return the fRecherche
+	 */
+	public JTextField getfRecherche() {
+		return fRecherche;
+	}
+
+	/**
+	 * @return the fenetreRechercheAvance
+	 */
+	public JFrame getFenetreRechercheAvance() {
+		return fenetreRechercheAvance;
 	}
 }
