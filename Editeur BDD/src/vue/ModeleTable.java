@@ -13,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 public class ModeleTable extends DefaultTableModel {
 
@@ -157,6 +158,11 @@ public class ModeleTable extends DefaultTableModel {
 			info.setTitle("test");
 			document.save("dossier.pdf");
 			PDPageContentStream contentStream = new PDPageContentStream(document, PageDocument);
+			contentStream.beginText();
+			contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+			contentStream.newLineAtOffset(25, 500);
+			contentStream.showText("test");
+			contentStream.endText();
 			document.close();
 		}
 		catch(IOException e){
