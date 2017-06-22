@@ -502,7 +502,7 @@ public class Serveur {
 	 */
 	private void ajouterFK() throws CustomException, SQLException{
 		
-		ResultSet rs = this.executeRequete("SELECT CONCAT(table_name, '.', column_name) AS 'foreign key', CONCAT(referenced_table_name, '.', referenced_column_name) AS 'references' FROM information_schema.key_column_usage WHERE referenced_table_name IS NOT NULL;");
+		ResultSet rs = this.executeRequete("SELECT CONCAT(table_name, '.', column_name) AS 'foreign key', CONCAT(referenced_table_name, '.', referenced_column_name) AS 'references' FROM information_schema.key_column_usage WHERE referenced_table_name IS NOT NULL  AND TABLE_SCHEMA = '"+this.BDD.getNomBDD()+"';");
 		
 		while(rs.next()){
 			String nomTable = rs.getString("foreign key").split("\\.")[0];
