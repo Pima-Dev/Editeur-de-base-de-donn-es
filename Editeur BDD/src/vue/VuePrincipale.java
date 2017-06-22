@@ -291,6 +291,8 @@ public class VuePrincipale extends JPanel{
 		 optionRecherche = new JButton(new ImageIcon("src/ressources/parametre.png"));
 		 optionRecherche.setBorderPainted(false);
 		 optionRecherche.setContentAreaFilled(false);
+		 optionRecherche.setName("OptionRecherche");
+		 optionRecherche.addActionListener(new PresserBoutonListener(fenetre));
 		 barreRecherche.add(fChercher, BorderLayout.CENTER);
 		 barreRecherche.add(optionRecherche, BorderLayout.EAST);
 		 margeRecherche = new JPanel();

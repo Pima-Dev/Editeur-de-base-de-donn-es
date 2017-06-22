@@ -64,7 +64,7 @@ public class VueRechercheAvance extends JPanel{
 		panneauPrincipal.add(panneauSelectionnerLigne);
 		fRecherche.setName("BarreRecherche");
 		fRecherche.addFocusListener(new ChampsListener(this.fenetre));
-		//fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
+		fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
@@ -119,5 +119,26 @@ public class VueRechercheAvance extends JPanel{
 	 */
 	public JSpinner getLigneMax() {
 		return ligneMax;
+	}
+
+	/**
+	 * @return the sensibleALaCasse
+	 */
+	public JCheckBox getSensibleALaCasse() {
+		return sensibleALaCasse;
+	}
+
+	/**
+	 * @return the motComplet
+	 */
+	public JCheckBox getMotComplet() {
+		return motComplet;
+	}
+
+	/**
+	 * @return the selectionnerLigne
+	 */
+	public JCheckBox getSelectionnerLigne() {
+		return selectionnerLigne;
 	}
 }
