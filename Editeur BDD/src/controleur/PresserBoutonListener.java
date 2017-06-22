@@ -11,6 +11,7 @@ import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -460,6 +461,14 @@ public class PresserBoutonListener implements ActionListener {
 							e1.printStackTrace();
 						}
 					}
+				}
+			} else if (item.getName().equals("MenuExporterEnPDF")) {
+				if(fenetre.getVuePrincipale().getDm() == null){
+					JOptionPane messageTableau = new JOptionPane();
+					messageTableau.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}else{
+					JOptionPane jop = new JOptionPane();
+					String destination = jop.showInputDialog(null, "Destination du PDF", "Exporter en PDF", JOptionPane.QUESTION_MESSAGE);
 				}
 			}
 		}
