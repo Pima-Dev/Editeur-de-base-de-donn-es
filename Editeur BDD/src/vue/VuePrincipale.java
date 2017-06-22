@@ -68,6 +68,8 @@ public class VuePrincipale extends JPanel{
 	 private JPanel ajouter;
 	 private JButton ajouterTuple;
 	 private JButton ajouterAttribut;
+	 private JButton supprimerTable;
+	 private JButton supprimerAttribut;
 	 
 	 private JPanel margeRecherche;
 	 private JPanel chercher;
@@ -204,7 +206,7 @@ public class VuePrincipale extends JPanel{
 		 Font font = new Font("Arial",Font.BOLD,16);
 		 
 		 ajouter = new JPanel();
-		 ajouter.setLayout(new GridLayout(2,1,10,5));
+		 ajouter.setLayout(new GridLayout(2,2,10,10));
 		 ajouterTuple = new JButton("Ajouter un tuple");
 		 ajouterTuple.setName("ajouter un tuple");
 		 ajouterTuple.addActionListener(new PresserBoutonListener(this.fenetre));
@@ -212,7 +214,15 @@ public class VuePrincipale extends JPanel{
 		 ajouterAttribut = new JButton("Ajouter un attribut");
 		 ajouterAttribut.setName("ajouter attribut");
 		 ajouterAttribut.addActionListener(new PresserBoutonListener(this.fenetre));
+		 this.supprimerAttribut = new JButton("Supprimer un attribut");
+		 this.supprimerAttribut.setName("supprimer attribut");
+		 this.supprimerAttribut.addActionListener(new PresserBoutonListener(this.fenetre));
+		 this.supprimerTable = new JButton("Supprimer la table");
+		 this.supprimerTable.setName("supprimer table");
+		 this.supprimerTable.addActionListener(new PresserBoutonListener(this.fenetre));
 		 ajouter.add(ajouterAttribut);
+		 ajouter.add(this.supprimerTable);
+		 ajouter.add(this.supprimerAttribut);
 		 panneauBoutons.add(ajouter);
 		 
 		 

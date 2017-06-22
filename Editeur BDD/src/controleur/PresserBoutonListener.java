@@ -291,6 +291,12 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			}
+			
+			else if(bouton.getName().equals("supprimer table")){
+				int rep = JOptionPane.showConfirmDialog(null, "Voulez vous vraiment supprimer la table '"+this.fenetre.getVuePrincipale().getCurrentTable()+"' ?", "Supprimer la table '"+this.fenetre.getVuePrincipale().getCurrentTable()+"' ?", JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(rep == JOptionPane.OK_OPTION){
+				}
+			}
 
 			else if (bouton.getName().equals("valider creation attribut")) {
 				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
