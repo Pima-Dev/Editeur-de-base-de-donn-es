@@ -3,6 +3,7 @@ package vue;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +18,6 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 public class ModeleTable extends DefaultTableModel {
 
-	private int hauteur;
-	private int largeur;
 	private boolean editable;
 	private int ligneAEditer;
 	private Fenetre fenetre;
@@ -29,16 +28,6 @@ public class ModeleTable extends DefaultTableModel {
 		this.fenetre = fenetre;
 		editable = false;
 		this.fenetre = fenetre;
-		this.hauteur = hauteur;
-		this.largeur = largeur;
-	}
-
-	public int getColumnCount() {
-		return largeur;
-	}
-
-	public int getRowCount() {
-		return hauteur;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -48,16 +37,17 @@ public class ModeleTable extends DefaultTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if (editable) {
+			System.out.println("pass");
 			if (columnIndex > 0 && ligneAEditer == rowIndex) {
 				ret = true;
 			} else {
 				ret = false;
 			}
 		} else {
-			if (columnIndex < this.largeur - 2) {
-				ret = false;
-			} else {
+			if (getColumnClass(columnIndex) == JButton.class) {
 				ret = true;
+			} else {
+				ret = false;
 			}
 		}
 		return ret;
@@ -89,7 +79,6 @@ public class ModeleTable extends DefaultTableModel {
 
 			@Override
 			public void run() {
-				fenetre.getBDD().getTable(fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
 				int colonnes = fenetre.getVuePrincipale().getTable().getColumnCount()-2;
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
 				if(fenetre.getVueRechercheAvance() != null){
@@ -126,7 +115,6 @@ public class ModeleTable extends DefaultTableModel {
 						}
 					}
 				}
-					
 				if(lignesValides.size()!=0){
 					String[][] donnees = new String[lignesValides.size()][colonnes];
 					String[] titres = new String[colonnes];
