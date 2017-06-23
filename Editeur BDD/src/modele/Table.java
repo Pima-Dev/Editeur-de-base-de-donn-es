@@ -63,7 +63,8 @@ public class Table implements Cloneable {
 
 		for (int i = 0; i < attributs.size(); i++) {
 			System.out.println(this.listeColonnes.get(i).getTypeDonnees());
-			if (attributs.get(i).getListeValeurs().get(0) != null && this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()) {
+			if (attributs.get(i).getListeValeurs().get(0) != null
+					&& this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()) {
 				throw new CustomException("Erreur de type",
 						"La valeur '" + attributs.get(i).getListeValeurs().get(0) + "'  est de type "
 								+ attributs.get(i).getTypeDonnees() + " alors qu'il est attendu un type "
@@ -93,12 +94,11 @@ public class Table implements Cloneable {
 
 		for (Object obj : attributs) {
 			System.out.println(obj);
-			if(obj == null){
+			if (obj == null) {
 				Colonne<Integer> col = new Colonne<Integer>("colonne", null);
 				col.ajouterValeur(null);
 				tuple.add(col);
-			}
-			else if (Util.isInteger(obj.toString())) {
+			} else if (Util.isInteger(obj.toString())) {
 				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER);
 				col.ajouterValeur((int) obj);
 				tuple.add(col);
@@ -108,7 +108,7 @@ public class Table implements Cloneable {
 				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE);
 				col.ajouterValeur((double) obj);
 				tuple.add(col);
-				
+
 			} else if (obj instanceof String && Util.isValidDate((String) obj)) {
 				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE);
 				col.ajouterValeur((String) obj);
@@ -135,22 +135,6 @@ public class Table implements Cloneable {
 	public void supprimerTupleById(Object id) throws CustomException {
 
 		Util.log("Suppression de la ligne ayant comme id " + id + "...");
-
-		if (id instanceof Double && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DOUBLE) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type DOUBLE");
-		} else if (id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.INTEGER) {
-			throw new CustomException("Erreur de type", "La clé primaire est de type "
-					+ this.getClePrimaire().getTypeDonnees() + " et non de type INTEGER");
-		} else if (id instanceof String && Util.isValidDate((String) id)
-				&& this.getClePrimaire().getTypeDonnees() != TypeDonnee.DATE) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type DATE");
-		} else if (id instanceof String && !Util.isValidDate((String) id)
-				&& this.getClePrimaire().getTypeDonnees() != TypeDonnee.CHAR) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type CHAR");
-		}
 
 		this.BDD.getServeur().supprimerTupleById(this, id);
 		int index = -1;
@@ -187,41 +171,24 @@ public class Table implements Cloneable {
 		Util.log("Modification de la valeur du tuple ayant pour identifiant '" + id + "' de la colonne '" + nomColonne
 				+ "' par la nouvelle valeur '" + newValeur + "'...");
 
-		if (id instanceof Double && this.getClePrimaire().getTypeDonnees() != TypeDonnee.DOUBLE) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type DOUBLE");
-		} else if (id instanceof Integer && this.getClePrimaire().getTypeDonnees() != TypeDonnee.INTEGER) {
-			throw new CustomException("Erreur de type", "La clé primaire est de type "
-					+ this.getClePrimaire().getTypeDonnees() + " et non de type INTEGER");
-		} else if (id instanceof String && Util.isValidDate((String) id)
-				&& this.getClePrimaire().getTypeDonnees() != TypeDonnee.DATE) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type DATE");
-		} else if (id instanceof String && !Util.isValidDate((String) id)
-				&& this.getClePrimaire().getTypeDonnees() != TypeDonnee.CHAR) {
-			throw new CustomException("Erreur de type",
-					"La clé primaire est de type " + this.getClePrimaire().getTypeDonnees() + " et non de type CHAR");
-		}
-
 		if (this.getColonne(nomColonne) == null) {
 			throw new CustomException("Erreur de colonne",
 					"La colonne ayant pour nom '" + nomColonne + "' n'existe pas");
 		}
-
-		if (newValeur instanceof Double && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.DOUBLE) {
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '" + nomColonne
-					+ "' est de type " + this.getColonne(nomColonne).getTypeDonnees() + " et non de type DOUBLE.");
-		} else if (newValeur instanceof Integer && this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.INTEGER) {
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '" + nomColonne
-					+ "' est de type " + this.getColonne(nomColonne).getTypeDonnees() + " et non de type INTEGER.");
-		} else if (newValeur instanceof String && Util.isValidDate((String) newValeur)
-				&& this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.DATE) {
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '" + nomColonne
-					+ "' est de type " + this.getColonne(nomColonne).getTypeDonnees() + " et non de type DATE.");
-		} else if (newValeur instanceof String && !Util.isValidDate((String) newValeur)
-				&& this.getColonne(nomColonne).getTypeDonnees() != TypeDonnee.CHAR) {
-			throw new CustomException("Erreur de type", "Le type de donnée de la colonne '" + nomColonne
-					+ "' est de type " + this.getColonne(nomColonne).getTypeDonnees() + " et non de type CHAR.");
+		if(newValeur != null){
+			if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DOUBLE && !Util.isDouble((String) newValeur)) {
+				throw new CustomException("Erreur de type",
+						"La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
+								+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.INTEGER
+					&& !Util.isInteger((String) newValeur)) {
+				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
+						+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DATE
+					&& !Util.isValidDate((String) newValeur)) {
+				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
+						+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+			}
 		}
 
 		this.BDD.getServeur().editerTuple(this, id, nomColonne, newValeur);
@@ -352,49 +319,51 @@ public class Table implements Cloneable {
 			return null;
 		}
 	}
-	
-	public void setListeColonnes(ArrayList<Colonne> colonnes){
+
+	public void setListeColonnes(ArrayList<Colonne> colonnes) {
 		this.listeColonnes = colonnes;
 	}
-	
-	public void ajouterColonneATableDejaExistente(Colonne col, Object defautValeur) throws SQLException, CustomException{
+
+	public void ajouterColonneATableDejaExistente(Colonne col, Object defautValeur)
+			throws SQLException, CustomException {
 		this.BDD.getServeur().ajouterColonne(this.nom, defautValeur, col);
 		this.ajouterAttribut(col);
 	}
-	
-	public BaseDeDonnees getBDD(){
+
+	public BaseDeDonnees getBDD() {
 		return this.BDD;
 	}
-	
-	public void modifierContraintes(ArrayList<Contrainte> contraintes, Colonne colonne) throws SQLException, CustomException{
+
+	public void modifierContraintes(ArrayList<Contrainte> contraintes, Colonne colonne)
+			throws SQLException, CustomException {
 		Colonne col = new Colonne<>(colonne.getNom(), colonne.getTypeDonnees());
 		Contrainte ref = null;
-		for(Contrainte c : contraintes){
-			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+		for (Contrainte c : contraintes) {
+			if (c.getContrainteType() != TypeContrainte.REFERENCEKEY)
 				col.ajouterContrainte(c);
 			else
 				ref = c;
 		}
 		this.BDD.getServeur().modifierContrainte(this.nom, col);
 		colonne.getListeContraintes().clear();
-		for(Contrainte c : contraintes){
-			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+		for (Contrainte c : contraintes) {
+			if (c.getContrainteType() != TypeContrainte.REFERENCEKEY)
 				colonne.ajouterContrainte(c);
 		}
-		if(ref != null){
+		if (ref != null) {
 			this.BDD.getServeur().ajouterFKColExistente(this.nom, colonne.getNom(), ref);
 			colonne.ajouterContrainte(ref);
 		}
 	}
 
-	public void supprimerColonne(String nomColonne) throws SQLException, CustomException{
+	public void supprimerColonne(String nomColonne) throws SQLException, CustomException {
 		this.BDD.getServeur().supprimerColonne(this.nom, nomColonne);
-		for(int i = 0; i<this.listeColonnes.size(); i++){
-			if(this.listeColonnes.get(i).getNom().equals(nomColonne)){
+		for (int i = 0; i < this.listeColonnes.size(); i++) {
+			if (this.listeColonnes.get(i).getNom().equals(nomColonne)) {
 				this.listeColonnes.remove(i);
 				return;
 			}
 		}
 	}
-	
+
 }

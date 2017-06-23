@@ -3,18 +3,18 @@ package vue;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
+import modele.Table;
 
 public class ModeleTable extends DefaultTableModel {
 
@@ -48,10 +48,13 @@ public class ModeleTable extends DefaultTableModel {
 			} else {
 				ret = false;
 			}
-			for(int i = 1;i < fenetre.getVuePrincipale().getTable().getColumnCount()-2; i++){
+			for(int i = 0;i < fenetre.getVuePrincipale().getTable().getColumnCount()-2; i++){
 				//modifier id ligne et num colone
 				//id ligne: fenetre.getVuePrincipale().getTable().getValueAt(ligneAEditer, 0);
 				//num colone: i
+				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				String nomColonne = this.getColumnName(i);
+				//table.editerTuple(fenetre.getVuePrincipale().getTable().getValueAt(ligneAEditer, 0), nomColonne, newValeur);
 			}
 			
 		}
