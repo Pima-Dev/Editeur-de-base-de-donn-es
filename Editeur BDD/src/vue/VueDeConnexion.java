@@ -70,7 +70,7 @@ public class VueDeConnexion extends JPanel{
 		fPseudo.addKeyListener(new TouchePresseListener(fenetre));
 		fMotDePasse = new JPasswordField();
 		fMotDePasse.setName("Connexion");
-		fPseudo.addKeyListener(new TouchePresseListener(fenetre));
+		fMotDePasse.addKeyListener(new TouchePresseListener(fenetre));
 		bConnection = new JButton("Connexion");
 		bCreationUtilisateur = new JButton("Creation de compte");
 		bMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");

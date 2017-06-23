@@ -15,7 +15,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 import modele.BaseDeDonnees;
 import modele.Colonne;
@@ -53,27 +55,31 @@ public class PresserBoutonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof JTextField) {
+			JTextField field = (JTextField) e.getSource();
+			
+			if(field.getName().equals("Connexion")){
+				connexion();
+			}
+			if(field.getName().equals("Valider creation nouvel utilisateur")){
+				creationUtilisateur();
+			}
+		}
+		if (e.getSource() instanceof JPasswordField) {
+			JPasswordField field = (JPasswordField) e.getSource();
+			
+			if(field.getName().equals("Connexion")){
+				connexion();
+			}
+			if(field.getName().equals("Valider creation nouvel utilisateur")){
+				creationUtilisateur();
+			}
+		}
+		else if (e.getSource() instanceof JButton) {
 			JButton bouton = (JButton) e.getSource();
 
 			if (bouton.getName().equals("Connexion")) {
-				String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
-				String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
-				// if(bonMDP(nom, motDePasse)){
-				if (true) {
-					fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
-					fenetre.getFenetre().setExtendedState(JFrame.MAXIMIZED_BOTH);
-					fenetre.getFenetre().setTitle("Editeur de base de données");
-					fenetre.getFenetre().setLocationRelativeTo(null);
-					fenetre.getFenetre().setVisible(true);
-					fenetre.setSesstion(new Session(nom));
-				} else {
-					this.fenetre.getVueDeConnexion().getlErreurIdentifiant()
-							.setText("<HTML><i>Erreur d'identifiant</i></HTML>");
-					;
-					fenetre.getFenetre().setVisible(true);
-					fenetre.getFenetre().setLocationRelativeTo(null);
-				}
+				connexion();
 			} else if (bouton.getName().equals("Nouvel utilisateur")) {
 				fenetre.getFenetre().setContentPane(new VueDeCreationDUtilisateur(fenetre));
 				fenetre.getFenetre().setVisible(true);
@@ -97,38 +103,7 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("Valider creation nouvel utilisateur")) {
-				JOptionPane jop = new JOptionPane();
-				if (this.fenetre.getVueCreationUtilisateur().isvUtilisateur()
-						&& this.fenetre.getVueCreationUtilisateur().isvEmail()
-						&& this.fenetre.getVueCreationUtilisateur().isvMotDePasse()
-						&& this.fenetre.getVueCreationUtilisateur().isvConfirmation()) {
-
-					String entre = jop.showInputDialog(null, "Veuillez entrer le code qui vous à été envoyé par mail",
-							"Confirmation d'Email", JOptionPane.QUESTION_MESSAGE);
-					if (entre != null) {
-						if (entre.equals("")) {
-							String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
-							ELFichier.creerDossier(nom);
-							ELFichier.setCle(nom + "/session", "user", nom);
-							ELFichier.setCle(nom + "/session", "MDP", ELFichier.cryptMDP(new String(
-									this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
-							ELFichier.setCle(nom + "/session", "email",
-									this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
-							ELFichier.setCle(nom + "/session", "Q1",
-									this.fenetre.getVueCreationUtilisateur().gettQ1().getText());
-							ELFichier.setCle(nom + "/session", "Q2",
-									this.fenetre.getVueCreationUtilisateur().gettQ2().getText());
-							ELFichier.setCle(nom + "/session", "Q3",
-									this.fenetre.getVueCreationUtilisateur().gettQ3().getText());
-							VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
-							this.fenetre.setVueDeConnexion(vueCo);
-							fenetre.getFenetre().setContentPane(vueCo);
-							fenetre.getFenetre().setVisible(true);
-							fenetre.getFenetre().pack();
-							fenetre.getFenetre().setLocationRelativeTo(null);
-						}
-					}
-				}
+				creationUtilisateur();
 			} else if (bouton.getName().equals("valider creation bdd")) {
 				if (this.fenetre.getVueCreationBDD().getfNomBDD().getText().contains(" ")) {
 					new CustomException("Erreur", "Le nom de la BDD ne doit pas contenir d'espaces");
@@ -622,5 +597,60 @@ public class PresserBoutonListener implements ActionListener {
 			ret = true;
 		}
 		return ret;
+	}
+	
+	public void connexion(){
+		String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
+		String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
+		// if(bonMDP(nom, motDePasse)){
+		if (true) {
+			fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
+			fenetre.getFenetre().setExtendedState(JFrame.MAXIMIZED_BOTH);
+			fenetre.getFenetre().setTitle("Editeur de base de données");
+			fenetre.getFenetre().setLocationRelativeTo(null);
+			fenetre.getFenetre().setVisible(true);
+			fenetre.setSesstion(new Session(nom));
+		} else {
+			this.fenetre.getVueDeConnexion().getlErreurIdentifiant()
+					.setText("<HTML><i>Erreur d'identifiant</i></HTML>");
+			;
+			fenetre.getFenetre().setVisible(true);
+			fenetre.getFenetre().setLocationRelativeTo(null);
+		}
+	}
+	
+	public void creationUtilisateur(){
+		JOptionPane jop = new JOptionPane();
+		if (this.fenetre.getVueCreationUtilisateur().isvUtilisateur()
+				&& this.fenetre.getVueCreationUtilisateur().isvEmail()
+				&& this.fenetre.getVueCreationUtilisateur().isvMotDePasse()
+				&& this.fenetre.getVueCreationUtilisateur().isvConfirmation()) {
+
+			String entre = jop.showInputDialog(null, "Veuillez entrer le code qui vous à été envoyé par mail",
+					"Confirmation d'Email", JOptionPane.QUESTION_MESSAGE);
+			if (entre != null) {
+				if (entre.equals("")) {
+					String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
+					ELFichier.creerDossier(nom);
+					ELFichier.setCle(nom + "/session", "user", nom);
+					ELFichier.setCle(nom + "/session", "MDP", ELFichier.cryptMDP(new String(
+							this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
+					ELFichier.setCle(nom + "/session", "email",
+							this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
+					ELFichier.setCle(nom + "/session", "Q1",
+							this.fenetre.getVueCreationUtilisateur().gettQ1().getText());
+					ELFichier.setCle(nom + "/session", "Q2",
+							this.fenetre.getVueCreationUtilisateur().gettQ2().getText());
+					ELFichier.setCle(nom + "/session", "Q3",
+							this.fenetre.getVueCreationUtilisateur().gettQ3().getText());
+					VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
+					this.fenetre.setVueDeConnexion(vueCo);
+					fenetre.getFenetre().setContentPane(vueCo);
+					fenetre.getFenetre().setVisible(true);
+					fenetre.getFenetre().pack();
+					fenetre.getFenetre().setLocationRelativeTo(null);
+				}
+			}
+		}
 	}
 }

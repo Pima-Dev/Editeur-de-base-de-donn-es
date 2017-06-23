@@ -55,7 +55,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		vMotDePasse = false;
 		vEmail = false;
 		vUtilisateur = false;
-		decoration();
+		declaration();
 		panneauChamps.add(lTitre);
 		panneauChamps.add(lUtilisateur);
 		panneauChamps.add(fUtilisateur);
@@ -105,7 +105,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	}
 	
 
-	public void decoration(){
+	public void declaration(){
 		this.setLayout(new BorderLayout());
 		panneauChamps = new JPanel();
 		panneauChamps.setLayout(new GridLayout(16,1,5,5));
