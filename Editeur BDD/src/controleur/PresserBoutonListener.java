@@ -57,25 +57,24 @@ public class PresserBoutonListener implements ActionListener {
 
 		if (e.getSource() instanceof JTextField) {
 			JTextField field = (JTextField) e.getSource();
-			
-			if(field.getName().equals("Connexion")){
+
+			if (field.getName().equals("Connexion")) {
 				connexion();
 			}
-			if(field.getName().equals("Valider creation nouvel utilisateur")){
+			if (field.getName().equals("Valider creation nouvel utilisateur")) {
 				creationUtilisateur();
 			}
 		}
 		if (e.getSource() instanceof JPasswordField) {
 			JPasswordField field = (JPasswordField) e.getSource();
-			
-			if(field.getName().equals("Connexion")){
+
+			if (field.getName().equals("Connexion")) {
 				connexion();
 			}
-			if(field.getName().equals("Valider creation nouvel utilisateur")){
+			if (field.getName().equals("Valider creation nouvel utilisateur")) {
 				creationUtilisateur();
 			}
-		}
-		else if (e.getSource() instanceof JButton) {
+		} else if (e.getSource() instanceof JButton) {
 			JButton bouton = (JButton) e.getSource();
 
 			if (bouton.getName().equals("Connexion")) {
@@ -282,10 +281,10 @@ public class PresserBoutonListener implements ActionListener {
 						this.fenetre.getBDD().refreshAllBDD();
 					} catch (CustomException e1) {
 						Util.logErreur(e1.getMessage());
-					} catch(SQLException e1){
+					} catch (SQLException e1) {
 						Util.logErreur(e1.getMessage());
 					}
-					
+
 				}
 			}
 
@@ -381,23 +380,26 @@ public class PresserBoutonListener implements ActionListener {
 				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
 			} else if (bouton.getName().equals("modifier les contraintes")) {
 				new VueModifierContrainte(this.fenetre);
-			} 
-			
-			else if(bouton.getName().equals("valider modification contraintes")){
+			}
+
+			else if (bouton.getName().equals("valider modification contraintes")) {
 				ArrayList<Contrainte> contraintes = new ArrayList<Contrainte>();
-				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).getColonne(this.fenetre.getVueModifierContrainte().getColonnes().getSelectedItem().toString());
-				if(this.fenetre.getVueModifierContrainte().getNotNull().isSelected()){
+				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable()))
+						.getColonne(this.fenetre.getVueModifierContrainte().getColonnes().getSelectedItem().toString());
+				if (this.fenetre.getVueModifierContrainte().getNotNull().isSelected()) {
 					contraintes.add(new Contrainte(TypeContrainte.NOTNULL, null));
 				}
-				if(this.fenetre.getVueModifierContrainte().getUnique().isSelected()){
+				if (this.fenetre.getVueModifierContrainte().getUnique().isSelected()) {
 					contraintes.add(new Contrainte(TypeContrainte.UNIQUE, null));
 				}
-				if(this.fenetre.getVueModifierContrainte().getReferencesKey().isSelected()){
-					Table reference = this.fenetre.getBDD().getTable(this.fenetre.getVueModifierContrainte().getReference().getSelectedItem().toString());
+				if (this.fenetre.getVueModifierContrainte().getReferencesKey().isSelected()) {
+					Table reference = this.fenetre.getBDD().getTable(
+							this.fenetre.getVueModifierContrainte().getReference().getSelectedItem().toString());
 					contraintes.add(new Contrainte(TypeContrainte.REFERENCEKEY, reference));
 				}
 				try {
-					this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).modifierContraintes(contraintes, col);
+					this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable()))
+							.modifierContraintes(contraintes, col);
 					this.fenetre.getVueModifierContrainte().getFrame().dispose();
 				} catch (SQLException e1) {
 					Util.logErreur(e1.getMessage());
@@ -406,25 +408,26 @@ public class PresserBoutonListener implements ActionListener {
 					Util.logErreur(e1.getMessage());
 				}
 			}
-			
-			else if(bouton.getName().equals("supprimer attribut")){
-				if(this.fenetre.getBDD() == null){
+
+			else if (bouton.getName().equals("supprimer attribut")) {
+				if (this.fenetre.getBDD() == null) {
 					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
 					return;
 				}
 				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				if(table == null){
+				if (table == null) {
 					new CustomException("Erreur", "Une erreur est survenu, veuillez réassayer.");
 					return;
 				}
 				String[] colonnes = new String[table.getListeColonnes().size()];
-				for(int i = 0; i<table.getListeColonnes().size(); i++){
-					if(!table.getListeColonnes().get(i).getNom().equals(table.getClePrimaire().getNom()))
+				for (int i = 0; i < table.getListeColonnes().size(); i++) {
+					if (!table.getListeColonnes().get(i).getNom().equals(table.getClePrimaire().getNom()))
 						colonnes[i] = table.getListeColonnes().get(i).getNom();
 				}
-				String colonne = (String)JOptionPane.showInputDialog(null, "Sélectionnez l'attribut à supprimer", "Supprimer un attribut", JOptionPane.QUESTION_MESSAGE, null, colonnes, colonnes[0]);
-				
-				if(colonne == null){
+				String colonne = (String) JOptionPane.showInputDialog(null, "Sélectionnez l'attribut à supprimer",
+						"Supprimer un attribut", JOptionPane.QUESTION_MESSAGE, null, colonnes, colonnes[0]);
+
+				if (colonne == null) {
 					return;
 				}
 				try {
@@ -491,19 +494,23 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			} else if (item.getName().equals("MenuExporterEnPDF")) {
-				if (fenetre.getVuePrincipale().getDm() == null) {
-					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
-				} else {
-					JFileChooser choix = new JFileChooser();
-					choix.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					int retour = choix.showOpenDialog(new JFrame());
-					if (retour == JFileChooser.APPROVE_OPTION) {
-						((ModeleTable) fenetre.getVuePrincipale().getTable().getModel())
-								.exporterPDF(choix.getSelectedFile().getAbsolutePath());
-					} else {
-						JOptionPane.showMessageDialog(null, "Le dossier n'a pas été choisi!", "Erreur",
-								JOptionPane.ERROR_MESSAGE);
-					}
+
+				if(this.fenetre.getBDD() == null){
+					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
+					return;
+				}
+				
+				if(this.fenetre.getVuePrincipale().getCurrentTable() == null){
+					new CustomException("Erreur", "Il n'y a pas de table d'ouverte");
+				}
+				
+				JFileChooser choix = new JFileChooser();
+				choix.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				int retour = choix.showOpenDialog(new JFrame());
+				if (retour == JFileChooser.APPROVE_OPTION) {
+					Util.exporterPDF(this.fenetre.getVuePrincipale().getTable(),
+							choix.getSelectedFile().getAbsolutePath());
+
 				}
 			}
 		}
@@ -538,21 +545,20 @@ public class PresserBoutonListener implements ActionListener {
 					fenetre.getVueOuvrirBDD().getBoutonLocal().setSelected(false);
 				}
 			}
-			
-			else if(box.getName().equals("combobox choix colonne pour modification contrainte")){
-				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).getColonne(box.getSelectedItem().toString());
+
+			else if (box.getName().equals("combobox choix colonne pour modification contrainte")) {
+				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable()))
+						.getColonne(box.getSelectedItem().toString());
 				this.fenetre.getVueModifierContrainte().getNotNull().setSelected(false);
 				this.fenetre.getVueModifierContrainte().getUnique().setSelected(false);
 				this.fenetre.getVueModifierContrainte().getReferencesKey().setSelected(false);
 				this.fenetre.getVueModifierContrainte().getReference().setEnabled(false);
-				for(Contrainte contrainte : (ArrayList<Contrainte>) col.getListeContraintes()){
-					if(contrainte.getContrainteType() == TypeContrainte.NOTNULL){
+				for (Contrainte contrainte : (ArrayList<Contrainte>) col.getListeContraintes()) {
+					if (contrainte.getContrainteType() == TypeContrainte.NOTNULL) {
 						this.fenetre.getVueModifierContrainte().getNotNull().setSelected(true);
-					}
-					else if(contrainte.getContrainteType() == TypeContrainte.UNIQUE){
+					} else if (contrainte.getContrainteType() == TypeContrainte.UNIQUE) {
 						this.fenetre.getVueModifierContrainte().getUnique().setSelected(true);
-					}
-					else if(contrainte.getContrainteType() == TypeContrainte.REFERENCEKEY){
+					} else if (contrainte.getContrainteType() == TypeContrainte.REFERENCEKEY) {
 						this.fenetre.getVueModifierContrainte().getReferencesKey().setSelected(true);
 						this.fenetre.getVueModifierContrainte().getReference().setEnabled(true);
 					}
@@ -577,12 +583,11 @@ public class PresserBoutonListener implements ActionListener {
 					this.fenetre.getVueAjouterAttribut().getReference().setEnabled(false);
 				}
 			}
-			
-			else if(check.getName().equals("checkbox reference key modifier contrainte")){
-				if(check.isSelected()){
+
+			else if (check.getName().equals("checkbox reference key modifier contrainte")) {
+				if (check.isSelected()) {
 					this.fenetre.getVueModifierContrainte().getReference().setEnabled(true);
-				}
-				else{
+				} else {
 					this.fenetre.getVueModifierContrainte().getReference().setEnabled(false);
 				}
 			}
@@ -598,8 +603,8 @@ public class PresserBoutonListener implements ActionListener {
 		}
 		return ret;
 	}
-	
-	public void connexion(){
+
+	public void connexion() {
 		String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 		String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
 		// if(bonMDP(nom, motDePasse)){
@@ -618,8 +623,8 @@ public class PresserBoutonListener implements ActionListener {
 			fenetre.getFenetre().setLocationRelativeTo(null);
 		}
 	}
-	
-	public void creationUtilisateur(){
+
+	public void creationUtilisateur() {
 		JOptionPane jop = new JOptionPane();
 		if (this.fenetre.getVueCreationUtilisateur().isvUtilisateur()
 				&& this.fenetre.getVueCreationUtilisateur().isvEmail()
@@ -633,8 +638,8 @@ public class PresserBoutonListener implements ActionListener {
 					String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
 					ELFichier.creerDossier(nom);
 					ELFichier.setCle(nom + "/session", "user", nom);
-					ELFichier.setCle(nom + "/session", "MDP", ELFichier.cryptMDP(new String(
-							this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
+					ELFichier.setCle(nom + "/session", "MDP", ELFichier.cryptMDP(
+							new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
 					ELFichier.setCle(nom + "/session", "email",
 							this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
 					ELFichier.setCle(nom + "/session", "Q1",
