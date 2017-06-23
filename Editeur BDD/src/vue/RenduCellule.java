@@ -3,6 +3,7 @@ package vue;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -10,7 +11,12 @@ import javax.swing.table.TableCellRenderer;
 
 class RenduCellule extends JButton implements TableCellRenderer {
 
-	public RenduCellule() {
+	public RenduCellule(String type) {
+		if(type.equals("modifier")){
+			this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+		}else if(type.equals("supprimer")){
+			this.setIcon(new ImageIcon("src/ressources/supprimer.png"));
+		}
     }
 
     @Override

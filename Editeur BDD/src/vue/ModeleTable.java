@@ -37,18 +37,23 @@ public class ModeleTable extends DefaultTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if (editable) {
-			System.out.println("pass");
 			if (columnIndex > 0 && ligneAEditer == rowIndex) {
 				ret = true;
 			} else {
 				ret = false;
 			}
 		} else {
-			if (getColumnClass(columnIndex) == JButton.class) {
+			if (columnIndex > fenetre.getVuePrincipale().getTable().getColumnCount()-3) {
 				ret = true;
 			} else {
 				ret = false;
 			}
+			for(int i = 1;i < fenetre.getVuePrincipale().getTable().getColumnCount()-2; i++){
+				//modifier id ligne et num colone
+				//id ligne: fenetre.getVuePrincipale().getTable().getValueAt(ligneAEditer, 0);
+				//num colone: i
+			}
+			
 		}
 		return ret;
 	}
