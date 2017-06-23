@@ -160,7 +160,7 @@ public class ModeleTable extends DefaultTableModel {
 			PDPageContentStream contentStream = new PDPageContentStream(document, PageDocument);
 			contentStream.beginText();
 			contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-			//contentStream.newLineAtOffset(25, 500);
+			//contentStream.newLineAtOffset(25, 25);
 			contentStream.showText("test");
 			contentStream.close();
 			contentStream.endText();

@@ -405,10 +405,12 @@ public class PresserBoutonListener implements ActionListener {
 				}
 			} else if (bouton.getName().equals("OptionRecherche")) {
 				if(fenetre.getVuePrincipale().getTable() != null){
+					fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
+					((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
 					new VueRechercheAvance(fenetre);
-					}else{
-						JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
-					}
+				}else{
+					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
+				}
 			} else if (bouton.getName().equals("LancerRechercheAvance")) {
 				((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
 				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
