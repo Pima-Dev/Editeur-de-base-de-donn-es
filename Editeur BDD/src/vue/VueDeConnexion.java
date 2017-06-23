@@ -3,6 +3,7 @@ package vue;
 import javax.swing.*;
 
 import controleur.PresserBoutonListener;
+import controleur.TouchePresseListener;
 
 import java.awt.*;
 
@@ -65,7 +66,11 @@ public class VueDeConnexion extends JPanel{
 		lMotDePasse = new JLabel("Mot de passe");
 		lMotDePasse.setHorizontalAlignment(SwingConstants.CENTER);
 		fPseudo = new JTextField();
+		fPseudo.setName("Connexion");
+		fPseudo.addKeyListener(new TouchePresseListener(fenetre));
 		fMotDePasse = new JPasswordField();
+		fMotDePasse.setName("Connexion");
+		fPseudo.addKeyListener(new TouchePresseListener(fenetre));
 		bConnection = new JButton("Connexion");
 		bCreationUtilisateur = new JButton("Creation de compte");
 		bMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");
