@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Colonne<V> implements Cloneable{
@@ -29,10 +30,15 @@ public class Colonne<V> implements Cloneable{
 	private TypeDonnee type;
 	
 	/**
+	 * La table dans laquel est la colonne
+	 */
+	private Table table;
+	
+	/**
 	 * Initialise le nom de la colonne
 	 * @param nom Le nom de la colonne
 	 */
-	public Colonne(String nom, TypeDonnee type){
+	public Colonne(String nom, TypeDonnee type, Table table){
 		this.nom = nom;
 		this.type = type;
 		this.listeContraintes = new ArrayList<Contrainte>();
@@ -56,7 +62,7 @@ public class Colonne<V> implements Cloneable{
 	}
 	
 	/**
-	 * Permet d'accéder à une valeur avec 
+	 * Permet d'accéder à une valeur avec son index
 	 * @param index
 	 * @return
 	 */
@@ -70,17 +76,19 @@ public class Colonne<V> implements Cloneable{
 	 * @throws CustomException 
 	 */
 	public void ajouterValeur(V valeur) throws CustomException{
-		if(valeur instanceof Double && this.type != TypeDonnee.DOUBLE){
-			throw new CustomException("Erreur de type", "Un DOUBLE ne peut pas être ajouté dans une colonne de type "+this.type+".");
-		}
-		else if(valeur instanceof Integer && this.type != TypeDonnee.INTEGER){
-			throw new CustomException("Erreur de type", "Un INTEGER ne peut pas être ajouté dans une colonne de type "+this.type+".");
-		}
-		else if(valeur instanceof String && Util.isValidDate((String)valeur) && this.type != TypeDonnee.DATE){
-			throw new CustomException("Erreur de type", "Une DATE ne peut pas être ajouté dans une colonne de type "+this.type+".");
-		}
-		else if(valeur instanceof String && !Util.isValidDate((String)valeur) && this.type != TypeDonnee.CHAR){
-			throw new CustomException("Erreur de type", "Un CHAR ne peut pas être ajouté dans une colonne de type "+this.type+".");
+		if(valeur != null){
+			if(this.type == TypeDonnee.INTEGER && !Util.isInteger(valeur.toString())){
+				throw new CustomException("Erreur de type", "'"+valeur+"' ne peut pas être ajouté dans une colonne de type "+this.type+".");
+			}
+			else if(this.type == TypeDonnee.DOUBLE && !Util.isDouble((valeur.toString()))){
+				throw new CustomException("Erreur de type", "'"+valeur+"' ne peut pas être ajouté dans une colonne de type "+this.type+".");
+			} 
+			else if(this.type == TypeDonnee.DATE && (!(valeur instanceof String) || !Util.isValidDate(valeur.toString()))){
+				throw new CustomException("Erreur de type", "'"+valeur+"' ne peut pas être ajouté dans une colonne de type "+this.type+".");
+			}
+			else if(this.type == TypeDonnee.CHAR && (!(valeur instanceof String))){
+				throw new CustomException("Erreur de type", "'"+valeur+"' ne peut pas être ajouté dans une colonne de type "+this.type+".");
+			}
 		}
 		
 		this.listeValeurs.add(valeur);
@@ -177,6 +185,57 @@ public class Colonne<V> implements Cloneable{
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	private void modifierContraintes(ArrayList<Contrainte> contraintes) throws SQLException, CustomException{
+		Colonne col = new Colonne<>(this.nom, this.type, this.table);
+		Contrainte ref = null;
+		for(Contrainte c : contraintes){
+			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+				col.ajouterContrainte(c);
+			else
+				ref = c;
+		}
+		this.table.getBDD().getServeur().modifierContrainte(this.table.getNom(), col);
+		this.listeContraintes.clear();
+		for(Contrainte c : contraintes){
+			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+				this.ajouterContrainte(c);
+		}
+		if(ref != null){
+			this.table.getBDD().getServeur().ajouterFKColExistente(this.table.getNom(), this.nom, ref);
+			this.ajouterContrainte(ref);
+		}
+	}
+	
+	public void ajouterContrainteExisteCol(Contrainte contrainte) throws CustomException, SQLException{
+		for(Contrainte c : this.listeContraintes){
+			if(c.getContrainteType() == contrainte.getContrainteType()){
+				throw new CustomException("Erreur", "Cette contrainte est déjà présente dans cette colonne.");
+			}
+		}
+		ArrayList<Contrainte> contraintes = (ArrayList<Contrainte>) this.listeContraintes.clone();
+		contraintes.add(contrainte);
+		this.modifierContraintes(contraintes);
+	}
+	
+	public void supprimerContrainteExisteCol(Contrainte contrainte) throws CustomException, SQLException{
+		boolean existePas = true;
+		for(Contrainte c : this.listeContraintes){
+			if(c.getContrainteType() == contrainte.getContrainteType()){
+				existePas = false;
+			}
+		}
+		if(existePas){
+			throw new CustomException("Erreur", "Cette contrainte n'existe pas dans cette colonne et ne peut donc pas être supprimé.");
+		}
+		ArrayList<Contrainte> contraintes = (ArrayList<Contrainte>) this.listeContraintes.clone();
+		for(int i =0; i<contraintes.size(); i++){
+			if(contraintes.get(i).getContrainteType() == contrainte.getContrainteType()){
+				contraintes.remove(i);
+			}
+		}
+		this.modifierContraintes(contraintes);
 	}
 }
 

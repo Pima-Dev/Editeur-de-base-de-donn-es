@@ -94,27 +94,27 @@ public class Table implements Cloneable {
 		for (Object obj : attributs) {
 			System.out.println(obj);
 			if(obj == null){
-				Colonne<Integer> col = new Colonne<Integer>("colonne", null);
+				Colonne<Integer> col = new Colonne<Integer>("colonne", null, this);
 				col.ajouterValeur(null);
 				tuple.add(col);
 			}
 			else if (Util.isInteger(obj.toString())) {
-				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER);
+				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER, this);
 				col.ajouterValeur((int) obj);
 				tuple.add(col);
 			}
 
 			else if (Util.isDouble(obj.toString())) {
-				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE);
+				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE, this);
 				col.ajouterValeur((double) obj);
 				tuple.add(col);
 				
 			} else if (obj instanceof String && Util.isValidDate((String) obj)) {
-				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE);
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE, this);
 				col.ajouterValeur((String) obj);
 				tuple.add(col);
 			} else if (obj instanceof String) {
-				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR);
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR, this);
 				col.ajouterValeur((String) obj);
 				tuple.add(col);
 			} else {
@@ -358,8 +358,12 @@ public class Table implements Cloneable {
 	}
 	
 	public void ajouterColonneATableDejaExistente(Colonne col, Object defautValeur) throws SQLException, CustomException{
-		this.BDD.getServeur().ajouterColonne(this.nom, col.getNom(), defautValeur, col.getTypeDonnees());
+		this.BDD.getServeur().ajouterColonne(this.nom, defautValeur, col);
 		this.ajouterAttribut(col);
+	}
+	
+	public BaseDeDonnees getBDD(){
+		return this.BDD;
 	}
 	
 	

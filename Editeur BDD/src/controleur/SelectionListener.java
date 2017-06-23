@@ -47,9 +47,9 @@ public class SelectionListener implements ListSelectionListener {
 								"Clé primaire", JOptionPane.QUESTION_MESSAGE);
 					if (s != null && s2 != null && s.length() > 0 && s2.length() > 0) {
 						try {
-							Colonne<Integer> col = new Colonne<Integer>(s2, TypeDonnee.INTEGER);
-							col.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
 							Table table = new Table(this.fenetre.getBDD(), s);
+							Colonne<Integer> col = new Colonne<Integer>(s2, TypeDonnee.INTEGER, table);
+							col.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
 							table.ajouterAttribut(col);
 							this.fenetre.getBDD().ajouterTable(table);
 							this.fenetre.getVuePrincipale().ajouterTable(s);

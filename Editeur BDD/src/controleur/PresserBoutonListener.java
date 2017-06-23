@@ -315,7 +315,7 @@ public class PresserBoutonListener implements ActionListener {
 				TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
 						: (sType.equals("DOUBLE") ? TypeDonnee.DOUBLE
 								: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
-				Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
+				Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type, current);
 				try {
 					if (this.fenetre.getVueAjouterAttribut().getNotNull().isSelected()) {
 						col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
@@ -333,34 +333,42 @@ public class PresserBoutonListener implements ActionListener {
 					if (type.equals(TypeDonnee.INTEGER)) {
 						while (!Util.isInteger((String) obj)&& obj != null  && !obj.toString().equals("")) {
 							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 						}		
 					}
 					else if (type.equals(TypeDonnee.DOUBLE)) {
 						while (!Util.isDouble((String) obj) && obj != null  && !obj.toString().equals("")) {
 							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 						}
 					}
 					else if (type.equals(TypeDonnee.DATE)) {
 						while (!Util.isValidDate((String) obj) && obj != null  && !obj.toString().equals("")) {
 							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 						}
+					}
+					else{
+						obj = JOptionPane.showInputDialog(null,
+								"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 					}
 					if (obj == null)
 						return;
 					if(obj.toString().replaceAll(" ", "").equals(""))	
 						obj = null;
 					
-					current.ajouterAttribut(col);
-					this.fenetre.getBDD().getServeur().supprimerTable(current.getNom());
-					System.out.println("nombre colonnes :"+current.getListeColonnes().size());
-					this.fenetre.getBDD().getServeur().creerTable(current.getNom(), current.getListeColonnes());
+					if(current.getListeColonnes().size()>0){
+						for(int i = 0; i<current.getListeColonnes().get(0).getListeValeurs().size(); i++){
+							col.ajouterValeur(obj);
+						}
+					}
+					current.ajouterColonneATableDejaExistente(col, obj);
 					this.fenetre.getVueAjouterAttribut().getFrame().dispose();
 					current.refreshTable();
 						
 				} catch(CustomException e1){
+					Util.logErreur(e1.getMessage());
+				} catch(SQLException e1){
 					Util.logErreur(e1.getMessage());
 				}
 				

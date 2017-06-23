@@ -34,7 +34,7 @@ public class TestServeur {
 			colonne2.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
 			//colonne2.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, table1));
 			*/
-			Colonne<Integer> colonne3 = new Colonne<Integer>("colonne3", TypeDonnee.INTEGER);
+			Colonne<Integer> colonne3 = new Colonne<Integer>("colonne3", TypeDonnee.INTEGER, null);
 			//colonne3.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
 			colonne3.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
 			//colonne3.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY, table1));
