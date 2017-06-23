@@ -187,7 +187,7 @@ public class Colonne<V> implements Cloneable{
 		}
 	}
 	
-	private void modifierContraintes(ArrayList<Contrainte> contraintes) throws SQLException, CustomException{
+	public void modifierContraintes(ArrayList<Contrainte> contraintes) throws SQLException, CustomException{
 		Colonne col = new Colonne<>(this.nom, this.type, this.table);
 		Contrainte ref = null;
 		for(Contrainte c : contraintes){

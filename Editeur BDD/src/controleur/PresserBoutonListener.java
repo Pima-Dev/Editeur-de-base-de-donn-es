@@ -33,6 +33,7 @@ import vue.VueAjouterAttribut;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
+import vue.VueModifierContrainte;
 import vue.VueOuvrirBDD;
 import vue.VuePrincipale;
 import vue.VueRechercheAvance;
@@ -129,7 +130,7 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			} else if (bouton.getName().equals("valider creation bdd")) {
-				if(this.fenetre.getVueCreationBDD().getfNomBDD().getText().contains(" ")){
+				if (this.fenetre.getVueCreationBDD().getfNomBDD().getText().contains(" ")) {
 					new CustomException("Erreur", "Le nom de la BDD ne doit pas contenir d'espaces");
 					return;
 				}
@@ -219,7 +220,7 @@ public class PresserBoutonListener implements ActionListener {
 						Object s = " ";
 
 						if (col.getTypeDonnees() == TypeDonnee.DATE) {
-							while (!Util.isValidDate((String) s) && s != null  && !s.toString().equals(""))
+							while (!Util.isValidDate((String) s) && s != null && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
@@ -228,14 +229,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							if(!s.toString().replaceAll(" ", "").equals(""))
+							if (!s.toString().replaceAll(" ", "").equals(""))
 								tuple.add(s);
 							else
 								tuple.add(null);
 						}
 
 						else if (col.getTypeDonnees() == TypeDonnee.INTEGER) {
-							while (!Util.isInteger((String) s) && s != null  && !s.toString().equals(""))
+							while (!Util.isInteger((String) s) && s != null && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -244,14 +245,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							if(!s.toString().replaceAll(" ", "").equals(""))
+							if (!s.toString().replaceAll(" ", "").equals(""))
 								tuple.add(Integer.parseInt((String) s));
 							else
 								tuple.add(null);
 						}
 
 						else if (col.getTypeDonnees() == TypeDonnee.DOUBLE) {
-							while (!Util.isDouble((String) s) && s != null  && !s.toString().equals(""))
+							while (!Util.isDouble((String) s) && s != null && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -260,14 +261,14 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							if(!s.toString().replaceAll(" ", "").equals(""))
+							if (!s.toString().replaceAll(" ", "").equals(""))
 								tuple.add(Double.parseDouble((String) s));
 							else
 								tuple.add(null);
 						}
 
 						else {
-							while (s.toString().contains(" ") && s != null  && !s.toString().equals(""))
+							while (s.toString().contains(" ") && s != null && !s.toString().equals(""))
 								s = JOptionPane.showInputDialog(null,
 										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
@@ -276,7 +277,7 @@ public class PresserBoutonListener implements ActionListener {
 										JOptionPane.QUESTION_MESSAGE);
 							if (s == null)
 								return;
-							if(!s.toString().replaceAll(" ", "").equals(""))
+							if (!s.toString().replaceAll(" ", "").equals(""))
 								tuple.add(s);
 							else
 								tuple.add(null);
@@ -291,23 +292,27 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			}
-			
-			else if(bouton.getName().equals("supprimer table")){
-				int rep = JOptionPane.showConfirmDialog(null, "Voulez vous vraiment supprimer la table '"+this.fenetre.getVuePrincipale().getCurrentTable()+"' ?", "Supprimer la table '"+this.fenetre.getVuePrincipale().getCurrentTable()+"' ?", JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if(rep == JOptionPane.OK_OPTION){
+
+			else if (bouton.getName().equals("supprimer table")) {
+				int rep = JOptionPane.showConfirmDialog(null,
+						"Voulez vous vraiment supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable()
+								+ "' ?",
+						"Supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
+						JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (rep == JOptionPane.OK_OPTION) {
 				}
 			}
 
 			else if (bouton.getName().equals("valider creation attribut")) {
-				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());				
-				
+				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+
 				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().isEmpty()) {
 					new CustomException("Erreur", "Vous n'avez pas indiqué le nom de l'attribut.");
-					
+
 					return;
 				}
-				
-				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().contains(" ")){
+
+				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().contains(" ")) {
 					new CustomException("Erreur", "Le nom de l'attribut ne doit pas contenir d'espace.");
 					return;
 				}
@@ -324,66 +329,94 @@ public class PresserBoutonListener implements ActionListener {
 						col.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
 					}
 					if (this.fenetre.getVueAjouterAttribut().getReferencesKey().isSelected()) {
-						String referenceTable = this.fenetre.getVueAjouterAttribut().getReference()
-								.getSelectedItem().toString();
+						String referenceTable = this.fenetre.getVueAjouterAttribut().getReference().getSelectedItem()
+								.toString();
 						col.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY,
 								this.fenetre.getBDD().getTable(referenceTable)));
 					}
 					Object obj = " ";
 					if (type.equals(TypeDonnee.INTEGER)) {
-						while (!Util.isInteger((String) obj)&& obj != null  && !obj.toString().equals("")) {
+						while (!Util.isInteger((String) obj) && obj != null && !obj.toString().equals("")) {
 							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
-						}		
-					}
-					else if (type.equals(TypeDonnee.DOUBLE)) {
-						while (!Util.isDouble((String) obj) && obj != null  && !obj.toString().equals("")) {
-							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+									"Entrez la valeur par défault de votre nouvelle colonne de type "
+											+ type.getSQLType(),
+									"Entrez une valeur de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 						}
-					}
-					else if (type.equals(TypeDonnee.DATE)) {
-						while (!Util.isValidDate((String) obj) && obj != null  && !obj.toString().equals("")) {
+					} else if (type.equals(TypeDonnee.DOUBLE)) {
+						while (!Util.isDouble((String) obj) && obj != null && !obj.toString().equals("")) {
 							obj = JOptionPane.showInputDialog(null,
-									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+									"Entrez la valeur par défault de votre nouvelle colonne de type "
+											+ type.getSQLType(),
+									"Entrez une valeur de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 						}
-					}
-					else{
+					} else if (type.equals(TypeDonnee.DATE)) {
+						while (!Util.isValidDate((String) obj) && obj != null && !obj.toString().equals("")) {
+							obj = JOptionPane.showInputDialog(null,
+									"Entrez la valeur par défault de votre nouvelle colonne de type "
+											+ type.getSQLType(),
+									"Entrez une valeur de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+						}
+					} else {
 						obj = JOptionPane.showInputDialog(null,
-								"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), "Entrez une valeur de type "+type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+								"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(),
+								"Entrez une valeur de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
 					}
 					if (obj == null)
 						return;
-					if(obj.toString().replaceAll(" ", "").equals(""))	
+					if (obj.toString().replaceAll(" ", "").equals(""))
 						obj = null;
-					
-					if(current.getListeColonnes().size()>0){
-						for(int i = 0; i<current.getListeColonnes().get(0).getListeValeurs().size(); i++){
+
+					if (current.getListeColonnes().size() > 0) {
+						for (int i = 0; i < current.getListeColonnes().get(0).getListeValeurs().size(); i++) {
 							col.ajouterValeur(obj);
 						}
 					}
 					current.ajouterColonneATableDejaExistente(col, obj);
 					this.fenetre.getVueAjouterAttribut().getFrame().dispose();
 					current.refreshTable();
-						
-				} catch(CustomException e1){
+
+				} catch (CustomException e1) {
 					Util.logErreur(e1.getMessage());
-				} catch(SQLException e1){
+				} catch (SQLException e1) {
 					Util.logErreur(e1.getMessage());
 				}
-				
-			}
-			else if (bouton.getName().equals("OptionRecherche")) {
-				if(fenetre.getVuePrincipale().getTable() != null){
+
+			} else if (bouton.getName().equals("OptionRecherche")) {
+				if (fenetre.getVuePrincipale().getTable() != null) {
 					fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
-					((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
+					((ModeleTable) fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
 					new VueRechercheAvance(fenetre);
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
 				}
 			} else if (bouton.getName().equals("LancerRechercheAvance")) {
-				((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
+				((ModeleTable) fenetre.getVuePrincipale().getTable().getModel())
+						.rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
 				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
+			} else if (bouton.getName().equals("modifier les contraintes")) {
+				new VueModifierContrainte(this.fenetre);
+			} 
+			
+			else if(bouton.getName().equals("valider modification contraintes")){
+				ArrayList<Contrainte> contraintes = new ArrayList<Contrainte>();
+				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).getColonne(this.fenetre.getVueModifierContrainte().getColonnes().getSelectedItem().toString());
+				if(this.fenetre.getVueModifierContrainte().getNotNull().isSelected()){
+					contraintes.add(new Contrainte(TypeContrainte.NOTNULL, null));
+				}
+				if(this.fenetre.getVueModifierContrainte().getUnique().isSelected()){
+					contraintes.add(new Contrainte(TypeContrainte.UNIQUE, null));
+				}
+				if(this.fenetre.getVueModifierContrainte().getReferencesKey().isSelected()){
+					Table reference = this.fenetre.getBDD().getTable(this.fenetre.getVueModifierContrainte().getReference().getSelectedItem().toString());
+					contraintes.add(new Contrainte(TypeContrainte.NOTNULL, reference));
+				}
+				try {
+					col.modifierContraintes(contraintes);
+				} catch (SQLException e1) {
+					Util.logErreur(e1.getMessage());
+				} catch (CustomException e1) {
+					Util.logErreur(e1.getMessage());
+				}
 			}
 
 		} else if (e.getSource() instanceof JRadioButton) {
@@ -440,16 +473,18 @@ public class PresserBoutonListener implements ActionListener {
 					}
 				}
 			} else if (item.getName().equals("MenuExporterEnPDF")) {
-				if(fenetre.getVuePrincipale().getDm() == null){
+				if (fenetre.getVuePrincipale().getDm() == null) {
 					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
-				}else{
+				} else {
 					JFileChooser choix = new JFileChooser();
 					choix.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					int retour = choix.showOpenDialog(new JFrame());
-					if(retour == JFileChooser.APPROVE_OPTION) {
-						((ModeleTable)fenetre.getVuePrincipale().getTable().getModel()).exporterPDF(choix.getSelectedFile().getAbsolutePath());
+					if (retour == JFileChooser.APPROVE_OPTION) {
+						((ModeleTable) fenetre.getVuePrincipale().getTable().getModel())
+								.exporterPDF(choix.getSelectedFile().getAbsolutePath());
 					} else {
-						JOptionPane.showMessageDialog(null, "Le dossier n'a pas été choisi!", "Erreur", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Le dossier n'a pas été choisi!", "Erreur",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -485,6 +520,26 @@ public class PresserBoutonListener implements ActionListener {
 					fenetre.getVueOuvrirBDD().getBoutonLocal().setSelected(false);
 				}
 			}
+			
+			else if(box.getName().equals("combobox choix colonne pour modification contrainte")){
+				Colonne col = this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).getColonne(box.getSelectedItem().toString());
+				this.fenetre.getVueModifierContrainte().getNotNull().setSelected(false);
+				this.fenetre.getVueModifierContrainte().getUnique().setSelected(false);
+				this.fenetre.getVueModifierContrainte().getReferencesKey().setSelected(false);
+				this.fenetre.getVueModifierContrainte().getReference().setEnabled(false);
+				for(Contrainte contrainte : (ArrayList<Contrainte>) col.getListeContraintes()){
+					if(contrainte.getContrainteType() == TypeContrainte.NOTNULL){
+						this.fenetre.getVueModifierContrainte().getNotNull().setSelected(true);
+					}
+					else if(contrainte.getContrainteType() == TypeContrainte.UNIQUE){
+						this.fenetre.getVueModifierContrainte().getUnique().setSelected(true);
+					}
+					else if(contrainte.getContrainteType() == TypeContrainte.REFERENCEKEY){
+						this.fenetre.getVueModifierContrainte().getReferencesKey().setSelected(true);
+						this.fenetre.getVueModifierContrainte().getReference().setEnabled(true);
+					}
+				}
+			}
 		}
 
 		if (e.getSource() instanceof JCheckBox) {
@@ -502,6 +557,15 @@ public class PresserBoutonListener implements ActionListener {
 					this.fenetre.getVueAjouterAttribut().getReference().setEnabled(true);
 				} else {
 					this.fenetre.getVueAjouterAttribut().getReference().setEnabled(false);
+				}
+			}
+			
+			else if(check.getName().equals("checkbox reference key modifier contrainte")){
+				if(check.isSelected()){
+					this.fenetre.getVueModifierContrainte().getReference().setEnabled(true);
+				}
+				else{
+					this.fenetre.getVueModifierContrainte().getReference().setEnabled(false);
 				}
 			}
 		}

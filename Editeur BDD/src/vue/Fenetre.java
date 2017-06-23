@@ -20,6 +20,8 @@ public class Fenetre{
 	private VueOuvrirBDD vueOuvrirBDD;
 	private VueLogConsole vueLogConsole;
 	private VueRechercheAvance vueRechercheAvance;	
+	private VueModifierContrainte vueModifierContrainte;
+	
 	public Fenetre(){
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -157,6 +159,14 @@ public class Fenetre{
 	 */
 	public void setVueRechercheAvance(VueRechercheAvance vueRechercheAvance) {
 		this.vueRechercheAvance = vueRechercheAvance;
+	}
+
+	public VueModifierContrainte getVueModifierContrainte() {
+		return vueModifierContrainte;
+	}
+
+	public void setVueModifierContrainte(VueModifierContrainte vueModifierContrainte) {
+		this.vueModifierContrainte = vueModifierContrainte;
 	}
 	
 }

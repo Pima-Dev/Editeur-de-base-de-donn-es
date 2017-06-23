@@ -81,8 +81,7 @@ public class VuePrincipale extends JPanel{
 	 private JPanel marge;
 	 private JPanel contrainte;
 	 private JLabel lContrainte;
-	 private JButton ajouterContrainte;
-	 private JButton supprimerContrainte;
+	 private JButton modifierContrainte;
 	 
 	 private Fenetre fenetre;
 	 
@@ -259,10 +258,10 @@ public class VuePrincipale extends JPanel{
 		 lContrainte.setFont(font);
 		 lContrainte.setHorizontalAlignment(SwingConstants.CENTER);
 		 contrainte.add(lContrainte);
-		 ajouterContrainte = new JButton("Ajouter une contrainte");
-		 contrainte.add(ajouterContrainte);
-		 supprimerContrainte = new JButton("Supprimer une contrainte");
-		 contrainte.add(supprimerContrainte);
+		 modifierContrainte = new JButton("Modifier les contraintes");
+		 modifierContrainte.setName("modifier les contraintes");
+		 modifierContrainte.addActionListener(new PresserBoutonListener(this.fenetre));
+		 contrainte.add(modifierContrainte);
 		 panneauBoutons.add(contrainte);
 		 
 		 
@@ -449,16 +448,13 @@ public class VuePrincipale extends JPanel{
 	 * @return the ajouterContrainte
 	 */
 	public JButton getAjouterContrainte() {
-		return ajouterContrainte;
+		return modifierContrainte;
 	}
 
 
 	/**
 	 * @return the supprimerContrainte
 	 */
-	public JButton getSupprimerContrainte() {
-		return supprimerContrainte;
-	}
 
 
 	/**
