@@ -22,6 +22,8 @@ import controleur.ValeurListener;
 public class VueRechercheAvance extends JPanel{
 
 	private JLabel lTitre;
+	private JLabel lMin;
+	private JLabel lMax;
 	private JButton bValider;
 	private JTextField fRecherche;
 	private JCheckBox sensibleALaCasse;
@@ -33,6 +35,7 @@ public class VueRechercheAvance extends JPanel{
 	private JPanel panneauPrincipal;
 	private JPanel panneauCasseMotComplet;
 	private JPanel panneauSelectionnerLigne;
+	private JPanel panneauRecherche;
 	private JSpinner.NumberEditor ligneMinEditeur;
 	private JSpinner.NumberEditor ligneMaxEditeur;
 	private JFrame fenetreRechercheAvance;
@@ -57,19 +60,23 @@ public class VueRechercheAvance extends JPanel{
 		panneauCasseMotComplet.setLayout(new GridLayout(1,2));
 		panneauCasseMotComplet.add(sensibleALaCasse);
 		panneauCasseMotComplet.add(motComplet);
-		panneauSelectionnerLigne.setLayout(new GridLayout(1,3));
+		panneauSelectionnerLigne.setLayout(new GridLayout(3,2));
+		panneauSelectionnerLigne.add(new JLabel(""));
 		panneauSelectionnerLigne.add(selectionnerLigne);
+		panneauSelectionnerLigne.add(lMin);
 		panneauSelectionnerLigne.add(ligneMin);
+		panneauSelectionnerLigne.add(lMax);
 		panneauSelectionnerLigne.add(ligneMax);
-		panneauPrincipal.setLayout(new GridLayout(0,1));
-		panneauPrincipal.add(lTitre);
-		panneauPrincipal.add(fRecherche);
-		panneauPrincipal.add(panneauCasseMotComplet);
-		panneauPrincipal.add(panneauSelectionnerLigne);
-		panneauPrincipal.add(bValider);
+		panneauRecherche.setLayout(new BorderLayout());
+		panneauRecherche.add(fRecherche, BorderLayout.NORTH);
+		panneauRecherche.add(panneauCasseMotComplet, BorderLayout.CENTER);
+		panneauRecherche.add(panneauSelectionnerLigne, BorderLayout.SOUTH);
+		panneauPrincipal.setLayout(new BorderLayout(10,10));
+		panneauPrincipal.add(lTitre,BorderLayout.NORTH);
+		panneauPrincipal.add(panneauRecherche,BorderLayout.CENTER);
+		panneauPrincipal.add(bValider,BorderLayout.SOUTH);
 		fRecherche.setName("BarreRecherche");
 		fRecherche.addFocusListener(new ChampsListener(this.fenetre));
-		//fRecherche.addKeyListener(new TouchePresseListener(this.fenetre));
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
@@ -77,7 +84,7 @@ public class VueRechercheAvance extends JPanel{
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		fenetreRechercheAvance = new JFrame("Créer une nouvelle base de données");
 		fenetreRechercheAvance.setContentPane(this);
-		fenetreRechercheAvance.setSize(new Dimension(400, 300));
+		fenetreRechercheAvance.setSize(new Dimension(400, 250));
 		fenetreRechercheAvance.setResizable(false);
 		fenetreRechercheAvance.setLocationRelativeTo(null);
 		fenetreRechercheAvance.setVisible(true);
@@ -85,6 +92,8 @@ public class VueRechercheAvance extends JPanel{
 
 	private void declaration(){
 		lTitre = new JLabel("Recherche Avancée");
+		lMin = new JLabel("Indice minimum");
+		lMax = new JLabel("Indice maximum");
 		bValider = new JButton("Valider recherche");
 		fRecherche = new JTextField("Chercher les occurences");
 		sensibleALaCasse = new JCheckBox("Sensible à la casse");
@@ -97,6 +106,7 @@ public class VueRechercheAvance extends JPanel{
 		panneauPrincipal = new JPanel();
 		panneauCasseMotComplet = new JPanel();
 		panneauSelectionnerLigne = new JPanel();
+		panneauRecherche = new JPanel();
 	}
 
 	/**
