@@ -7,13 +7,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-
 import modele.Table;
 
 public class ModeleTable extends DefaultTableModel {
@@ -144,29 +137,5 @@ public class ModeleTable extends DefaultTableModel {
 			}
 		});
 
-	}
-	
-	public void exporterPDF(String destination){
-		try{
-			String titre = new String("test");
-			PDDocument document = new PDDocument();
-			PDPage PageDocument = new PDPage(new PDRectangle(5, 5));
-			document.addPage(PageDocument);
-			PDDocumentInformation info = document.getDocumentInformation();
-			//info.setTitle(titre);
-			PDPageContentStream contentStream = new PDPageContentStream(document, PageDocument);
-			contentStream.beginText();
-			contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-			//contentStream.newLineAtOffset(25, 25);
-			contentStream.showText("test");
-			contentStream.close();
-			contentStream.endText();
-			document.save(destination+"/"+titre+".pdf");
-			document.close();
-		}
-		catch(IOException e){
-			JOptionPane erreur = new JOptionPane();
-			erreur.showMessageDialog(null, "Document de destination invalide", "Erreur", JOptionPane.WARNING_MESSAGE);
-		}
 	}
 }

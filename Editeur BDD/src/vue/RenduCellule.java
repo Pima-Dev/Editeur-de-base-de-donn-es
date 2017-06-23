@@ -11,9 +11,11 @@ import javax.swing.table.TableCellRenderer;
 
 class RenduCellule extends JButton implements TableCellRenderer {
 
-	public RenduCellule(String type) {
+	public RenduCellule(String type,Fenetre fenetre) {
 		if(type.equals("modifier")){
-			this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+			if(((EditeurCellule)fenetre.getVuePrincipale().getTable().getCellEditor()).isEditable()){
+				this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+			}
 		}else if(type.equals("supprimer")){
 			this.setIcon(new ImageIcon("src/ressources/supprimer.png"));
 		}
