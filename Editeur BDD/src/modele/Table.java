@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Table implements Cloneable {
@@ -354,6 +355,11 @@ public class Table implements Cloneable {
 	
 	public void setListeColonnes(ArrayList<Colonne> colonnes){
 		this.listeColonnes = colonnes;
+	}
+	
+	public void ajouterColonneATableDejaExistente(Colonne col, Object defautValeur) throws SQLException, CustomException{
+		this.BDD.getServeur().ajouterColonne(this.nom, col.getNom(), defautValeur, col.getTypeDonnees());
+		this.ajouterAttribut(col);
 	}
 	
 	

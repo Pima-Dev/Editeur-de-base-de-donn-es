@@ -299,111 +299,73 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("valider creation attribut")) {
-				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				Table backup = (Table) current.clone();
-				backup.setListeColonnes((ArrayList<Colonne>) current.getListeColonnes().clone());
-				
+				Table current = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());				
 				
 				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().isEmpty()) {
 					new CustomException("Erreur", "Vous n'avez pas indiqué le nom de l'attribut.");
-				} else {
-					if (this.fenetre.getVueAjouterAttribut().gettNom().getText().contains(" ")){
-						new CustomException("Erreur", "Le nom de l'attribut ne doit pas contenir d'espace.");
-						return;
-					}
-					String sType = this.fenetre.getVueAjouterAttribut().getComboboxType().getSelectedItem().toString();
-					TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
-							: (sType.equals("DOUBLE") ? TypeDonnee.DOUBLE
-									: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
-					Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
-					try {
-						if (this.fenetre.getVueAjouterAttribut().getNotNull().isSelected()) {
-							col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
-						}
-						if (this.fenetre.getVueAjouterAttribut().getUnique().isSelected()) {
-							col.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
-						}
-						if (this.fenetre.getVueAjouterAttribut().getReferencesKey().isSelected()) {
-							String referenceTable = this.fenetre.getVueAjouterAttribut().getReference()
-									.getSelectedItem().toString();
-							col.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY,
-									this.fenetre.getBDD().getTable(referenceTable)));
-						}
-						Object obj = " ";
-						for (int i = 0; i < current.getClePrimaire()
-								.getListeValeurs().size(); i++) {
-							obj = " ";
-							if (type.equals(TypeDonnee.INTEGER)) {
-								while (!Util.isInteger((String) obj)&& obj != null  && !obj.toString().equals("")) {
-									obj = JOptionPane.showInputDialog(null,
-											"Entrez la " + i + "ème valeur de la colonne",
-											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
-								}
-								if (obj == null)
-									return;
-								if(!obj.toString().replaceAll(" ", "").equals(""))
-									col.ajouterValeur(Integer.parseInt((String)obj));
-								else
-									col.ajouterValeur(null);
-							}
-							else if (type.equals(TypeDonnee.DOUBLE)) {
-								while (!Util.isDouble((String) obj) && obj != null  && !obj.toString().equals("")) {
-									obj = JOptionPane.showInputDialog(null,
-											"Entrez la " + i + "ème valeur de la colonne",
-											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
-								}
-								if (obj == null)
-									return;
-								if(!obj.toString().replaceAll(" ", "").equals(""))
-									col.ajouterValeur(Double.parseDouble((String)obj));
-								else
-									col.ajouterValeur(null);
-							}
-							else if (type.equals(TypeDonnee.DATE)) {
-								while (!Util.isValidDate((String) obj) && obj != null  && !obj.toString().equals("")) {
-									obj = JOptionPane.showInputDialog(null,
-											"Entrez la " + i + "ème valeur de la colonne",
-											"Entrez un " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
-								}
-								if (obj == null)
-									return;
-								if(!obj.toString().replaceAll(" ", "").equals(""))	
-									col.ajouterValeur(obj);
-								else
-									col.ajouterValeur(null);
-							}
-							else{
-								if (obj == null)
-									return;
-								if(!obj.toString().replaceAll(" ", "").equals(""))
-									col.ajouterValeur(obj);
-								else
-									col.ajouterValeur(null);
-							}
-						}
-						current.ajouterAttribut(col);
-						this.fenetre.getBDD().getServeur().supprimerTable(current.getNom());
-						System.out.println("nombre colonnes :"+current.getListeColonnes().size());
-						this.fenetre.getBDD().getServeur().creerTable(current.getNom(), current.getListeColonnes());
-						this.fenetre.getVueAjouterAttribut().getFrame().dispose();
-						current.refreshTable();
-						
-					} catch (CustomException e1) {
-						new CustomException("Erreur", "Une erreur est survenu:\n"+e1.getMessage()+"\nTentative de recreation de la table sans le nouvelle attribut");
-						try {
-							this.fenetre.getBDD().remplacerTable(backup.getNom(), backup);
-							if(this.fenetre.getBDD().tableExiste(backup.getNom()))
-								this.fenetre.getBDD().getServeur().supprimerTable(backup.getNom());
-							this.fenetre.getBDD().getServeur().creerTable(backup.getNom(), backup.getListeColonnes());
-						} catch (CustomException e2) {
-							new CustomException("Erreur fatale", "La table n'a pas pu être recréé et des données ont pû être supprimés\n"+e2.getMessage());
-						}
-						catch(SQLException e2){
-							Util.logErreur(e2.getMessage());
-						}
-					}
+					
+					return;
 				}
-			} else if (bouton.getName().equals("OptionRecherche")) {
+				
+				if (this.fenetre.getVueAjouterAttribut().gettNom().getText().contains(" ")){
+					new CustomException("Erreur", "Le nom de l'attribut ne doit pas contenir d'espace.");
+					return;
+				}
+				String sType = this.fenetre.getVueAjouterAttribut().getComboboxType().getSelectedItem().toString();
+				TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
+						: (sType.equals("DOUBLE") ? TypeDonnee.DOUBLE
+								: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
+				Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
+				try {
+					if (this.fenetre.getVueAjouterAttribut().getNotNull().isSelected()) {
+						col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+					}
+					if (this.fenetre.getVueAjouterAttribut().getUnique().isSelected()) {
+						col.ajouterContrainte(new Contrainte(TypeContrainte.UNIQUE, null));
+					}
+					if (this.fenetre.getVueAjouterAttribut().getReferencesKey().isSelected()) {
+						String referenceTable = this.fenetre.getVueAjouterAttribut().getReference()
+								.getSelectedItem().toString();
+						col.ajouterContrainte(new Contrainte(TypeContrainte.REFERENCEKEY,
+								this.fenetre.getBDD().getTable(referenceTable)));
+					}
+					Object obj = " ";
+					if (type.equals(TypeDonnee.INTEGER)) {
+						while (!Util.isInteger((String) obj)&& obj != null  && !obj.toString().equals("")) {
+							obj = JOptionPane.showInputDialog(null,
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+						}		
+					}
+					else if (type.equals(TypeDonnee.DOUBLE)) {
+						while (!Util.isDouble((String) obj) && obj != null  && !obj.toString().equals("")) {
+							obj = JOptionPane.showInputDialog(null,
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+						}
+					}
+					else if (type.equals(TypeDonnee.DATE)) {
+						while (!Util.isValidDate((String) obj) && obj != null  && !obj.toString().equals("")) {
+							obj = JOptionPane.showInputDialog(null,
+									"Entrez la valeur par défault de votre nouvelle colonne de type " + type.getSQLType(), JOptionPane.QUESTION_MESSAGE);
+						}
+					}
+					if (obj == null)
+						return;
+					if(obj.toString().replaceAll(" ", "").equals(""))	
+						obj = null;
+					
+					current.ajouterAttribut(col);
+					this.fenetre.getBDD().getServeur().supprimerTable(current.getNom());
+					System.out.println("nombre colonnes :"+current.getListeColonnes().size());
+					this.fenetre.getBDD().getServeur().creerTable(current.getNom(), current.getListeColonnes());
+					this.fenetre.getVueAjouterAttribut().getFrame().dispose();
+					current.refreshTable();
+						
+				} catch(CustomException e1){
+					Util.logErreur(e1.getMessage());
+				}
+				
+			}
+			else if (bouton.getName().equals("OptionRecherche")) {
 				if(fenetre.getVuePrincipale().getTable() != null){
 					new VueRechercheAvance(fenetre);
 					}else{

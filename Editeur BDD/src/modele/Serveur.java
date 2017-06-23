@@ -550,4 +550,26 @@ public class Serveur {
 		return false;
 	}
 	
+	public void ajouterColonne(String nomTable, String nomColonne, Object defautValeur, TypeDonnee typeDonnée) throws SQLException, CustomException{
+		TypeDonnee type;
+		if(defautValeur != null){	
+			type= Util.isInteger(defautValeur.toString()) ? TypeDonnee.INTEGER : (Util.isDouble(defautValeur.toString()) ? TypeDonnee.DOUBLE : (Util.isValidDate(defautValeur.toString()) ? TypeDonnee.DATE : TypeDonnee.CHAR));
+			if(typeDonnée != type){
+				throw new CustomException("Erreur", "Le type '"+type+"' n'est pas du même type que '"+ typeDonnée+"'.");
+			}
+		}
+		else
+			type = null;
+		
+		if(this.BDD.getTable(nomTable) == null){
+			throw new CustomException("Erreur", "La table '"+nomColonne+"' n'existe pas et la colonne '"+nomTable+"' ne peut pas être ajouté.");
+		}
+		
+		if(type != null)
+			this.executerCode("ALTER TABLE "+this.BDD.getTable(nomTable).getListeColonnes().get(this.BDD.getTable(nomTable).getListeColonnes().size()-1).getNom()+ " ADD COLUMN "+nomTable+ " "+ typeDonnée.getSQLType()+" DEFAULT "+defautValeur);
+		else
+			this.executerCode("ALTER TABLE "+this.BDD.getTable(nomTable).getListeColonnes().get(this.BDD.getTable(nomTable).getListeColonnes().size()-1).getNom()+ " ADD COLUMN "+nomTable+ " "+ typeDonnée.getSQLType()+" DEFAULT NULL");
+
+	}
+	
 }
