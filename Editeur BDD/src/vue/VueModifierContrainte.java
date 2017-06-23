@@ -111,8 +111,8 @@ public class VueModifierContrainte extends JPanel {
 		this.decoration();
 		this.panneauPrincipal.setLayout(new GridLayout(0, 1));
 		this.panneauPrincipal.add(this.lTitre);
-		this.panneauPrincipal.add(this.colonnes);
 		this.panneauPrincipal.add(this.lNom);
+		this.panneauPrincipal.add(this.colonnes);
 		this.panneauPrincipal.add(this.lContrainte);
 		this.panneauPrincipal.add(this.notNull);
 		this.panneauPrincipal.add(this.unique);
@@ -126,7 +126,7 @@ public class VueModifierContrainte extends JPanel {
 		this.add(panneauPrincipal, BorderLayout.CENTER);
 		this.frame = new JFrame("Modifier les contraintes");
 		this.frame.setContentPane(this);
-		this.frame.setSize(new Dimension(350, 400));
+		this.frame.setSize(new Dimension(400, 450));
 		this.frame.setLocationRelativeTo(null);
 		this.frame.setResizable(false);
 		this.frame.setVisible(true);

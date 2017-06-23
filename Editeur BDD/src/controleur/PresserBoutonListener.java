@@ -300,6 +300,17 @@ public class PresserBoutonListener implements ActionListener {
 						"Supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
 						JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (rep == JOptionPane.OK_OPTION) {
+					Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+					try {
+						table.supprimerTable();
+						this.fenetre.getBDD().chargerBDD();
+						this.fenetre.getBDD().refreshAllBDD();
+					} catch (CustomException e1) {
+						Util.logErreur(e1.getMessage());
+					} catch(SQLException e1){
+						Util.logErreur(e1.getMessage());
+					}
+					
 				}
 			}
 
@@ -408,10 +419,42 @@ public class PresserBoutonListener implements ActionListener {
 				}
 				if(this.fenetre.getVueModifierContrainte().getReferencesKey().isSelected()){
 					Table reference = this.fenetre.getBDD().getTable(this.fenetre.getVueModifierContrainte().getReference().getSelectedItem().toString());
-					contraintes.add(new Contrainte(TypeContrainte.NOTNULL, reference));
+					contraintes.add(new Contrainte(TypeContrainte.REFERENCEKEY, reference));
 				}
 				try {
-					col.modifierContraintes(contraintes);
+					this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).modifierContraintes(contraintes, col);
+					this.fenetre.getVueModifierContrainte().getFrame().dispose();
+				} catch (SQLException e1) {
+					Util.logErreur(e1.getMessage());
+					new CustomException("Erreur", e1.getMessage());
+				} catch (CustomException e1) {
+					Util.logErreur(e1.getMessage());
+				}
+			}
+			
+			else if(bouton.getName().equals("supprimer attribut")){
+				if(this.fenetre.getBDD() == null){
+					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
+					return;
+				}
+				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				if(table == null){
+					new CustomException("Erreur", "Une erreur est survenu, veuillez réassayer.");
+					return;
+				}
+				String[] colonnes = new String[table.getListeColonnes().size()];
+				for(int i = 0; i<table.getListeColonnes().size(); i++){
+					if(!table.getListeColonnes().get(i).getNom().equals(table.getClePrimaire().getNom()))
+						colonnes[i] = table.getListeColonnes().get(i).getNom();
+				}
+				String colonne = (String)JOptionPane.showInputDialog(null, "Sélectionnez l'attribut à supprimer", "Supprimer un attribut", JOptionPane.QUESTION_MESSAGE, null, colonnes, colonnes[0]);
+				
+				if(colonne == null){
+					return;
+				}
+				try {
+					table.supprimerColonne(colonne);
+					table.refreshTable();
 				} catch (SQLException e1) {
 					Util.logErreur(e1.getMessage());
 				} catch (CustomException e1) {

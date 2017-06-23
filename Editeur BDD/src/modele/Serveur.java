@@ -675,5 +675,9 @@ public class Serveur {
 			throw new CustomException("Erreur", "La contrainte à ajouter est null");
 		}
 	}
+	
+	public void supprimerColonne(String nomTable, String nomColonne) throws SQLException, CustomException{
+		this.executerCode("ALTER TABLE "+nomTable+" DROP COLUMN "+nomColonne);
+	}
 
 }

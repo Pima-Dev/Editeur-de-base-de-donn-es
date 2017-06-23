@@ -366,5 +366,35 @@ public class Table implements Cloneable {
 		return this.BDD;
 	}
 	
+	public void modifierContraintes(ArrayList<Contrainte> contraintes, Colonne colonne) throws SQLException, CustomException{
+		Colonne col = new Colonne<>(colonne.getNom(), colonne.getTypeDonnees());
+		Contrainte ref = null;
+		for(Contrainte c : contraintes){
+			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+				col.ajouterContrainte(c);
+			else
+				ref = c;
+		}
+		this.BDD.getServeur().modifierContrainte(this.nom, col);
+		colonne.getListeContraintes().clear();
+		for(Contrainte c : contraintes){
+			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
+				colonne.ajouterContrainte(c);
+		}
+		if(ref != null){
+			this.BDD.getServeur().ajouterFKColExistente(this.nom, colonne.getNom(), ref);
+			colonne.ajouterContrainte(ref);
+		}
+	}
+
+	public void supprimerColonne(String nomColonne) throws SQLException, CustomException{
+		this.BDD.getServeur().supprimerColonne(this.nom, nomColonne);
+		for(int i = 0; i<this.listeColonnes.size(); i++){
+			if(this.listeColonnes.get(i).getNom().equals(nomColonne)){
+				this.listeColonnes.remove(i);
+				return;
+			}
+		}
+	}
 	
 }

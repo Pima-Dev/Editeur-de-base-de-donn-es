@@ -182,57 +182,5 @@ public class Colonne<V> implements Cloneable{
 		}
 	}
 	
-	public void modifierContraintes(ArrayList<Contrainte> contraintes) throws SQLException, CustomException{
-		Colonne col = new Colonne<>(this.nom, this.type, this.table);
-		Contrainte ref = null;
-		for(Contrainte c : contraintes){
-			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
-				col.ajouterContrainte(c);
-			else
-				ref = c;
-		}
-		System.out.println(this.table.getBDD());
-		System.out.println(this.table.getBDD().getServeur());
-		this.table.getBDD().getServeur().modifierContrainte(this.table.getNom(), col);
-		this.listeContraintes.clear();
-		for(Contrainte c : contraintes){
-			if(c.getContrainteType() != TypeContrainte.REFERENCEKEY)	
-				this.ajouterContrainte(c);
-		}
-		if(ref != null){
-			this.table.getBDD().getServeur().ajouterFKColExistente(this.table.getNom(), this.nom, ref);
-			this.ajouterContrainte(ref);
-		}
-	}
-	
-	public void ajouterContrainteExisteCol(Contrainte contrainte) throws CustomException, SQLException{
-		for(Contrainte c : this.listeContraintes){
-			if(c.getContrainteType() == contrainte.getContrainteType()){
-				throw new CustomException("Erreur", "Cette contrainte est déjà présente dans cette colonne.");
-			}
-		}
-		ArrayList<Contrainte> contraintes = (ArrayList<Contrainte>) this.listeContraintes.clone();
-		contraintes.add(contrainte);
-		this.modifierContraintes(contraintes);
-	}
-	
-	public void supprimerContrainteExisteCol(Contrainte contrainte) throws CustomException, SQLException{
-		boolean existePas = true;
-		for(Contrainte c : this.listeContraintes){
-			if(c.getContrainteType() == contrainte.getContrainteType()){
-				existePas = false;
-			}
-		}
-		if(existePas){
-			throw new CustomException("Erreur", "Cette contrainte n'existe pas dans cette colonne et ne peut donc pas être supprimé.");
-		}
-		ArrayList<Contrainte> contraintes = (ArrayList<Contrainte>) this.listeContraintes.clone();
-		for(int i =0; i<contraintes.size(); i++){
-			if(contraintes.get(i).getContrainteType() == contrainte.getContrainteType()){
-				contraintes.remove(i);
-			}
-		}
-		this.modifierContraintes(contraintes);
-	}
 }
 
