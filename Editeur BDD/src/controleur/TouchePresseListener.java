@@ -37,6 +37,7 @@ public class TouchePresseListener implements KeyListener{
 			if(nom.equals("BarreRecherche")){
 				if(fenetre.getVuePrincipale().getDm() == null){
 					 JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.ERROR_MESSAGE);
+					 fenetre.getVuePrincipale().getfChercher().setText("");
 				}
 				else {
 					fenetre.getBDD().getTable(fenetre.getVuePrincipale().getCurrentTable()).refreshTable();

@@ -135,6 +135,7 @@ public class ModeleTable extends DefaultTableModel {
 				}
 				else{
 					fenetre.getVuePrincipale().resetJTable();
+					JOptionPane.showMessageDialog(null, "Votre recherche n'a aboutit à aucun résultat", "Resultat null", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
