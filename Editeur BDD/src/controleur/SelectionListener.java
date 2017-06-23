@@ -48,7 +48,7 @@ public class SelectionListener implements ListSelectionListener {
 					if (s != null && s2 != null && s.length() > 0 && s2.length() > 0) {
 						try {
 							Table table = new Table(this.fenetre.getBDD(), s);
-							Colonne<Integer> col = new Colonne<Integer>(s2, TypeDonnee.INTEGER, table);
+							Colonne<Integer> col = new Colonne<Integer>(s2, TypeDonnee.INTEGER);
 							col.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
 							table.ajouterAttribut(col);
 							this.fenetre.getBDD().ajouterTable(table);

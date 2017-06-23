@@ -94,27 +94,27 @@ public class Table implements Cloneable {
 		for (Object obj : attributs) {
 			System.out.println(obj);
 			if(obj == null){
-				Colonne<Integer> col = new Colonne<Integer>("colonne", null, this);
+				Colonne<Integer> col = new Colonne<Integer>("colonne", null);
 				col.ajouterValeur(null);
 				tuple.add(col);
 			}
 			else if (Util.isInteger(obj.toString())) {
-				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER, this);
+				Colonne<Integer> col = new Colonne<Integer>("colonne", TypeDonnee.INTEGER);
 				col.ajouterValeur((int) obj);
 				tuple.add(col);
 			}
 
 			else if (Util.isDouble(obj.toString())) {
-				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE, this);
+				Colonne<Double> col = new Colonne<Double>("colonne", TypeDonnee.DOUBLE);
 				col.ajouterValeur((double) obj);
 				tuple.add(col);
 				
 			} else if (obj instanceof String && Util.isValidDate((String) obj)) {
-				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE, this);
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.DATE);
 				col.ajouterValeur((String) obj);
 				tuple.add(col);
 			} else if (obj instanceof String) {
-				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR, this);
+				Colonne<String> col = new Colonne<String>("colonne", TypeDonnee.CHAR);
 				col.ajouterValeur((String) obj);
 				tuple.add(col);
 			} else {

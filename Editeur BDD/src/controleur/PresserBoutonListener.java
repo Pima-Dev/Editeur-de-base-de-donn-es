@@ -320,7 +320,7 @@ public class PresserBoutonListener implements ActionListener {
 				TypeDonnee type = sType.equals("INTEGER") ? TypeDonnee.INTEGER
 						: (sType.equals("DOUBLE") ? TypeDonnee.DOUBLE
 								: (sType.equals("VARCHAR(100)") ? TypeDonnee.CHAR : TypeDonnee.DATE));
-				Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type, current);
+				Colonne col = new Colonne(this.fenetre.getVueAjouterAttribut().gettNom().getText(), type);
 				try {
 					if (this.fenetre.getVueAjouterAttribut().getNotNull().isSelected()) {
 						col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));

@@ -30,15 +30,10 @@ public class Colonne<V> implements Cloneable{
 	private TypeDonnee type;
 	
 	/**
-	 * La table dans laquel est la colonne
-	 */
-	private Table table;
-	
-	/**
 	 * Initialise le nom de la colonne
 	 * @param nom Le nom de la colonne
 	 */
-	public Colonne(String nom, TypeDonnee type, Table table){
+	public Colonne(String nom, TypeDonnee type){
 		this.nom = nom;
 		this.type = type;
 		this.listeContraintes = new ArrayList<Contrainte>();
@@ -196,6 +191,8 @@ public class Colonne<V> implements Cloneable{
 			else
 				ref = c;
 		}
+		System.out.println(this.table.getBDD());
+		System.out.println(this.table.getBDD().getServeur());
 		this.table.getBDD().getServeur().modifierContrainte(this.table.getNom(), col);
 		this.listeContraintes.clear();
 		for(Contrainte c : contraintes){

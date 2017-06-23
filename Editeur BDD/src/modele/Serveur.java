@@ -492,7 +492,7 @@ public class Serveur {
 			TypeDonnee type = rs.getString("Type").contains("int") ? TypeDonnee.INTEGER
 					: (rs.getString("Type").contains("double") ? TypeDonnee.DOUBLE
 							: (rs.getString("Type").contains("date") ? TypeDonnee.DATE : TypeDonnee.CHAR));
-			Colonne colonne = new Colonne(nom, type, this.BDD.getTable(nomTable));
+			Colonne colonne = new Colonne(nom, type);
 			if (rs.getString("Null").equalsIgnoreCase("NO") && !rs.getString("Key").equalsIgnoreCase("PRI")) {
 				colonne.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
 			}
