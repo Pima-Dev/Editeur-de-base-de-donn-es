@@ -41,8 +41,9 @@ public class Fenetre{
 		fenetre.setVisible(true);
 		fenetre.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		fenetre.setContentPane(new VueDeConnexion(this));
-		fenetre.setLocation(500, 200);
 		fenetre.pack();
+		fenetre.setResizable(false);
+		fenetre.setLocationRelativeTo(null);
 	}
 	
 	/**

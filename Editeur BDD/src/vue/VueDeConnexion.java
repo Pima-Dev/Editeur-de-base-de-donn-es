@@ -40,12 +40,13 @@ public class VueDeConnexion extends JPanel{
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
+		this.add(new JLabel("       "),BorderLayout.SOUTH);
 		this.bConnection.setName("Connexion");
 		this.bConnection.addActionListener(new PresserBoutonListener(this.fenetre));
 		this.bCreationUtilisateur.setName("Nouvel utilisateur");
 		this.bCreationUtilisateur.addActionListener(new PresserBoutonListener(this.fenetre));
-		this.bMotDePasseOublie.setName("Mot de passe oublie");
-		this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(this.fenetre));
+		//this.bMotDePasseOublie.setName("Mot de passe oublie");
+		//this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	public void decoration(){
@@ -73,14 +74,13 @@ public class VueDeConnexion extends JPanel{
 		fMotDePasse.addKeyListener(new TouchePresseListener(fenetre));
 		bConnection = new JButton("Connexion");
 		bCreationUtilisateur = new JButton("Creation de compte");
-		bMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");
-		bMotDePasseOublie.setBorderPainted(false);
-		bMotDePasseOublie.setContentAreaFilled(false);
-		bMotDePasseOublie.setForeground(new Color(142,162,198));
-		bMotDePasseOublie.setHorizontalAlignment(SwingConstants.LEFT);
+		//bMotDePasseOublie = new JButton("<html><u>Mot de passe oublie</u></html>");
+		//bMotDePasseOublie.setBorderPainted(false);
+		//bMotDePasseOublie.setContentAreaFilled(false);
+		//bMotDePasseOublie.setForeground(new Color(142,162,198));
+		//bMotDePasseOublie.setHorizontalAlignment(SwingConstants.LEFT);
 		panneauBouton = new JPanel();
 		panneauBouton.setLayout(new GridLayout(1,2,10,5));
-		
 	}
 	
 	

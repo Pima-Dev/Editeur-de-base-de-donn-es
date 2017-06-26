@@ -19,9 +19,18 @@ import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
 import controleur.ValeurListener;
 
+/**
+ * s'affiche dans une nouvelle fenêtre lorsque l'utilisateur appuye sur le bouton recherche avancée ou l'option recherche du menu
+ */
 public class VueRechercheAvance extends JPanel{
 
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche 
+	 */
 	private JLabel lMin;
 	private JLabel lMax;
 	private JButton bValider;
