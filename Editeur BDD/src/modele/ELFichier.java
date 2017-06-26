@@ -175,7 +175,6 @@ public class ELFichier {
 		File[] files = file.listFiles();
 		if(files!=null && files.length>0){
 			String nombre = files[files.length-1].getName().replaceAll(" ", "").replaceAll(".log", "").split("-")[1];
-			System.out.println(nombre);
 			if(Util.isInteger(nombre)){
 				nb = Integer.parseInt(nombre)+1;
 			}

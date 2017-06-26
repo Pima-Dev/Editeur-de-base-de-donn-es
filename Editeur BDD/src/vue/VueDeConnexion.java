@@ -36,7 +36,7 @@ public class VueDeConnexion extends JPanel{
 		panneau.add(lMotDePasse);
 		panneau.add(fMotDePasse);
 		panneau.add(panneauBouton);
-		panneau.add(bMotDePasseOublie);
+		//panneau.add(bMotDePasseOublie);
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);

@@ -1,13 +1,13 @@
 package controleur;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -84,10 +84,9 @@ public class PresserBoutonListener implements ActionListener {
 			} else if (bouton.getName().equals("Nouvel utilisateur")) {
 				fenetre.getFenetre().setContentPane(new VueDeCreationDUtilisateur(fenetre));
 				fenetre.getFenetre().setVisible(true);
-				fenetre.getFenetre().setSize(new Dimension(400, 600));
+				fenetre.getFenetre().setSize(new Dimension(400, 300));
 				fenetre.getFenetre().setLocationRelativeTo(null);
-			} else if (bouton.getName().equals("Mot de passe oublie")) {
-				JOptionPane.showMessageDialog(null, "MDP oublié");
+
 			} else if (bouton.getName().equals("Valider mdp oublié")) {
 				String nouveau = new String(this.fenetre.getVueMDPOublieNouveau().getfNouveau().getPassword());
 				String confirmation = new String(
@@ -120,6 +119,7 @@ public class PresserBoutonListener implements ActionListener {
 					bdd.creerBDD();
 					bdd.refreshAllBDD();
 					this.fenetre.getVueCreationBDD().getFrame().dispose();
+					this.fenetre.getFenetre().setEnabled(true);
 				} catch (CustomException e1) {
 					Util.logErreur(e1.getMessage());
 				}
@@ -143,6 +143,7 @@ public class PresserBoutonListener implements ActionListener {
 						bdd.refreshAllBDD();
 						bdd.saveDonneesBDD();
 						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
+						this.fenetre.getFenetre().setEnabled(true);
 					} catch (CustomException e1) {
 						Util.logErreur(e1.getMessage());
 					} catch (SQLException e1) {
@@ -161,6 +162,7 @@ public class PresserBoutonListener implements ActionListener {
 						bdd.chargerBDD();
 						bdd.refreshAllBDD();
 						this.fenetre.getVueOuvrirBDD().getFrame().dispose();
+						this.fenetre.getFenetre().setEnabled(true);
 					} catch (NumberFormatException e1) {
 						Util.logErreur(e1.getMessage());
 						e1.printStackTrace();
@@ -176,118 +178,11 @@ public class PresserBoutonListener implements ActionListener {
 			}
 
 			else if (bouton.getName().equals("ajouter un tuple")) {
-				if (this.fenetre.getBDD() == null) {
-					new CustomException("Erreur", "Aucune table n'est ouverte.");
-					throw new IllegalArgumentException("Aucune BDD d'ouverte");
-				}
-				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				ArrayList<Object> tuple = new ArrayList<Object>();
-
-				if (table == null) {
-					new CustomException("Erreur", "Aucune table n'est ouverte.");
-					throw new IllegalArgumentException("Aucune BDD d'ouverte");
-				} else {
-					for (Colonne col : table.getListeColonnes()) {
-						String contrainte = "\n";
-						for (Contrainte c : (ArrayList<Contrainte>) col.getListeContraintes()) {
-							contrainte += c.getContrainteType() + "\n";
-						}
-
-						Object s = " ";
-
-						if (col.getTypeDonnees() == TypeDonnee.DATE) {
-							while (!Util.isValidDate((String) s) && s != null && !s.toString().equals(""))
-								s = JOptionPane.showInputDialog(null,
-										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
-												+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
-												+ "' ayant ces contraintes: " + contrainte,
-										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-										JOptionPane.QUESTION_MESSAGE);
-							if (s == null)
-								return;
-							if (!s.toString().replaceAll(" ", "").equals(""))
-								tuple.add(s);
-							else
-								tuple.add(null);
-						}
-
-						else if (col.getTypeDonnees() == TypeDonnee.INTEGER) {
-							while (!Util.isInteger((String) s) && s != null && !s.toString().equals(""))
-								s = JOptionPane.showInputDialog(null,
-										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
-												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
-												+ contrainte,
-										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-										JOptionPane.QUESTION_MESSAGE);
-							if (s == null)
-								return;
-							if (!s.toString().replaceAll(" ", "").equals(""))
-								tuple.add(Integer.parseInt((String) s));
-							else
-								tuple.add(null);
-						}
-
-						else if (col.getTypeDonnees() == TypeDonnee.DOUBLE) {
-							while (!Util.isDouble((String) s) && s != null && !s.toString().equals(""))
-								s = JOptionPane.showInputDialog(null,
-										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
-												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
-												+ contrainte,
-										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-										JOptionPane.QUESTION_MESSAGE);
-							if (s == null)
-								return;
-							if (!s.toString().replaceAll(" ", "").equals(""))
-								tuple.add(Double.parseDouble((String) s));
-							else
-								tuple.add(null);
-						}
-
-						else {
-							while (s.toString().contains(" ") && s != null && !s.toString().equals(""))
-								s = JOptionPane.showInputDialog(null,
-										"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
-												+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
-												+ contrainte,
-										"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-										JOptionPane.QUESTION_MESSAGE);
-							if (s == null)
-								return;
-							if (!s.toString().replaceAll(" ", "").equals(""))
-								tuple.add(s);
-							else
-								tuple.add(null);
-						}
-					}
-
-					try {
-						table.insererTuple(tuple, true);
-						table.refreshTable();
-					} catch (CustomException e1) {
-						Util.logErreur(e1.getMessage());
-					}
-				}
+				this.ajouterTuple();
 			}
 
 			else if (bouton.getName().equals("supprimer table")) {
-				int rep = JOptionPane.showConfirmDialog(null,
-						"Voulez vous vraiment supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable()
-								+ "' ?",
-						"Supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
-						JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (rep == JOptionPane.OK_OPTION) {
-					Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-					try {
-						table.supprimerTable();
-						this.fenetre.getBDD().chargerBDD();
-						this.fenetre.getBDD().refreshAllBDD();
-					} catch (CustomException e1) {
-						Util.logErreur(e1.getMessage());
-					} catch (SQLException e1) {
-						Util.logErreur(e1.getMessage());
-					}
-
-				}
+				this.supprimerTable();
 			}
 
 			else if (bouton.getName().equals("valider creation attribut")) {
@@ -360,6 +255,7 @@ public class PresserBoutonListener implements ActionListener {
 					}
 					current.ajouterColonneATableDejaExistente(col, obj);
 					this.fenetre.getVueAjouterAttribut().getFrame().dispose();
+					this.fenetre.getFenetre().setEnabled(true);
 					current.refreshTable();
 
 				} catch (CustomException e1) {
@@ -374,13 +270,18 @@ public class PresserBoutonListener implements ActionListener {
 					((ModeleTable) fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
 					new VueRechercheAvance(fenetre);
 				} else {
-					JOptionPane.showMessageDialog(null, "Table inexistante", "Erreur", JOptionPane.WARNING_MESSAGE);
+					new CustomException("Erreur", "Il n'y a pas de table d'ouverte");
 				}
-			} else if (bouton.getName().equals("LancerRechercheAvance")) {
+			}
+
+			else if (bouton.getName().equals("LancerRechercheAvance")) {
 				((ModeleTable) fenetre.getVuePrincipale().getTable().getModel())
 						.rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
 				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
-			} else if (bouton.getName().equals("modifier les contraintes")) {
+				this.fenetre.getFenetre().setEnabled(true);
+			}
+
+			else if (bouton.getName().equals("modifier les contraintes")) {
 				new VueModifierContrainte(this.fenetre);
 			}
 
@@ -403,6 +304,7 @@ public class PresserBoutonListener implements ActionListener {
 					this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable()))
 							.modifierContraintes(contraintes, col);
 					this.fenetre.getVueModifierContrainte().getFrame().dispose();
+					this.fenetre.getFenetre().setEnabled(true);
 				} catch (SQLException e1) {
 					Util.logErreur(e1.getMessage());
 					new CustomException("Erreur", e1.getMessage());
@@ -440,12 +342,36 @@ public class PresserBoutonListener implements ActionListener {
 				} catch (CustomException e1) {
 					Util.logErreur(e1.getMessage());
 				}
-			} else if(bouton.getName().equals("acceder a la console")){
-				new VueLogConsole(this.fenetre);
-			} else if (bouton.getName().equals("voir les logs")){
+			}
+
+			else if (bouton.getName().equals("acceder a la console")) {
+				if (this.fenetre.getBDD() != null)
+					new VueLogConsole(this.fenetre);
+				else
+					new CustomException("Erreur", "Vous n'avez pas ouvert de base de données.");
+			}
+
+			else if (bouton.getName().equals("voir les logs")) {
 				new VueLog(this.fenetre);
 			}
-			
+
+			else if (bouton.getName().equals("executer code console")) {
+				String code = this.fenetre.getVueLogConsole().getTextArea().getText();
+				if (code.contains("SELECT")) {
+					this.fenetre.getBDD().getServeur().executeRequeteConsole(code);
+				} else {
+					this.fenetre.getBDD().getServeur().executerCodeConsole(code);
+					try {
+						this.fenetre.getBDD().chargerBDD();
+						this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable())
+								.refreshTable();
+					} catch (CustomException e1) {
+						Util.logErreur(e1.getMessage());
+					} catch (SQLException e1) {
+						Util.logErreur(e1.getMessage());
+					}
+				}
+			}
 
 		} else if (e.getSource() instanceof JRadioButton) {
 			JRadioButton radioBouton = (JRadioButton) e.getSource();
@@ -500,17 +426,19 @@ public class PresserBoutonListener implements ActionListener {
 						}
 					}
 				}
-			} else if (item.getName().equals("MenuExporterEnPDF")) {
+			} 
+			
+			else if (item.getName().equals("MenuExporterEnPDF")) {
 
-				if(this.fenetre.getBDD() == null){
+				if (this.fenetre.getBDD() == null) {
 					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
 					return;
 				}
-				
-				if(this.fenetre.getVuePrincipale().getCurrentTable() == null){
+
+				if (this.fenetre.getVuePrincipale().getCurrentTable() == null) {
 					new CustomException("Erreur", "Il n'y a pas de table d'ouverte");
 				}
-				
+
 				JFileChooser choix = new JFileChooser();
 				choix.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				int retour = choix.showOpenDialog(new JFrame());
@@ -519,6 +447,41 @@ public class PresserBoutonListener implements ActionListener {
 							choix.getSelectedFile().getAbsolutePath());
 
 				}
+			}
+			
+			else if(item.getName().equals("aide syntaxe MYSQL")){
+				try
+				{
+				    URI uri = new URI("https://dev.mysql.com/doc/refman/5.7/en/sql-syntax.html");
+				    Desktop dt = Desktop.getDesktop();
+				    dt.browse(uri);
+				}
+				catch(Exception ex){}
+			}
+			
+			else if(item.getName().equals("acceder a la console")){
+				if (this.fenetre.getBDD() != null)
+					new VueLogConsole(this.fenetre);
+				else
+					new CustomException("Erreur", "Vous n'avez pas ouvert de base de données.");
+			}
+			
+			else if(item.getName().equals("faire une recherche")){
+				if (fenetre.getVuePrincipale().getTable() != null) {
+					fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
+					((ModeleTable) fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
+					new VueRechercheAvance(fenetre);
+				} else {
+					JOptionPane.showMessageDialog(null, "Il n'y a pas de table d'ouverte", "Erreur", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			
+			else if(item.getName().equals("ajouter un tuple")){
+				this.ajouterTuple();
+			}
+			
+			else if(item.getName().equals("supprimer la table")){
+				this.supprimerTable();
 			}
 		}
 
@@ -614,14 +577,13 @@ public class PresserBoutonListener implements ActionListener {
 	public void connexion() {
 		String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 		String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
-		// if(bonMDP(nom, motDePasse)){
-		if (true) {
+		if(bonMDP(nom, motDePasse)){
 			fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
 			fenetre.getFenetre().setExtendedState(JFrame.MAXIMIZED_BOTH);
 			fenetre.getFenetre().setTitle("Editeur de base de données");
 			fenetre.getFenetre().setLocationRelativeTo(null);
 			fenetre.getFenetre().setVisible(true);
-			fenetre.setSesstion(new Session(nom));
+			fenetre.setSession(new Session(nom));
 		} else {
 			this.fenetre.getVueDeConnexion().getlErreurIdentifiant()
 					.setText("<HTML><i>Erreur d'identifiant</i></HTML>");
@@ -638,31 +600,155 @@ public class PresserBoutonListener implements ActionListener {
 				&& this.fenetre.getVueCreationUtilisateur().isvMotDePasse()
 				&& this.fenetre.getVueCreationUtilisateur().isvConfirmation()) {
 
-			String entre = jop.showInputDialog(null, "Veuillez entrer le code qui vous à été envoyé par mail",
-					"Confirmation d'Email", JOptionPane.QUESTION_MESSAGE);
-			if (entre != null) {
-				if (entre.equals("")) {
-					String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
-					ELFichier.creerDossier(nom);
-					ELFichier.setCle(nom + "/session", "user", nom);
-					ELFichier.setCle(nom + "/session", "MDP", ELFichier.cryptMDP(
-							new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
-					ELFichier.setCle(nom + "/session", "email",
-							this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
-					ELFichier.setCle(nom + "/session", "Q1",
-							this.fenetre.getVueCreationUtilisateur().gettQ1().getText());
-					ELFichier.setCle(nom + "/session", "Q2",
-							this.fenetre.getVueCreationUtilisateur().gettQ2().getText());
-					ELFichier.setCle(nom + "/session", "Q3",
-							this.fenetre.getVueCreationUtilisateur().gettQ3().getText());
-					VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
-					this.fenetre.setVueDeConnexion(vueCo);
-					fenetre.getFenetre().setContentPane(vueCo);
-					fenetre.getFenetre().setVisible(true);
-					fenetre.getFenetre().pack();
-					fenetre.getFenetre().setLocationRelativeTo(null);
+			String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
+			ELFichier.creerDossier(nom);
+			ELFichier.setCle(nom + "/session", "user", nom);
+			ELFichier.setCle(nom + "/session", "MDP", ELFichier
+					.cryptMDP(new String(this.fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword())));
+			/*
+			 * ELFichier.setCle(nom + "/session", "email",
+			 * this.fenetre.getVueCreationUtilisateur().getfEmail().getText());
+			 * 
+			 * ELFichier.setCle(nom + "/session", "Q1",
+			 * this.fenetre.getVueCreationUtilisateur().gettQ1().getText());
+			 * ELFichier.setCle(nom + "/session", "Q2",
+			 * this.fenetre.getVueCreationUtilisateur().gettQ2().getText());
+			 * ELFichier.setCle(nom + "/session", "Q3",
+			 * this.fenetre.getVueCreationUtilisateur().gettQ3().getText());
+			 */
+			VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
+			this.fenetre.setVueDeConnexion(vueCo);
+			fenetre.getFenetre().setContentPane(vueCo);
+			fenetre.getFenetre().setVisible(true);
+			fenetre.getFenetre().pack();
+			fenetre.getFenetre().setLocationRelativeTo(null);
+		}
+	}
+	
+	public void ajouterTuple(){
+		if (this.fenetre.getBDD() == null) {
+			new CustomException("Erreur", "Aucune table n'est ouverte.");
+			return;
+		}
+		Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+		ArrayList<Object> tuple = new ArrayList<Object>();
+
+		if (table == null) {
+			new CustomException("Erreur", "Aucune table n'est ouverte.");
+			return;
+		} else {
+			for (Colonne col : table.getListeColonnes()) {
+				String contrainte = "\n";
+				for (Contrainte c : (ArrayList<Contrainte>) col.getListeContraintes()) {
+					contrainte += c.getContrainteType() + "\n";
+				}
+
+				Object s = " ";
+
+				if (col.getTypeDonnees() == TypeDonnee.DATE) {
+					while (!Util.isValidDate((String) s) && s != null && !s.toString().equals(""))
+						s = JOptionPane.showInputDialog(null,
+								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+										+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
+										+ "' ayant ces contraintes: " + contrainte,
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+								JOptionPane.QUESTION_MESSAGE);
+					if (s == null)
+						return;
+					if (!s.toString().replaceAll(" ", "").equals(""))
+						tuple.add(s);
+					else
+						tuple.add(null);
+				}
+
+				else if (col.getTypeDonnees() == TypeDonnee.INTEGER) {
+					while (!Util.isInteger((String) s) && s != null && !s.toString().equals(""))
+						s = JOptionPane.showInputDialog(null,
+								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+										+ contrainte,
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+								JOptionPane.QUESTION_MESSAGE);
+					if (s == null)
+						return;
+					if (!s.toString().replaceAll(" ", "").equals(""))
+						tuple.add(Integer.parseInt((String) s));
+					else
+						tuple.add(null);
+				}
+
+				else if (col.getTypeDonnees() == TypeDonnee.DOUBLE) {
+					while (!Util.isDouble((String) s) && s != null && !s.toString().equals(""))
+						s = JOptionPane.showInputDialog(null,
+								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+										+ contrainte,
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+								JOptionPane.QUESTION_MESSAGE);
+					if (s == null)
+						return;
+					if (!s.toString().replaceAll(" ", "").equals(""))
+						tuple.add(Double.parseDouble((String) s));
+					else
+						tuple.add(null);
+				}
+
+				else {
+					while (s.toString().contains(" ") && s != null && !s.toString().equals(""))
+						s = JOptionPane.showInputDialog(null,
+								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
+										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
+										+ contrainte,
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
+								JOptionPane.QUESTION_MESSAGE);
+					if (s == null)
+						return;
+					if (!s.toString().replaceAll(" ", "").equals(""))
+						tuple.add(s);
+					else
+						tuple.add(null);
 				}
 			}
+
+			try {
+				table.insererTuple(tuple, true);
+				table.refreshTable();
+			} catch (CustomException e1) {
+				Util.logErreur(e1.getMessage());
+			}
+		}
+	}
+	
+	public void supprimerTable(){
+		
+		if (this.fenetre.getBDD() == null) {
+			new CustomException("Erreur", "Aucune table n'est ouverte.");
+			return;
+		}
+		Table laTable = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+
+		if (laTable == null) {
+			new CustomException("Erreur", "Aucune table n'est ouverte.");
+			return;
+		}
+		
+		int rep = JOptionPane.showConfirmDialog(null,
+				"Voulez vous vraiment supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable()
+						+ "' ?",
+				"Supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
+				JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (rep == JOptionPane.OK_OPTION) {
+			Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+			try {
+				table.supprimerTable();
+				this.fenetre.getBDD().chargerBDD();
+				this.fenetre.getBDD().refreshAllBDD();
+			} catch (CustomException e1) {
+				Util.logErreur(e1.getMessage());
+			} catch (SQLException e1) {
+				Util.logErreur(e1.getMessage());
+			}
+
 		}
 	}
 }

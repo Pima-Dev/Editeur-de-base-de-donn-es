@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.PresserBoutonListener;
 import modele.ELFichier;
 
 public class VueLogConsole extends JPanel{
@@ -48,11 +49,15 @@ public class VueLogConsole extends JPanel{
 		modeleLog = new DefaultListModel<String>();
 		log = new JList<String>(modeleLog);
 		log.setEnabled(false);
-		scrollLog = new JScrollPane(log);
+		JScrollPane sc = new JScrollPane(log,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		sc.setPreferredSize(new Dimension(sc.getWidth(), 200));
+		scrollLog = sc;
 		console = new JTextArea();
 		console.setLineWrap(true);
 		scrollConsole = new JScrollPane(console,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		bouton = new JButton("Executer");
+		bouton.setName("executer code console");
+		bouton.addActionListener(new PresserBoutonListener(this.fenetre));
 		margeExecuter = new JPanel();
 		margeExecuter.setLayout(new BorderLayout());
 		margeExecuter.add(new JLabel("      "),BorderLayout.SOUTH);
@@ -86,5 +91,9 @@ public class VueLogConsole extends JPanel{
 	
 	public void ajouterLog(String logTexte){
 		modeleLog.addElement(logTexte);
+	}
+	
+	public JTextArea getTextArea(){
+		return this.console;
 	}
 }

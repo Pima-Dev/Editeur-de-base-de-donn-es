@@ -64,8 +64,10 @@ public class BaseDeDonnees {
 		this.fenetre = fenetre;
 		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
-		this.session = this.fenetre.getSession();
-		this.fenetre.setBDD(this);
+		if(this.session != null)
+			this.session = this.fenetre.getSession();
+		if(this.fenetre != null)
+			this.fenetre.setBDD(this);
 	}
 
 	/**
@@ -86,7 +88,7 @@ public class BaseDeDonnees {
 	 */
 	public void ajouterTable(Table table) throws CustomException {
 
-		this.serveur.creerTable(table.getNom(), table.getListeColonnes());
+		this.serveur.creerTable(table);
 
 		this.listeTable.add(table);
 
@@ -111,7 +113,8 @@ public class BaseDeDonnees {
 		File file = new File(ELFichier.getRacine() + this.session.getBDDPath() + this.nom);
 		if (file.exists())
 			file.delete();
-		this.fenetre.setBDD(null);
+		if(this.fenetre != null)
+			this.fenetre.setBDD(null);
 	}
 
 	/**
@@ -288,5 +291,13 @@ public class BaseDeDonnees {
 	}
 	public Fenetre getFenetre(){
 		return this.fenetre;
+	}
+	
+	public void setSession(Session s){
+		this.session = s;
+	}
+	
+	public Session getSession(){
+		return this.session;
 	}
 }

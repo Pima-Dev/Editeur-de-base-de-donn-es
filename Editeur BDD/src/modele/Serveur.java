@@ -3,6 +3,7 @@ package modele;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -260,12 +261,12 @@ public class Serveur {
 	 *            Nom de l'identifiant de la table
 	 * @throws CustomException
 	 */
-	public void creerTable(String nom, ArrayList<Colonne> colonnes) throws CustomException {
+	public void creerTable(Table table) throws CustomException {
 		try {
-			Util.log("Création de la table " + nom + "...");
+			Util.log("Création de la table " + table.getNom() + "...");
 			StringBuilder sqlCode = new StringBuilder(" (");
 			StringBuilder foreignKey = new StringBuilder(",");
-			for (Colonne colonne : colonnes) {
+			for (Colonne colonne : table.getListeColonnes()) {
 				sqlCode.append(colonne.getNom() + " " + colonne.getTypeDonnees().getSQLType());
 				for (Contrainte contrainte : (ArrayList<Contrainte>) colonne.getListeContraintes()) {
 					if (contrainte.getContrainteType() == TypeContrainte.PRIMARYKEY) {
@@ -292,25 +293,22 @@ public class Serveur {
 			}
 			sqlCode.append(foreignKey);
 			sqlCode.append(");");
-			String sql = "CREATE TABLE " + nom + sqlCode;
+			String sql = "CREATE TABLE " + table.getNom() + sqlCode;
 			Util.logSqlCode(sql);
 			this.executerCode(sql);
 
-			if (colonnes.size() > 0) {
-				int size = colonnes.get(0).getListeValeurs().size();
+			if (table.getListeColonnes().size() > 0) {
+				int size = table.getListeColonnes().get(0).getListeValeurs().size();
 				for (int i = 0; i < size; i++) {
-					System.out.println(colonnes.get(0).getListeValeurs().get(i));
-					System.out.println("size: " + colonnes.get(0).getListeValeurs().size());
 					ArrayList<Object> tuple = new ArrayList<Object>();
-					for (Colonne col : colonnes) {
+					for (Colonne col : table.getListeColonnes()) {
 						tuple.add(col.getListeValeurs().get(i));
 					}
-					System.out.println("DEBUG: " + i);
-					this.BDD.getTable(nom).insererTuple(tuple, false);
+					table.insererTuple(tuple, false);
 				}
 			}
 
-			Util.log("Création de la table " + nom + " effectué.");
+			Util.log("Création de la table " + table.getNom() + " effectué.");
 		} catch (SQLException e) {
 			if (e.getMessage().contains("Cannot add foreign key")) {
 				throw new CustomException("Erreur de contrainte", "Un tuple viole une contrainte.\n" + e.getMessage());
@@ -590,6 +588,23 @@ public class Serveur {
 		return false;
 	}
 
+	public boolean bddExiste() throws CustomException, SQLException{
+		ResultSet rs = null;
+
+		try {
+			this.connexion("");
+			rs = this.stmt.executeQuery("SHOW DATABASES LIKE '" + this.BDD.getNomBDD() + "'");
+			if (rs.next()) {
+				return true;
+			}
+			this.fermerConnexion();
+		}
+		catch(SQLException e){
+			return false;
+		}
+		return false;
+	}
+	
 	public void ajouterColonne(String nomTable, Object defautValeur, Colonne colonne)
 			throws SQLException, CustomException {
 		TypeDonnee type;
@@ -662,22 +677,115 @@ public class Serveur {
 				+ colonne.getTypeDonnees().getSQLType() + " " + sqlCode);
 	}
 
-	public void ajouterFKColExistente(String nomTable, String nomColonne, Contrainte contrainte) throws SQLException, CustomException {
+	public void ajouterFKColExistente(String nomTable, String nomColonne, Contrainte contrainte)
+			throws SQLException, CustomException {
 
 		if (contrainte != null) {
-			if( contrainte.getReferenceTable() == null){
-				throw new CustomException("Erreur", "La table à référencer n'existe pas, impossible de rajouter la clé étrangère");
+			if (contrainte.getReferenceTable() == null) {
+				throw new CustomException("Erreur",
+						"La table à référencer n'existe pas, impossible de rajouter la clé étrangère");
 			}
-			this.executerCode("ALTER TABLE "+nomTable+" ADD FOREIGN KEY("+nomColonne+") REFERENCES "+ contrainte.getReferenceTable().getNom() + "("
+			this.executerCode("ALTER TABLE " + nomTable + " ADD FOREIGN KEY(" + nomColonne + ") REFERENCES "
+					+ contrainte.getReferenceTable().getNom() + "("
 					+ contrainte.getReferenceTable().getClePrimaire().getNom() + "),");
-		}
-		else{
+		} else {
 			throw new CustomException("Erreur", "La contrainte à ajouter est null");
 		}
 	}
-	
-	public void supprimerColonne(String nomTable, String nomColonne) throws SQLException, CustomException{
-		this.executerCode("ALTER TABLE "+nomTable+" DROP COLUMN "+nomColonne);
+
+	public void supprimerColonne(String nomTable, String nomColonne) throws SQLException, CustomException {
+		this.executerCode("ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne);
 	}
 
+	public void executerCodeConsole(String code) {
+
+		try {
+			this.connexion(this.nomBase);
+			this.stmt.executeUpdate(code);
+			Util.logSqlCode(code);
+			Util.log("Action bien executé");
+		}
+
+		catch (MySQLIntegrityConstraintViolationException e) {
+			Util.logErreur(e.getMessage());
+		}
+
+		catch (MySQLSyntaxErrorException e) {
+			Util.logErreur(e.getMessage());
+		} catch (CustomException e) {
+			Util.logErreur(e.getMessage());
+		}
+		catch(SQLException e){
+			Util.logErreur(e.getMessage());
+		}
+		finally {
+			this.fermerConnexion();
+		}
+	}
+	
+	public ResultSet executeRequeteConsole(String code){
+
+		ResultSet ret = null;
+
+		try {
+			this.connexion(this.nomBase);
+			ret = this.stmt.executeQuery(code);
+			Util.logSqlCode(code);
+			ResultSetMetaData rsmd = ret.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+
+			while (ret.next()) {
+				StringBuilder print = new StringBuilder();
+			    for(int i = 1; i < columnsNumber; i++)
+			        print.append(ret.getString(i) + " ");
+			    Util.logSqlCode(print.toString());
+			    Util.log("");
+			}
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			Util.logErreur(e.getMessage());
+		}
+
+		catch (MySQLSyntaxErrorException e) {
+			Util.logErreur(e.getMessage());
+		} catch (CustomException e) {
+			Util.logErreur(e.getMessage());
+		}
+		catch(SQLException e){
+			Util.logErreur(e.getMessage());
+		}
+		
+		return ret;
+	}
+
+	public BaseDeDonnees getBDD(){
+		return this.BDD;
+	}
+
+	public Connection getConnect() {
+		return connect;
+	}
+
+	public Statement getStmt() {
+		return stmt;
+	}
+
+	public String getNomUtilisateur() {
+		return nomUtilisateur;
+	}
+
+	public String getMotDePasse() {
+		return motDePasse;
+	}
+
+	public String getNomBase() {
+		return nomBase;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public int getPort() {
+		return port;
+	}
 }

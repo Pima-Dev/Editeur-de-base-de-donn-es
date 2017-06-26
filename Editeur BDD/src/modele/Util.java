@@ -39,6 +39,11 @@ public class Util {
 		
 		String log = "[" + heure + "." + minute + "." + seconde + "/ERREUR] " + message;
 		System.out.println(log);
+		
+		if(Fenetre.getInstance() == null || Fenetre.getInstance().getSession() == null){
+			return;
+		}
+		
 		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
 		if(Fenetre.getInstance().getVueLog() != null){
 			Fenetre.getInstance().getVueLog().ajouterLog(log);
@@ -70,6 +75,11 @@ public class Util {
 
 		String log = "[" + heure + "." + minute + "." + seconde + "/INFO] " + message;
 		System.out.println(log);
+		
+		if(Fenetre.getInstance() == null || Fenetre.getInstance().getSession() == null){
+			return;
+		}
+		
 		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
 		if(Fenetre.getInstance().getVueLog() != null){
 			Fenetre.getInstance().getVueLog().ajouterLog(log);
@@ -95,6 +105,11 @@ public class Util {
 
 		String log = "[" + heure + "." + minute + "." + seconde + "/SQL] " + message;
 		System.out.println(log);
+		
+		if(Fenetre.getInstance() == null || Fenetre.getInstance().getSession() == null){
+			return;
+		}
+		
 		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
 		if(Fenetre.getInstance().getVueLog() != null){
 			Fenetre.getInstance().getVueLog().ajouterLog(log);

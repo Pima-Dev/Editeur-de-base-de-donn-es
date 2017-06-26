@@ -95,7 +95,7 @@ public class Fenetre{
 		return this.session;
 	}
 	
-	public void setSesstion(Session session){
+	public void setSession(Session session){
 		this.session = session;
 	}
 

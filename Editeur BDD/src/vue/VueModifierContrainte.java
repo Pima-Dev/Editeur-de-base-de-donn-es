@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
 import modele.Colonne;
 import modele.Contrainte;
@@ -129,6 +130,8 @@ public class VueModifierContrainte extends JPanel {
 		this.frame.setSize(new Dimension(400, 450));
 		this.frame.setLocationRelativeTo(null);
 		this.frame.setResizable(false);
+		this.frame.addWindowListener(new FenetreListener(this.fenetre));
+		this.fenetre.getFenetre().setEnabled(false);
 		this.frame.setVisible(true);
 	}
 

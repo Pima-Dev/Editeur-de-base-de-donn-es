@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
 
 public class VueCreationBDD extends JPanel{
@@ -109,6 +110,8 @@ public class VueCreationBDD extends JPanel{
 		fenetreNouvelleBDD.setSize(new Dimension(400, 500));
 		fenetreNouvelleBDD.setResizable(false);
 		fenetreNouvelleBDD.setLocationRelativeTo(null);
+		this.fenetreNouvelleBDD.addWindowListener(new FenetreListener(this.fenetre));
+		this.fenetre.getFenetre().setEnabled(false);
 		fenetreNouvelleBDD.setVisible(true);
 	}
 	

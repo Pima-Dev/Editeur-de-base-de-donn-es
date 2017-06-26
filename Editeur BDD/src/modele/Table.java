@@ -62,7 +62,6 @@ public class Table implements Cloneable {
 		}
 
 		for (int i = 0; i < attributs.size(); i++) {
-			System.out.println(this.listeColonnes.get(i).getTypeDonnees());
 			if (attributs.get(i).getListeValeurs().get(0) != null
 					&& this.listeColonnes.get(i).getTypeDonnees() != attributs.get(i).getTypeDonnees()) {
 				throw new CustomException("Erreur de type",
@@ -93,7 +92,6 @@ public class Table implements Cloneable {
 		ArrayList<Colonne> tuple = new ArrayList<Colonne>();
 
 		for (Object obj : attributs) {
-			System.out.println(obj);
 			if (obj == null) {
 				Colonne<Integer> col = new Colonne<Integer>("colonne", null);
 				col.ajouterValeur(null);

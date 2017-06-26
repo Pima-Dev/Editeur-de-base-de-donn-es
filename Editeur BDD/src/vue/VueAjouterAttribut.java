@@ -1,7 +1,6 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
 import modele.CustomException;
 import modele.Table;
@@ -119,6 +119,8 @@ public class VueAjouterAttribut extends JPanel {
 		this.frame.setLocationRelativeTo(null);
 		this.frame.setResizable(false);
 		this.frame.setVisible(true);
+		this.frame.addWindowListener(new FenetreListener(this.fenetre));
+		this.fenetre.getFenetre().setEnabled(false);
 	}
 
 	public Fenetre getFenetre() {

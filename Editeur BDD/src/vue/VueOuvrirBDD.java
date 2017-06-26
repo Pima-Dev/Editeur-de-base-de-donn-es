@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
 
 public class VueOuvrirBDD extends JPanel {
@@ -88,6 +89,8 @@ public class VueOuvrirBDD extends JPanel {
 		fenetreOuvrirBDD.setSize(new Dimension(400, 500));
 		fenetreOuvrirBDD.setResizable(false);
 		fenetreOuvrirBDD.setLocationRelativeTo(null);
+		this.fenetreOuvrirBDD.addWindowListener(new FenetreListener(this.fenetre));
+		this.fenetre.getFenetre().setEnabled(false);
 		fenetreOuvrirBDD.setVisible(true);
 	}
 	
@@ -97,7 +100,7 @@ public class VueOuvrirBDD extends JPanel {
 		lErreur = new JLabel("");
 		lErreur.setForeground(new Color(255, 0, 0));
 		lErreur.setHorizontalAlignment(SwingConstants.CENTER);
-		lNomBDD = new JLabel("Liste BDD sauvegardés");
+		lNomBDD = new JLabel("Liste BDD sauvegardées");
 		lNonSave = new JLabel("OUVRIR UNE BDD NON SAUVEGARDE");
 		lNonSave.setHorizontalAlignment(SwingConstants.CENTER);
 		boutonLocal = new JRadioButton("Hebergement Local");

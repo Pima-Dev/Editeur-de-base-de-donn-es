@@ -40,16 +40,12 @@ public class VuePrincipale extends JPanel{
 	private JMenuItem nouveau;
 	private JMenuItem supprimerBDD;
 	private JMenuItem ouvrir;
-	private JMenuItem enregistrer;
-	private JMenuItem enregistrerSous;
 	private JMenuItem exporterEnPDF;
 	
 	private JMenu outils;
 	private JMenuItem accederALaConsole;
 	private JMenuItem rechercher;
 	private JMenuItem ajouterUnTuple;
-	private JMenuItem modifierUnTuple;
-	private JMenuItem supprimerUnTuple;
 	private JMenuItem supprimerUneTable;
 	
 	private JMenu aide;
@@ -133,26 +129,28 @@ public class VuePrincipale extends JPanel{
 		ouvrir = new JMenuItem("Ouvrir");
 		ouvrir.setName("MenuOuvrir");
 		ouvrir.addActionListener(new PresserBoutonListener(this.fenetre));
-		enregistrer = new JMenuItem("Enregistrer");
-		enregistrer.setName("MenuEnregistrer");
-		enregistrer.addActionListener(new PresserBoutonListener(this.fenetre));
-		enregistrerSous = new JMenuItem("Enregistrer sous");
-		enregistrerSous.setName("MenuEnregistrerSous");
-		enregistrerSous.addActionListener(new PresserBoutonListener(this.fenetre));
 		exporterEnPDF = new JMenuItem("Exporter en PDF");
 		exporterEnPDF.setName("MenuExporterEnPDF");
 		exporterEnPDF.addActionListener(new PresserBoutonListener(this.fenetre));
 		
 		outils = new JMenu("    Outils    ");
 		accederALaConsole = new JMenuItem("Accéder à la console");
+		accederALaConsole.setName("acceder a la console");
+		accederALaConsole.addActionListener(new PresserBoutonListener(this.fenetre));
 		rechercher = new JMenuItem("Rechercher");
-		ajouterUnTuple = new JMenuItem("Ajouter un tupe");
-		modifierUnTuple = new JMenuItem("Modifier un tuple");
-		supprimerUnTuple = new JMenuItem("Supprimer un tuple");
-		supprimerUneTable = new JMenuItem("Supprimer une table");
+		rechercher.setName("faire une recherche");
+		rechercher.addActionListener(new PresserBoutonListener(this.fenetre));
+		ajouterUnTuple = new JMenuItem("Ajouter un tuple");
+		ajouterUnTuple.setName("ajouter un tuple");
+		ajouterUnTuple.addActionListener(new PresserBoutonListener(this.fenetre));
+		supprimerUneTable = new JMenuItem("Supprimer la table");
+		supprimerUneTable.setName("supprimer la table");
+		supprimerUneTable.addActionListener(new PresserBoutonListener(this.fenetre));
 		
 		aide = new JMenu("    Aide    ");
-		aideEnLigne = new JMenuItem("Aide en ligne");
+		aideEnLigne = new JMenuItem("Aide syntaxe MYSQL");
+		aideEnLigne.setName("aide syntaxe MYSQL");
+		aideEnLigne.addActionListener(new PresserBoutonListener(this.fenetre));
 		
 		menu.add(fichier);
 		menu.add(outils);
@@ -160,16 +158,12 @@ public class VuePrincipale extends JPanel{
 		
 		fichier.add(nouveau);
 		fichier.add(ouvrir);
-		fichier.add(enregistrer);
-		fichier.add(enregistrerSous);
 		fichier.add(supprimerBDD);
 		fichier.add(exporterEnPDF);
 		
 		outils.add(accederALaConsole);
 		outils.add(rechercher);
 		outils.add(ajouterUnTuple);
-		outils.add(modifierUnTuple);
-		outils.add(supprimerUnTuple);
 		outils.add(supprimerUneTable);
 		
 		aide.add(aideEnLigne);
@@ -355,22 +349,6 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the enregistrer
-	 */
-	public JMenuItem getEnregistrer() {
-		return enregistrer;
-	}
-
-
-	/**
-	 * @return the enregistrerSous
-	 */
-	public JMenuItem getEnregistrerSous() {
-		return enregistrerSous;
-	}
-
-
-	/**
 	 * @return the exporterEnPDF
 	 */
 	public JMenuItem getExporterEnPDF() {
@@ -383,23 +361,6 @@ public class VuePrincipale extends JPanel{
 	public JMenuItem getAjouterUnTuple() {
 		return ajouterUnTuple;
 	}
-
-
-	/**
-	 * @return the modifierUnTuple
-	 */
-	public JMenuItem getModifierUnTuple() {
-		return modifierUnTuple;
-	}
-
-
-	/**
-	 * @return the supprimerUnTuple
-	 */
-	public JMenuItem getSupprimerUnTuple() {
-		return supprimerUnTuple;
-	}
-
 
 	/**
 	 * @return the gererDesAttributs

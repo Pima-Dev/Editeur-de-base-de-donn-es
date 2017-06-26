@@ -15,8 +15,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import controleur.ChampsListener;
+import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
-import controleur.TouchePresseListener;
 import controleur.ValeurListener;
 
 public class VueRechercheAvance extends JPanel{
@@ -85,8 +85,10 @@ public class VueRechercheAvance extends JPanel{
 		fenetreRechercheAvance = new JFrame("Créer une nouvelle base de données");
 		fenetreRechercheAvance.setContentPane(this);
 		fenetreRechercheAvance.setSize(new Dimension(400, 250));
-		fenetreRechercheAvance.setResizable(false);
 		fenetreRechercheAvance.setLocationRelativeTo(null);
+		fenetreRechercheAvance.setResizable(false);
+		this.fenetreRechercheAvance.addWindowListener(new FenetreListener(this.fenetre));
+		this.fenetre.getFenetre().setEnabled(false);
 		fenetreRechercheAvance.setVisible(true);
 	}
 
