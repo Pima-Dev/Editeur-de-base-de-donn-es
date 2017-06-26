@@ -27,15 +27,32 @@ import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
 import controleur.SelectionListener;
 import controleur.TouchePresseListener;
-
+/**
+ * Cette vue s'affiche lorsque l'utilisateur se connecte, elle permet d'accéder à toutes les options de gestion de la BDD
+ */
 public class VuePrincipale extends JPanel{
-	
+	/**
+	 * Ce panneau contient la liste des tables, le panneau du tableau et le panneau de boutons
+	 */
 	private JPanel panneauListeBoutonTable;
+	
+	/**
+	 * Ce panneau contient le panneau du tableau et le panneau de boutons
+	 */
 	private JPanel panneauBoutonTable;
 	//menu
+	/**
+	 * Ce panneau contient la barre de menus
+	 */
 	private JPanel panneauMenu;
+	/**
+	 * Cette barre de menu permet d'accéder aux menus fichier, outils et aide
+	 */
 	private JMenuBar menu;
 	
+	/**
+	 * Ce menu permet d'accéder aux options nouveau, supprimerBDD, 
+	 */
 	private JMenu fichier;
 	private JMenuItem nouveau;
 	private JMenuItem supprimerBDD;
