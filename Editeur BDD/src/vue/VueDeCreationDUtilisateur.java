@@ -14,40 +14,112 @@ import javax.swing.SwingConstants;
 import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
 import controleur.TouchePresseListener;
-
+/**
+ * s'affiche lorsque l'utilisateur appuye sur le bouton création de compte, elle permet de créer un nouveau compte
+ */
 public class VueDeCreationDUtilisateur extends JPanel{
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
 	
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche le titre du champ de pseudo
+	 */
 	private JLabel lUtilisateur;
+	/**
+	 * affiche le titre du champ d'Email
+	 */
 	private JLabel lEmail;
+	/**
+	 * affiche le titre du champ de mot de passe
+	 */
 	private JLabel lMotDePasse;
+	/**
+	 * affiche le titre du champ de confirmation de mot de passe
+	 */
 	private JLabel lConfirmation;
 	
+	/**
+	 * s'affiche lors de l'entrée d'une valeur dans le champ de pseudo pour la valider ou l'invalider
+	 */
 	private JLabel iUtilisateur;
+	/**
+	 * s'affiche lors de l'entrée d'une valeur dans le champ de mail pour la valider ou l'invalider
+	 */
 	private JLabel iEmail;
+	/**
+	 * s'affiche lors de l'entrée d'une valeur dans le champ de mot de passe pour la valider ou l'invalider
+	 */
 	private JLabel iMotDePasse;
+	/**
+	 * s'affiche lors de l'entrée d'une valeur dans le champ de confirmation de mot de passe pour la valider ou l'invalider
+	 */
 	private JLabel iConfirmation;
+	/**
+	 * entrée du pseudo
+	 */
 	private JTextField fUtilisateur;
+	/**
+	 * entrée de l'email
+	 */
 	private JTextField fEmail;
+	/**
+	 * entrée du mot de passe
+	 */
 	private JPasswordField fMotDePasse;
+	/**
+	 * entrée de la confirmation de mot de passe
+	 */
 	private JPasswordField fConfirmation;
+	/**
+	 * accéder à la connexion et valider la création d'utilisateur
+	 */
 	private JButton bCreation;
+	/**
+	 * panneau contenant le panneau des champs, le panneau de vérification et les boutons retour et valider
+	 */
 	private JPanel panneau;
+	/**
+	 * panneau contenant les champs à remplir
+	 */
 	private JPanel panneauChamps;
+	/**
+	 * panneau contenant les symboles de vérification de champ
+	 */
 	private JPanel verif;
-	private JLabel lQ1;
-	private JLabel lQ2;
-	private JLabel lQ3;
-	private JTextField tQ1;
-	private JTextField tQ2;
-	private JTextField tQ3;
 	
+	//private JLabel lQ1;
+	//private JLabel lQ2;
+	//private JLabel lQ3;
+	//private JTextField tQ1;
+	//private JTextField tQ2;
+	//private JTextField tQ3;
+	/**
+	 * état de la validation du champ de pseudo
+	 */
 	private boolean vUtilisateur;
+	/**
+	 * état de la validation du champ d'email
+	 */
 	private boolean vEmail;
+	/**
+	 * état de la validation du champ de mot de passe
+	 */
 	private boolean vMotDePasse;
+	/**
+	 * état de la validation du champ de confirmation de mot de passe
+	 */
 	private boolean vConfirmation;
 	
+	/**
+	 * construit le panneau de la fenêtre de création d'utilisateur
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueDeCreationDUtilisateur(Fenetre fenetre){
 		this.fenetre = fenetre;
 		this.fenetre.setVueCreationUtilisateur(this);
@@ -104,7 +176,9 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		bCreation.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
-
+	/**
+	 * création des éléments du panneau
+	 */
 	public void declaration(){
 		this.setLayout(new BorderLayout());
 		panneauChamps = new JPanel();
@@ -128,72 +202,81 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		fMotDePasse = new JPasswordField();
 		fConfirmation = new JPasswordField();
 		bCreation = new JButton("Créer");
-		this.lQ1 = new JLabel("Quel est le nom de votre meilleur(e) ami(e) ?");
-		this.lQ2 = new JLabel("Dans quel ville êtes vous né ?");
-		this.lQ3 = new JLabel("Quel est le nom de votre mère ?");
-		this.tQ1 = new JTextField();
-		this.tQ2 = new JTextField();
-		this.tQ3 = new JTextField();
+		//this.lQ1 = new JLabel("Quel est le nom de votre meilleur(e) ami(e) ?");
+		//this.lQ2 = new JLabel("Dans quel ville êtes vous né ?");
+		//this.lQ3 = new JLabel("Quel est le nom de votre mère ?");
+		//this.tQ1 = new JTextField();
+		//this.tQ2 = new JTextField();
+		//this.tQ3 = new JTextField();
 	}
 
 	/**
-	 * @return the fUtilisateur
+	 * accès au JTextField fUtilisateur
+	 * @return le JTextField fUtilisateur
 	 */
 	public JTextField getfUtilisateur() {
 		return fUtilisateur;
 	}
 
 	/**
-	 * @return the fEmail
+	 * accès au JTextField fEmail
+	 * @return le JTextField fEmail
 	 */
 	public JTextField getfEmail() {
 		return fEmail;
 	}
 
 	/**
-	 * @return the fMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JPasswordField getfMotDePasse() {
 		return fMotDePasse;
 	}
 
 	/**
-	 * @return the fConfirmation
+	 * accès au JPasswordField getfConfirmation
+	 * @return le JPasswordField getfConfirmation
 	 */
 	public JPasswordField getfConfirmation() {
 		return fConfirmation;
 	}
 
 	/**
-	 * @return the bCreation
+	 * accès au JButton bCreation
+	 * @return le JButton bCreation
 	 */
 	public JButton getbCreation() {
 		return bCreation;
 	}
 
 	/**
-	 * @return the iUtilisateur
+	 * accès au JLabel getiUtilisateur
+	 * @return le JLabel getiUtilisateur
 	 */
 	public JLabel getiUtilisateur() {
 		return iUtilisateur;
 	}
 
 	/**
-	 * @return the iEmail
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JLabel getiEmail() {
 		return iEmail;
 	}
 
 	/**
-	 * @return the iMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JLabel getiMotDePasse() {
 		return iMotDePasse;
 	}
 
 	/**
-	 * @return the iConfirmation
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JLabel getiConfirmation() {
 		return iConfirmation;
@@ -201,28 +284,32 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * @return the vUtilisateur
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public boolean isvUtilisateur() {
 		return vUtilisateur;
 	}
 
 	/**
-	 * @return the vEmail
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public boolean isvEmail() {
 		return vEmail;
 	}
 
 	/**
-	 * @return the vMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public boolean isvMotDePasse() {
 		return vMotDePasse;
 	}
 
 	/**
-	 * @return the vConfirmation
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public boolean isvConfirmation() {
 		return vConfirmation;
@@ -230,7 +317,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * @param vUtilisateur the vUtilisateur to set
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public void setvUtilisateur(boolean vUtilisateur) {
 		this.vUtilisateur = vUtilisateur;
@@ -238,7 +326,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * @param vEmail the vEmail to set
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public void setvEmail(boolean vEmail) {
 		this.vEmail = vEmail;
@@ -246,7 +335,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * @param vMotDePasse the vMotDePasse to set
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public void setvMotDePasse(boolean vMotDePasse) {
 		this.vMotDePasse = vMotDePasse;
@@ -254,41 +344,42 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * @param vConfirmation the vConfirmation to set
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public void setvConfirmation(boolean vConfirmation) {
 		this.vConfirmation = vConfirmation;
 	}
 
 
-	public JTextField gettQ1() {
-		return tQ1;
-	}
+	//public JTextField gettQ1() {
+	//	return tQ1;
+	//}
 
 
-	public JTextField gettQ2() {
-		return tQ2;
-	}
+	//public JTextField gettQ2() {
+	//	return tQ2;
+	//}
 
 
-	public JTextField gettQ3() {
-		return tQ3;
-	}
+	//public JTextField gettQ3() {
+	//	return tQ3;
+	//}
 
 
-	public JLabel getlQ1() {
-		return lQ1;
-	}
+	//public JLabel getlQ1() {
+	//	return lQ1;
+	//}
 
 
-	public JLabel getlQ2() {
-		return lQ2;
-	}
+	//public JLabel getlQ2() {
+	//	return lQ2;
+	//}
 
 
-	public JLabel getlQ3() {
-		return lQ3;
-	}
+	//public JLabel getlQ3() {
+	//	return lQ3;
+	//}
 
 	
 }

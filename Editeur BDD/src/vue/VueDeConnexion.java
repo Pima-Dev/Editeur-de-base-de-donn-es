@@ -7,23 +7,67 @@ import controleur.TouchePresseListener;
 
 import java.awt.*;
 
+/**
+ * s'affiche lorsque l'utilisateur lance l'application, elle permet de se connecter à sont compte
+ */
 public class VueDeConnexion extends JPanel{
 	
+	/**
+	  * la racine de référence qui permet d'accéder à toutes les vues
+	  */
 	private Fenetre fenetre;
 
+	/**
+	 * affiche l'erreur d'identifiant, il s'affiche grace au listener
+	 */
 	private JLabel lErreurIdentifiant;
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lConnection;
+	/**
+	 * affiche le titre du champ de pseudo
+	 */
 	private JLabel lPseudo;
+	/**
+	 * affiche le titre du champ de mot de passe
+	 */
 	private JLabel lMotDePasse;
+	/**
+	 * entrée du pseudo
+	 */
 	private JTextField fPseudo;
+	/**
+	 * entrée du mot de passe
+	 */
 	private JPasswordField fMotDePasse;
+	/**
+	 * accéder au panneau principal
+	 */
 	private JButton bConnection;
+	/**
+	 * accéder au panneau de création d'utilisateur
+	 */
 	private JButton bCreationUtilisateur;
-	private JButton bMotDePasseOublie;
+	
+	//private JButton bMotDePasseOublie;
+	/**
+	 * contient les panneau bouton et connexion
+	 */
 	private JPanel panneau;
+	/**
+	 * contient les boutons connexion et création d'utilisateur
+	 */
 	private JPanel panneauBouton;
+	/**
+	 * contient les champ de connexion
+	 */
 	private JPanel panneauConnexion;
 	
+	/**
+	 * construit le panneau de la fenêtre de connexion
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueDeConnexion(Fenetre fenetre){
 		this.fenetre = fenetre;
 		this.fenetre.setVueDeConnexion(this);
@@ -49,6 +93,9 @@ public class VueDeConnexion extends JPanel{
 		//this.bMotDePasseOublie.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
+	/**
+	 * création des éléments du panneau
+	 */
 	public void decoration(){
 		this.setLayout(new BorderLayout());
 		panneau = new JPanel();
@@ -86,28 +133,32 @@ public class VueDeConnexion extends JPanel{
 	
 
 	/**
-	 * @return the fPseudo
+	 * accès au JTextField fPseudo
+	 * @return le JTextField fPseudo
 	 */
 	public JTextField getfPseudo() {
 		return fPseudo;
 	}
 
 	/**
-	 * @return the fMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JPasswordField getfMotDePasse() {
 		return fMotDePasse;
 	}
 
 	/**
-	 * @return the lConnection
+	 * accès au JLabel lConnection
+	 * @return le JLabel lConnection
 	 */
 	public JLabel getlConnection() {
 		return lConnection;
 	}
 
 	/**
-	 * @return the lErreurIdentifiant
+	 * accès au JLabel lErreurIdentifiant
+	 * @return le JLabel lErreurIdentifiant
 	 */
 	public JLabel getlErreurIdentifiant() {
 		return lErreurIdentifiant;
