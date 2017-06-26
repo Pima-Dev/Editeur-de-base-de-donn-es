@@ -43,4 +43,8 @@ public class Session {
 	public String getBDDPath(){
 		return this.BDDPath;
 	}
+	
+	public String getNom(){
+		return this.nom;
+	}
 }

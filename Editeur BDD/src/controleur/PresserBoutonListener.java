@@ -35,6 +35,8 @@ import vue.VueAjouterAttribut;
 import vue.VueCreationBDD;
 import vue.VueDeConnexion;
 import vue.VueDeCreationDUtilisateur;
+import vue.VueLog;
+import vue.VueLogConsole;
 import vue.VueModifierContrainte;
 import vue.VueOuvrirBDD;
 import vue.VuePrincipale;
@@ -438,7 +440,12 @@ public class PresserBoutonListener implements ActionListener {
 				} catch (CustomException e1) {
 					Util.logErreur(e1.getMessage());
 				}
+			} else if(bouton.getName().equals("acceder a la console")){
+				new VueLogConsole(this.fenetre);
+			} else if (bouton.getName().equals("voir les logs")){
+				new VueLog(this.fenetre);
 			}
+			
 
 		} else if (e.getSource() instanceof JRadioButton) {
 			JRadioButton radioBouton = (JRadioButton) e.getSource();

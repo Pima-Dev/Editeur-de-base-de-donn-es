@@ -21,6 +21,9 @@ public class Fenetre{
 	private VueLogConsole vueLogConsole;
 	private VueRechercheAvance vueRechercheAvance;	
 	private VueModifierContrainte vueModifierContrainte;
+	private VueLog vueLog;
+	
+	private static Fenetre instanceFen;
 	
 	public Fenetre(){
 		SwingUtilities.invokeLater(new Runnable() {
@@ -30,6 +33,7 @@ public class Fenetre{
 				creerFenetre();
 			}
 		});
+		instanceFen = this;
 	}
 	
 	public void creerFenetre(){
@@ -167,6 +171,18 @@ public class Fenetre{
 
 	public void setVueModifierContrainte(VueModifierContrainte vueModifierContrainte) {
 		this.vueModifierContrainte = vueModifierContrainte;
+	}
+	
+	public VueLog getVueLog() {
+		return vueLog;
+	}
+
+	public void setVueLog(VueLog vueLog) {
+		this.vueLog = vueLog;
+	}
+
+	public static Fenetre getInstance(){
+		return instanceFen;
 	}
 	
 }

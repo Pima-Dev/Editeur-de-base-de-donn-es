@@ -1,8 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Dimension;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -10,11 +9,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+
+import modele.ELFichier;
 
 public class VueLogConsole extends JPanel{
 
@@ -32,6 +32,7 @@ public class VueLogConsole extends JPanel{
 	
 	public VueLogConsole(Fenetre fenetre) {
 		this.fenetre = fenetre;
+		this.fenetre.setVueLogConsole(this);
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -72,9 +73,13 @@ public class VueLogConsole extends JPanel{
 		this.add(new JLabel("      "),BorderLayout.NORTH);
 		this.add(panneauPrincipal,BorderLayout.CENTER);
 		
-		fenetreConsole = new JFrame("Créer une nouvelle base de données");
+		for(String s : ELFichier.lireLog(this.fenetre.getSession().getNom())){
+			modeleLog.addElement(s);
+		}
+		
+		fenetreConsole = new JFrame("Console");
 		fenetreConsole.setContentPane(this);
-		fenetreConsole.setSize(400,300);
+		fenetreConsole.setSize(700,500);
 		fenetreConsole.setLocationRelativeTo(null);
 		fenetreConsole.setVisible(true);
 	}

@@ -1,18 +1,83 @@
 package modele;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
+
+import vue.Fenetre;
 
 public class ELFichier {
 	
 	private static String racine = "data/";
+	private static String nomLog;
+	
+	public static void ecrireLog(String nomFile, String texte){
+		
+		if(nomLog == null || nomLog.replace(" ", "").equals("")){
+			nomLog = getNomLog();
+		}
+		
+		BufferedWriter writer = null;
+		try {
+			File file = new File(racine+nomFile+"/logs");
+			if(!file.exists())
+				file.mkdirs();
+			writer = new BufferedWriter(new FileWriter(racine+nomFile+"/logs/"+nomLog, true));
+			writer.write("\n"+texte);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(writer != null){
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static ArrayList<String> lireLog(String nomFile){
+		ArrayList<String> ret = new ArrayList<String>();
+		BufferedReader reader = null;
+		String ligne = "";
+		try {
+			reader = new BufferedReader(new FileReader(racine+nomFile+"/logs/"+nomLog));
+			while((ligne = reader.readLine()) != null){
+				ret.add(ligne);
+			}
+			
+		} catch (FileNotFoundException e) {
+			return ret;
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		finally{
+			if(reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return ret;
+}
 	
 	public static void setCle(String fichier, String cle, String valeur){
 		Properties prop = new Properties();
@@ -101,6 +166,37 @@ public class ELFichier {
 
 	public static String getRacine() {
 		return racine;
+	}
+	
+	private static String getNomLog(){
+		String ret = "";
+		int nb = 0;
+		File file = new File(racine+Fenetre.getInstance().getSession().getNom()+"/logs");
+		File[] files = file.listFiles();
+		if(files!=null && files.length>0){
+			String nombre = files[files.length-1].getName().replaceAll(" ", "").replaceAll(".log", "").split("-")[1];
+			System.out.println(nombre);
+			if(Util.isInteger(nombre)){
+				nb = Integer.parseInt(nombre)+1;
+			}
+		}
+		
+		Calendar calendar = Calendar.getInstance();
+		String annee = ""+calendar.get(Calendar.YEAR);
+		String mois = ""+calendar.get(Calendar.MONTH);
+		String jour = ""+calendar.get(Calendar.DATE);
+		String heure = "" + calendar.get(Calendar.HOUR_OF_DAY);
+
+		while (mois.length() < 2)
+			mois = "0" + mois;
+		while (jour.length() < 2)
+			jour = "0" + jour;
+		while (heure.length() < 2)
+			heure = "0" + heure;
+		
+		ret = annee+"."+mois+"."+jour+"."+heure+"-"+nb+".log";
+		
+		return ret;
 	}
 
 }

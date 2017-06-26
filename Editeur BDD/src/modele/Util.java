@@ -13,6 +13,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import vue.Fenetre;
+
 public class Util {
 
 	/**
@@ -34,7 +36,16 @@ public class Util {
 			minute = "0" + minute;
 		while (seconde.length() < 2)
 			seconde = "0" + seconde;
-		System.out.println("[" + heure + "." + minute + "." + seconde + "/ERREUR] " + message);
+		
+		String log = "[" + heure + "." + minute + "." + seconde + "/ERREUR] " + message;
+		System.out.println(log);
+		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
+		if(Fenetre.getInstance().getVueLog() != null){
+			Fenetre.getInstance().getVueLog().ajouterLog(log);
+		}
+		if(Fenetre.getInstance().getVueLogConsole() != null){
+			Fenetre.getInstance().getVueLogConsole().ajouterLog(log);
+		}
 	}
 
 	/**
@@ -57,7 +68,15 @@ public class Util {
 		while (seconde.length() < 2)
 			seconde = "0" + seconde;
 
-		System.out.println("[" + heure + "." + minute + "." + seconde + "/INFO] " + message);
+		String log = "[" + heure + "." + minute + "." + seconde + "/INFO] " + message;
+		System.out.println(log);
+		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
+		if(Fenetre.getInstance().getVueLog() != null){
+			Fenetre.getInstance().getVueLog().ajouterLog(log);
+		}
+		if(Fenetre.getInstance().getVueLogConsole() != null){
+			Fenetre.getInstance().getVueLogConsole().ajouterLog(log);
+		}
 	}
 
 	public static void logSqlCode(String message) {
@@ -74,7 +93,15 @@ public class Util {
 		while (seconde.length() < 2)
 			seconde = "0" + seconde;
 
-		System.out.println("[" + heure + "." + minute + "." + seconde + "/SQL] " + message);
+		String log = "[" + heure + "." + minute + "." + seconde + "/SQL] " + message;
+		System.out.println(log);
+		ELFichier.ecrireLog(Fenetre.getInstance().getSession().getNom(), log);
+		if(Fenetre.getInstance().getVueLog() != null){
+			Fenetre.getInstance().getVueLog().ajouterLog(log);
+		}
+		if(Fenetre.getInstance().getVueLogConsole() != null){
+			Fenetre.getInstance().getVueLogConsole().ajouterLog(log);
+		}
 	}
 
 	public static boolean isValidDate(String inDate) {
@@ -117,11 +144,11 @@ public class Util {
 			Document doc = new Document();
 			PdfWriter.getInstance(doc, new FileOutputStream(file));
 			doc.open();
-			PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
-			for (int i = 0; i < table.getColumnCount(); i++) {
+			PdfPTable pdfTable = new PdfPTable(table.getColumnCount()-2);
+			for (int i = 0; i < table.getColumnCount()-2; i++) {
 				pdfTable.addCell(table.getColumnName(i));
 			}
-			for (int rows = 0; rows < table.getRowCount() - 1; rows++) {
+			for (int rows = 0; rows < table.getRowCount(); rows++) {
 				for (int cols = 0; cols < table.getColumnCount()-2; cols++) {
 					pdfTable.addCell((String)table.getModel().getValueAt(rows, cols));
 

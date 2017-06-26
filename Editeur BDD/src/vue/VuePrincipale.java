@@ -79,9 +79,10 @@ public class VuePrincipale extends JPanel{
 	 private JButton optionRecherche;
 	 
 	 private JPanel marge;
-	 private JPanel contrainte;
-	 private JLabel lContrainte;
+	 private JPanel boutonsDroites;
 	 private JButton modifierContrainte;
+	 private JButton console;
+	 private JButton log;
 	 
 	 private Fenetre fenetre;
 	 
@@ -252,17 +253,21 @@ public class VuePrincipale extends JPanel{
 		 chercher.add(margeRecherche, BorderLayout.CENTER);
 		 panneauBoutons.add(chercher);
 		 
-		 contrainte = new JPanel();
-		 contrainte.setLayout(new GridLayout(3,1,5,5));
-		 lContrainte = new JLabel("Contraintes");
-		 lContrainte.setFont(font);
-		 lContrainte.setHorizontalAlignment(SwingConstants.CENTER);
-		 contrainte.add(lContrainte);
+		 boutonsDroites = new JPanel();
+		 boutonsDroites.setLayout(new GridLayout(3,1,5,5));
 		 modifierContrainte = new JButton("Modifier les contraintes");
 		 modifierContrainte.setName("modifier les contraintes");
 		 modifierContrainte.addActionListener(new PresserBoutonListener(this.fenetre));
-		 contrainte.add(modifierContrainte);
-		 panneauBoutons.add(contrainte);
+		 this.console = new JButton("Accéder à la console");
+		 this.console.setName("acceder a la console");
+		 this.console.addActionListener(new PresserBoutonListener(this.fenetre));
+		 this.log = new JButton("Voir les logs");
+		 this.log.setName("voir les logs");
+		 this.log.addActionListener(new PresserBoutonListener(this.fenetre));
+		 boutonsDroites.add(modifierContrainte);
+		 boutonsDroites.add(this.console);
+		 boutonsDroites.add(this.log);
+		 panneauBoutons.add(boutonsDroites);
 		 
 		 
 		 marge = new JPanel();
@@ -287,9 +292,9 @@ public class VuePrincipale extends JPanel{
 		
         dm.setDataVector(tab, lesTitres);
         table = new JTable(dm);
-        table.getColumn("Modifier").setCellRenderer(new RenduCellule("modifier"));
+        table.getColumn("Modifier").setCellRenderer(new RenduCellule("modifier", this.fenetre));
         table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm,fenetre));
-        table.getColumn("Supprimer").setCellRenderer(new RenduCellule("supprimer"));
+        table.getColumn("Supprimer").setCellRenderer(new RenduCellule("supprimer", this.fenetre));
         table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm,fenetre));
         table.setRowHeight(30);
         if(table.getColumnCount()>15){
@@ -452,6 +457,13 @@ public class VuePrincipale extends JPanel{
 	}
 
 
+	public JButton getConsole(){
+		return this.console;
+	}
+	
+	public JButton getLog(){
+		return this.log;
+	}
 	/**
 	 * @return the supprimerContrainte
 	 */
