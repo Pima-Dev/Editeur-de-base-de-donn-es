@@ -27,9 +27,7 @@ import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
 import controleur.SelectionListener;
 import controleur.TouchePresseListener;
-/**
- * Cette vue est disponible aprés la connexion de l'utilisateur c'est l'interface qui permet de gérer la base de données.
- */
+
 public class VuePrincipale extends JPanel{
 	
 	private JPanel panneauListeBoutonTable;
