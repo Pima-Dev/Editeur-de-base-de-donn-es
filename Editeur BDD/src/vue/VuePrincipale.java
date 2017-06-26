@@ -28,83 +28,200 @@ import controleur.PresserBoutonListener;
 import controleur.SelectionListener;
 import controleur.TouchePresseListener;
 /**
- * Cette vue s'affiche lorsque l'utilisateur se connecte, elle permet d'accéder à toutes les options de gestion de la BDD
+ * s'affiche lorsque l'utilisateur se connecte, elle permet d'accéder à toutes les options de gestion de la BDD
  */
 public class VuePrincipale extends JPanel{
+	 /**
+	  * la racine de référence qui permet d'accéder à toutes les vues
+	  */
+	 private Fenetre fenetre;
 	/**
-	 * Ce panneau contient la liste des tables, le panneau du tableau et le panneau de boutons
+	 * contient la liste des tables, le panneau du tableau et le panneau de boutons
 	 */
 	private JPanel panneauListeBoutonTable;
 	
 	/**
-	 * Ce panneau contient le panneau du tableau et le panneau de boutons
+	 * contient le panneau du tableau et le panneau de boutons
 	 */
 	private JPanel panneauBoutonTable;
 	//menu
 	/**
-	 * Ce panneau contient la barre de menus
+	 *contient la barre de menus
 	 */
 	private JPanel panneauMenu;
 	/**
-	 * Cette barre de menu permet d'accéder aux menus fichier, outils et aide
+	 * accéder aux menus fichier, outils et aide
 	 */
 	private JMenuBar menu;
 	
 	/**
-	 * Ce menu permet d'accéder aux options nouveau, supprimerBDD, 
+	 * accéder aux options nouveau, supprimerBDD, ouvrir et exporter en pdf
 	 */
 	private JMenu fichier;
+	/**
+	 * créer une nouvelle BDD
+	 */
 	private JMenuItem nouveau;
+	/**
+	 * supprimer le BDD courante
+	 */
 	private JMenuItem supprimerBDD;
+	/**
+	 * ouvrir une BDD
+	 */
 	private JMenuItem ouvrir;
+	/**
+	 * exporter la table courante dans un fichier PDF
+	 */
 	private JMenuItem exporterEnPDF;
 	
+	/**
+	 * accéder aux options console, recherche, ajouter un tuple et supprimer une table
+	 */
 	private JMenu outils;
+	/**
+	 * accéder à la console pour éxécuter du code SQL
+	 */
 	private JMenuItem accederALaConsole;
+	/**
+	 * rechercher une chaine de caractère dans la table courante
+	 */
 	private JMenuItem rechercher;
+	/**
+	 * ajouter un tuple dans la table courante
+	 */
 	private JMenuItem ajouterUnTuple;
+	/**
+	 * supprmier la table courante
+	 */
 	private JMenuItem supprimerUneTable;
 	
+	/**
+	 * accéder à l'option aide en ligne
+	 */
 	private JMenu aide;
+	/**
+	 * ouvre un navigateur avec le manuel d'utilisation
+	 */
 	private JMenuItem aideEnLigne;
 	
 	//liste table
+	/**
+	 * affiche le titre de la BDD courante
+	 */
 	private JLabel lTitreBDD;
+	/**
+	 * contient la liste des tables et le titre de la BDD
+	 */
 	private JPanel panneauListeTable;
+	/**
+	 * contient la liste des tables et permet de la faire défiler
+	 */
 	private JScrollPane panneauTableau;
+	/**
+	 * contient la liste des tables de la BDD
+	 */
 	private JList<String> tableauListeTable;
+	/**
+	 * contient les information de construction de la liste de table
+	 */
 	private DefaultListModel<String> modeleListe;
 	
 	//boutons
+	/**
+	 * permet de laisser une marge entre le bord de la fenetre et les outils de gestion
+	 */
+	 private JPanel marge;
+	/**
+	 * contient les panneau ajouter, chercher, et boutonsDroite
+	 */
 	 private JPanel panneauBoutons;
 	 
+	 /**
+	  * contient les boutons d'ajout d'attribut, d'ajout de tuple, de suppression de table et de suppression d'attribut
+	  */
 	 private JPanel ajouter;
+	 /**
+	  * ajouter un tuple
+	  */
 	 private JButton ajouterTuple;
+	 /**
+	  * ajouter un attribut
+	  */
 	 private JButton ajouterAttribut;
+	 /**
+	  * supprimer la table courante
+	  */
 	 private JButton supprimerTable;
+	 /**
+	  * supprimer un attribut
+	  */
 	 private JButton supprimerAttribut;
 	 
+	 /**
+	  * permet d'avoir une marge entre les recherches et le reste de la fenetre
+	  */
 	 private JPanel margeRecherche;
+	 /**
+	  * contient la barre de recherche, le titre et les options supplémentaires
+	  */
 	 private JPanel chercher;
+	 /**
+	  * contient la barre de recherche et le bouton de recherche avancée
+	  */
 	 private JPanel barreRecherche;
+	 /**
+	  * affiche le titre des recherches
+	  */
 	 private JLabel lChercher;
+	 /**
+	  * rechercher des éléments dans la table courante
+	  */
 	 private JTextField fChercher;
+	 /**
+	  * accéder aux options de recherche avancées
+	  */
 	 private JButton optionRecherche;
 	 
-	 private JPanel marge;
+	 /**
+	  * contient les boutons modifier contrainte, console et log
+	  */
 	 private JPanel boutonsDroites;
+	 /**
+	  * modifier, ajouter et supprimer des contraintes sur la table courante
+	  */
 	 private JButton modifierContrainte;
+	 /**
+	  * accéder à la console pour éxécuter du code SQL
+	  */
 	 private JButton console;
+	 /**
+	  * accéder aux log SQL
+	  */
 	 private JButton log;
 	 
-	 private Fenetre fenetre;
-	 
 	 //table
+	 /**
+	  * affiche la table courante sous forme de tableau
+	  */
 	 private JTable table;
+	 /**
+	  * contient le tableau et permet de le faire défiler
+	  */
 	 private JScrollPane scrollTable;
+	 /**
+	  * contient le tableau
+	  */
 	 private JPanel panneauTable;
+	 /**
+	  * contient les information pour créer le tableau
+	  */
 	 private ModeleTable dm;
 	 	 
+	 /**
+	  * construit le panneau en appelant les methodes menu, liste table et boutons
+	  * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	  */
 	public VuePrincipale(Fenetre fenetre){
 		this.fenetre = fenetre;
 		this.fenetre.setVuePrincipale(this);
@@ -128,7 +245,9 @@ public class VuePrincipale extends JPanel{
 
 	}
 	
-	
+	/**
+	 * construit la barre de menu
+	 */
 	public void menu(){
 		panneauMenu = new JPanel();
 		
@@ -188,7 +307,9 @@ public class VuePrincipale extends JPanel{
 		panneauMenu.add(menu);
 	}
 	
-	
+	/**
+	 * construit la liste des tables
+	 */
 	public void listeTable(){ 
 		
 		lTitreBDD = new JLabel("nouvelle BDD");
@@ -211,6 +332,9 @@ public class VuePrincipale extends JPanel{
 		
 	}
 	
+	/**
+	 * construit les boutons
+	 */
 	 public void boutons(){
 		 panneauBoutons = new JPanel();
 		 panneauBoutons.setLayout(new GridLayout(1,3,20,10));
@@ -290,6 +414,11 @@ public class VuePrincipale extends JPanel{
 		 marge.add(panneauBoutons, BorderLayout.CENTER);
 	}
 	
+	 /**
+	  * permet de créer et de modifier les valeurs du tableau affiché
+	  * @param tab un tableau de chaine de caractères qui contient les valeurs à insérer dans le tableau affiché
+	  * @param titre un tableau contenant les titres des attributs du tableau
+	  */
 	public void insererValeursDansTab(String[][] tab, String[] titre){
 		this.resetJTable();
 		dm = new ModeleTable(tab.length, tab[0].length+2,fenetre);
@@ -321,12 +450,42 @@ public class VuePrincipale extends JPanel{
 		this.fenetre.getFenetre().setVisible(true);
 	}
 	
+	/**
+	 * réinitialise la table
+	 */
+	public void resetJTable(){
+		this.panneauTable.removeAll();
+		this.panneauTable.repaint();
+	}
+	
+	/**
+	 * réinitialise la liste de table
+	 */
+	public void resetListeTable(){
+		this.modeleListe.removeAllElements();
+		this.modeleListe.addElement("+ Nouvelle Table");
+	}
+	
+	/**
+	 * ajoute un nom de table à la liste
+	 * @param table le nom de la table à ajouter
+	 */
+	public void ajouterTable(String table){
+		modeleListe.set(tableauListeTable.getModel().getSize()-1,table);
+		modeleListe.addElement("+ Nouvelle Table");
+	}
+	
+	/**
+	 * accès à la table courante dans la JList
+	 * @return la table courante dans la JList
+	 */
 	public String getCurrentTable(){
 		return this.tableauListeTable.getSelectedValue();
 	}
 	
 	/**
-	 * @return the accederALaConsole
+	 * accès au jMenuItem accederALaConsole
+	 * @return le jMenuItem accederALaConsole
 	 */
 	public JMenuItem getAccederALaConsole() {
 		return accederALaConsole;
@@ -334,15 +493,40 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the aide
+	 * accès au jMenu aide
+	 * @return le jMenu aide
 	 */
 	public JMenu getAide() {
 		return aide;
 	}
 
+	/**
+	 * accès au JMenuItem fichier
+	 * @return le JMenuItem fichier
+	 */
+	public JMenu getFichier() {
+		return fichier;
+	}
 
 	/**
-	 * @return the aideEnLigne
+	 * accès au JMenuItem supprimerBDD
+	 * @return le JMenuItem supprimerBDD
+	 */
+	public JMenuItem getSupprimerBDD() {
+		return supprimerBDD;
+	}
+
+	/**
+	 * accès au JMenuItem rechercher
+	 * @return le JMenuItem rechercher
+	 */
+	public JMenuItem getRechercher() {
+		return rechercher;
+	}
+
+	/**
+	 * accès au jMenuItem aideEnLigne
+	 * @return le jMenuItem aideEnLigne
 	 */
 	public JMenuItem getAideEnLigne() {
 		return aideEnLigne;
@@ -350,7 +534,8 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the nouveau
+	 * accès au jMenuItem nouveau
+	 * @return le jMenuItem nouveau
 	 */
 	public JMenuItem getNouveau() {
 		return nouveau;
@@ -358,7 +543,8 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the ouvrir
+	 * accès au jMenuItem ouvrir
+	 * @return le jMenuItem ouvrir
 	 */
 	public JMenuItem getOuvrir() {
 		return ouvrir;
@@ -366,21 +552,24 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the exporterEnPDF
+	 * accès au jMenuItem exporterEnPDF
+	 * @return le jMenuItem exporterEnPDF
 	 */
 	public JMenuItem getExporterEnPDF() {
 		return exporterEnPDF;
 	}
 
 	/**
-	 * @return the ajouterUnTuple
+	 * accès au jMenuItem ajouterUnTuple
+	 * @return le jMenuItem ajouterUnTuple
 	 */
 	public JMenuItem getAjouterUnTuple() {
 		return ajouterUnTuple;
 	}
 
 	/**
-	 * @return the gererDesAttributs
+	 * accès au jMenuItem gererDesAttributs
+	 * @return le jMenuItem gererDesAttributs
 	 */
 	public JMenuItem getSupprimerUneTable() {
 		return supprimerUneTable;
@@ -388,7 +577,8 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the ajouterTuple
+	 * accès au JButton ajouterTuple
+	 * @return le JButton ajouterTuple
 	 */
 	public JButton getAjouterTuple() {
 		return ajouterTuple;
@@ -396,31 +586,16 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the ajouterAttribut
+	 * accès au JButton ajouterAttribut
+	 * @return le JButton ajouterAttribut
 	 */
 	public JButton getAjouterAttribut() {
 		return ajouterAttribut;
 	}
 
-
 	/**
-	 * @return the barreRecherche
-	 */
-	public JPanel getBarreRecherche() {
-		return barreRecherche;
-	}
-
-
-	/**
-	 * @return the fChercher
-	 */
-	public JTextField getfChercher() {
-		return fChercher;
-	}
-
-
-	/**
-	 * @return the optionRecherche
+	 * accès au JButton optionRecherche
+	 * @return le JButton optionRecherche
 	 */
 	public JButton getOptionRecherche() {
 		return optionRecherche;
@@ -428,61 +603,66 @@ public class VuePrincipale extends JPanel{
 
 
 	/**
-	 * @return the ajouterContrainte
+	 * accès au JButton ajouterContrainte
+	 * @return le JButton ajouterContrainte
 	 */
 	public JButton getAjouterContrainte() {
 		return modifierContrainte;
 	}
-
-
+	
+	/**
+	 * accès au JButton console
+	 * @return le JButton console
+	 */
 	public JButton getConsole(){
 		return this.console;
 	}
 	
+	/**
+	 * accès au JButton log
+	 * @return le JButton log
+	 */
 	public JButton getLog(){
 		return this.log;
 	}
+
 	/**
-	 * @return the supprimerContrainte
+	 * accès au JTextField fChercher
+	 * @return le JTextField fChercher
 	 */
-
-
+	public JTextField getfChercher() {
+		return fChercher;
+	}
+	
 	/**
-	 * @return the table
+	 * accès à la JTable table
+	 * @return la JTable table
 	 */
 	public JTable getTable() {
 		return table;
 	}
 	
-	public void resetJTable(){
-		this.panneauTable.removeAll();
-		this.panneauTable.repaint();
-	}
-	
-	public void ajouterTable(String table){
-		modeleListe.set(tableauListeTable.getModel().getSize()-1,table);
-		modeleListe.addElement("+ Nouvelle Table");
-	}
-
-	public void resetListeTable(){
-		this.modeleListe.removeAllElements();
-		this.modeleListe.addElement("+ Nouvelle Table");
-	}
-	
+	/**
+	 * accès au modèle de la liste de table
+	 * @return le modèle de la liste de table, modeleListe
+	 */
 	public DefaultListModel getListModel(){
 		return this.modeleListe;
 	}
 	
 	/**
-	 * @return the dm
+	 * accès au modèle de la table
+	 * @return le modèle de la table, dm
 	 */
 	public ModeleTable getDm() {
 		return dm;
 	}
 	
+	/**
+	 * accès à la liste de table
+	 * @return la JList des table, tableauListeTable
+	 */
 	public JList<String> getJList(){
 		return this.tableauListeTable;
 	}
-	
-	
 }
