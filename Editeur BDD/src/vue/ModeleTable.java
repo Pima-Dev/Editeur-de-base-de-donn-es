@@ -30,7 +30,7 @@ public class ModeleTable extends DefaultTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if (editable) {
-			if (columnIndex > 0 && ligneAEditer == rowIndex) {
+			if (columnIndex >= 0 && ligneAEditer == rowIndex) {
 				ret = true;
 			} else {
 				ret = false;
@@ -52,6 +52,13 @@ public class ModeleTable extends DefaultTableModel {
 			
 		}
 		return ret;
+	}
+
+	/**
+	 * @return the ligneAEditer
+	 */
+	public int getLigneAEditer() {
+		return ligneAEditer;
 	}
 
 	public void setCellEditable(int row) {

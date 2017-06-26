@@ -20,6 +20,7 @@ class EditeurCellule extends DefaultCellEditor {
     private ModeleTable dm;
     private Fenetre fenetre;
     private int ligne; 
+    private int colonne;
 
     public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm,Fenetre fenetre) {
         super(checkBox);
@@ -46,6 +47,7 @@ class EditeurCellule extends DefaultCellEditor {
             button.setBackground(table.getBackground());
         }
         ligne = row;
+        colonne = column;
         label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
@@ -58,9 +60,11 @@ class EditeurCellule extends DefaultCellEditor {
             if(name.equals("modifier")){
             	if(fenetre.getVuePrincipale().getDm().isEditable()){
             		dm.setCellNonEditable();
+            		((RenduCellule)fenetre.getVuePrincipale().getTable().getCellRenderer(ligne, colonne)).setIcon(new ImageIcon("src/ressources/modifier.png"));
             	}
             	else{
             		dm.setCellEditable(ligne);
+            		((RenduCellule)fenetre.getVuePrincipale().getTable().getCellRenderer(ligne, colonne)).setIcon(new ImageIcon("src/ressources/valider.png"));
             	}
             }
             else if(name.equals("supprimer")){

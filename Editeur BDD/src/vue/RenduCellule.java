@@ -3,6 +3,7 @@ package vue;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -11,11 +12,12 @@ import javax.swing.table.TableCellRenderer;
 
 class RenduCellule extends JButton implements TableCellRenderer {
 
+	private String type;
+	private Fenetre fenetre;
 	public RenduCellule(String type,Fenetre fenetre) {
+		
 		if(type.equals("modifier")){
-			//if(((EditeurCellule)fenetre.getVuePrincipale().getTable().getCellEditor()).isEditable()){
-				this.setIcon(new ImageIcon("src/ressources/modifier.png"));
-			//}
+			this.setIcon(new ImageIcon("src/ressources/modifier.png"));
 		}else if(type.equals("supprimer")){
 			this.setIcon(new ImageIcon("src/ressources/supprimer.png"));
 		}
@@ -34,4 +36,6 @@ class RenduCellule extends JButton implements TableCellRenderer {
         setText((value == null) ? "" : value.toString());
         return this;
     }
+    
+    
 }

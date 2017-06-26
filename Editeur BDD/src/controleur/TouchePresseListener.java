@@ -63,5 +63,5 @@ public class TouchePresseListener implements KeyListener{
 			}
 		}
 	}
-
+	
 }
