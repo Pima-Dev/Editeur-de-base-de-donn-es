@@ -173,24 +173,32 @@ public class Table implements Cloneable {
 			throw new CustomException("Erreur de colonne",
 					"La colonne ayant pour nom '" + nomColonne + "' n'existe pas");
 		}
-		if(newValeur != null){
+		if(newValeur != null && !newValeur.equals("")){
 			if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DOUBLE && !Util.isDouble((String) newValeur)) {
 				throw new CustomException("Erreur de type",
-						"La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
-								+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+						"La valeur " + newValeur + " ne peut pas être inséré dans la colonne '" + nomColonne
+								+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.INTEGER
 					&& !Util.isInteger((String) newValeur)) {
-				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
-						+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne '" + nomColonne
+						+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DATE
 					&& !Util.isValidDate((String) newValeur)) {
 				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
-						+ "'qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
+						+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			}
 		}
-
+		if(newValeur.equals("")){
+			newValeur = null;
+		}
 		this.BDD.getServeur().editerTuple(this, id, nomColonne, newValeur);
-
+		if(Util.isInteger((newValeur.toString())))
+				newValeur = Integer.parseInt((String)newValeur);
+		else if(Util.isDouble((newValeur.toString())))
+			newValeur = Double.parseDouble((String)newValeur);
+		else
+			newValeur = (String) newValeur;
+		
 		int index = -1;
 		int i = 0;
 		for (Object valeur : this.getClePrimaire().getListeValeurs()) {

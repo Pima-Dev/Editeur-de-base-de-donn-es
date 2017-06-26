@@ -303,6 +303,7 @@ public class VuePrincipale extends JPanel{
 		
         dm.setDataVector(tab, lesTitres);
         table = new JTable(dm);
+        
         table.getColumn("Modifier").setCellRenderer(new RenduCellule("modifier", this.fenetre));
         table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm,fenetre));
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule("supprimer", this.fenetre));

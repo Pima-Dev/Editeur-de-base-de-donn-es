@@ -11,6 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
+import modele.CustomException;
+import modele.TypeDonnee;
+import modele.Util;
+
 class EditeurCellule extends DefaultCellEditor {
 
     protected String name;

@@ -41,15 +41,7 @@ public class ModeleTable extends DefaultTableModel {
 			} else {
 				ret = false;
 			}
-			for(int i = 0;i < fenetre.getVuePrincipale().getTable().getColumnCount()-2; i++){
-				//modifier id ligne et num colone
-				//id ligne: fenetre.getVuePrincipale().getTable().getValueAt(ligneAEditer, 0);
-				//num colone: i
-				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
-				String nomColonne = this.getColumnName(i);
-				//table.editerTuple(fenetre.getVuePrincipale().getTable().getValueAt(ligneAEditer, 0), nomColonne, newValeur);
-			}
-			
+		
 		}
 		return ret;
 	}
