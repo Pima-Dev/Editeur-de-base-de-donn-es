@@ -9,6 +9,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import modele.CustomException;
@@ -74,8 +75,16 @@ class EditeurCellule extends DefaultCellEditor {
             	}
             }
             else if(name.equals("supprimer")){
-            	//supprimer tuple
-            	//id : fenetre.getVuePrincipale().getTable().getValueAt(ligne, 0);
+            	int rep = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cette ligne ?", "Supprimer la ligne ?", JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+            	if(rep == JOptionPane.OK_OPTION){
+            		int id = Integer.parseInt((String)fenetre.getVuePrincipale().getTable().getValueAt(ligne, 0));
+            		try {
+						this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).supprimerTupleById(id);
+						this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
+            		} catch (CustomException e) {
+						Util.logErreur(e.getMessage());
+					}
+            	}
             }
         }
         isPushed = false;

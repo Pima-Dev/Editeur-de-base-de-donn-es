@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 import controleur.ChampsListener;
 import controleur.PresserBoutonListener;
 import controleur.SelectionListener;
+import controleur.TableListener;
 import controleur.TouchePresseListener;
 /**
  * s'affiche lorsque l'utilisateur se connecte, elle permet d'accéder à toutes les options de gestion de la BDD
@@ -440,6 +441,7 @@ public class VuePrincipale extends JPanel{
         if(table.getColumnCount()>15){
         	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }
+        table.getModel().addTableModelListener(new TableListener(this.fenetre));
         table.getTableHeader().setReorderingAllowed(false);
         table.getTableHeader().setResizingAllowed(false);
 		scrollTable = new JScrollPane(table);

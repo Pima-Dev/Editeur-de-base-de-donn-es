@@ -1,5 +1,7 @@
 package controleur;
 
+import java.sql.SQLException;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -31,6 +33,16 @@ public class TableListener implements TableModelListener{
 			fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).editerTuple(id, nomColonne, obj);
 			fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
 		} catch (CustomException e1) {
+			try {
+				Object object = this.fenetre.getBDD().getServeur().getValeurAt(fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()), id, nomColonne);
+				System.out.println(object);
+				this.fenetre.getVuePrincipale().getTable().getModel().setValueAt(object, e.getLastRow(), e.getColumn());
+				fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
+			} catch (CustomException e2) {
+				Util.logErreur(e2.getMessage());
+			} catch (SQLException e2) {
+				Util.logErreur(e2.getMessage());
+			}
 			Util.logErreur(e1.getMessage());
 		}
 	}

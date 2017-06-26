@@ -188,17 +188,18 @@ public class Table implements Cloneable {
 						+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			}
 		}
-		if(newValeur.equals("")){
+		if(newValeur != null && newValeur.equals("")){
 			newValeur = null;
 		}
 		this.BDD.getServeur().editerTuple(this, id, nomColonne, newValeur);
-		if(Util.isInteger((newValeur.toString())))
-				newValeur = Integer.parseInt((String)newValeur);
-		else if(Util.isDouble((newValeur.toString())))
-			newValeur = Double.parseDouble((String)newValeur);
-		else
-			newValeur = (String) newValeur;
-		
+		if(newValeur != null){
+			if(Util.isInteger((newValeur.toString())))
+					newValeur = Integer.parseInt((String)newValeur);
+			else if(Util.isDouble((newValeur.toString())))
+				newValeur = Double.parseDouble((String)newValeur);
+			else
+				newValeur = (String) newValeur;
+		}
 		int index = -1;
 		int i = 0;
 		for (Object valeur : this.getClePrimaire().getListeValeurs()) {

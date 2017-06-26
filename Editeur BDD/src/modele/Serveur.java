@@ -756,6 +756,15 @@ public class Serveur {
 		
 		return ret;
 	}
+	
+	public Object getValeurAt(Table table, Object id, String nomColonne) throws CustomException, SQLException{
+		Object ret = null;
+		
+		ResultSet rs = this.executeRequete("SELECT "+nomColonne+" FROM "+table.getNom()+" WHERE "+ table.getClePrimaire().getNom() + "=" + id);
+		if(rs.next())
+			ret = rs.getObject(nomColonne);
+		return ret;
+	}
 
 	public BaseDeDonnees getBDD(){
 		return this.BDD;
