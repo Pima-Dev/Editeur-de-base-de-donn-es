@@ -1,9 +1,9 @@
 package vue;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -21,13 +21,15 @@ class EditeurCellule extends DefaultCellEditor {
     private Fenetre fenetre;
     private int ligne; 
     private int colonne;
-
+    public static ArrayList<Integer> rowEditable;
+    
     public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm,Fenetre fenetre) {
         super(checkBox);
         this.name = name;
         this.dm = dm;
         this.fenetre = fenetre;
         button = new JButton();
+        rowEditable = new ArrayList<>();
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,11 +62,11 @@ class EditeurCellule extends DefaultCellEditor {
             if(name.equals("modifier")){
             	if(fenetre.getVuePrincipale().getDm().isEditable()){
             		dm.setCellNonEditable();
-            		((RenduCellule)fenetre.getVuePrincipale().getTable().getCellRenderer(ligne, colonne)).setIcon(new ImageIcon("src/ressources/modifier.png"));
+            		rowEditable.remove((Integer)ligne);
             	}
             	else{
             		dm.setCellEditable(ligne);
-            		((RenduCellule)fenetre.getVuePrincipale().getTable().getCellRenderer(ligne, colonne)).setIcon(new ImageIcon("src/ressources/valider.png"));
+            		rowEditable.add(ligne);
             	}
             }
             else if(name.equals("supprimer")){

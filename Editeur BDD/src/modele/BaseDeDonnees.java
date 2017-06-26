@@ -64,7 +64,7 @@ public class BaseDeDonnees {
 		this.fenetre = fenetre;
 		this.serveur = new Serveur(this);
 		this.listeTable = new ArrayList<Table>();
-		if(this.session != null)
+		if(this.fenetre != null)
 			this.session = this.fenetre.getSession();
 		if(this.fenetre != null)
 			this.fenetre.setBDD(this);

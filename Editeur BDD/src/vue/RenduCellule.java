@@ -15,7 +15,7 @@ class RenduCellule extends JButton implements TableCellRenderer {
 	private String type;
 	private Fenetre fenetre;
 	public RenduCellule(String type,Fenetre fenetre) {
-		
+		this.type = type;
 		if(type.equals("modifier")){
 			this.setIcon(new ImageIcon("src/ressources/modifier.png"));
 		}else if(type.equals("supprimer")){
@@ -32,6 +32,16 @@ class RenduCellule extends JButton implements TableCellRenderer {
         } else {
             setForeground(table.getForeground());
             setBackground(UIManager.getColor("Button.background"));
+        }
+        if(EditeurCellule.rowEditable.contains(row)){
+        	if(type.equals("modifier")){	
+        		this.setIcon(new ImageIcon("src/ressources/valider.png"));
+        	}
+        }
+        else{
+        	if(type.equals("modifier")){
+        		this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+        	}
         }
         setText((value == null) ? "" : value.toString());
         return this;
