@@ -1,19 +1,18 @@
 package modele.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static org.junit.Assert.*;
-import org.junit.Test;
-
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
+import java.util.ArrayList;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 
 import modele.BaseDeDonnees;
 import modele.Colonne;
@@ -25,12 +24,14 @@ import modele.Session;
 import modele.Table;
 import modele.TypeContrainte;
 import modele.TypeDonnee;
-import vue.Fenetre;
 
 public class TestServeur {
 
 	private Serveur serveur;
 	private BaseDeDonnees BDD;
+	private Table table1;
+	private Table table2;
+	private Table table3;
 
 	@Before
 	public void setUp() throws Exception {
@@ -46,9 +47,9 @@ public class TestServeur {
 		if (this.serveur.bddExiste()) {
 			this.BDD.supprimerBDD();
 		}
-		Table table1 = new Table(this.BDD, "table1");
-		Table table2 = new Table(this.BDD, "table2");
-		Table table3 = new Table(this.BDD, "table3");
+		this.table1 = new Table(this.BDD, "table1");
+		this.table2 = new Table(this.BDD, "table2");
+		this.table3 = new Table(this.BDD, "table3");
 
 		Colonne<Integer> colonne1 = new Colonne<Integer>("colonne1", TypeDonnee.INTEGER);
 		colonne1.ajouterContrainte(new Contrainte(TypeContrainte.PRIMARYKEY, null));
@@ -95,6 +96,7 @@ public class TestServeur {
 
 	@After
 	public void tearDown() throws Exception {
+		this.serveur.fermerConnexion();
 		if (this.serveur.bddExiste()) {
 			this.BDD.supprimerBDD();
 		}
@@ -250,6 +252,23 @@ public class TestServeur {
 			assertTrue(false);
 		}
 
+		Table table5 = new Table(this.BDD, "table5");
+		colonne7 = new Colonne<Integer>("colonne7", TypeDonnee.INTEGER);
+
+		try {
+			colonne7.ajouterValeur(1);
+			colonne7.ajouterValeur(2);
+			colonne7.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+			table5.ajouterAttribut(colonne7);
+			this.BDD.ajouterTable(table5);
+			ArrayList<Object> tuple = new ArrayList<Object>();
+			tuple.add(null);
+			table5.insererTuple(tuple, false);
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage().contains("1 tuple inséré ne respecte pas les contraintes de la table"));
+
+		}
 	}
 
 	@Test
@@ -269,56 +288,271 @@ public class TestServeur {
 		} catch (CustomException e) {
 			assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
 	public void testInsererTuples() {
-		
+		try {
+			this.serveur.insererTuples(table3.getNom(), new ArrayList<Colonne>());
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage().contains("Il n'y a aucune valeur à ajouter"));
+		}
+
+		ArrayList<Colonne> tuple = new ArrayList<Colonne>();
+		Colonne<Integer> col1 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+		Colonne<Integer> col2 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+		try {
+			col1.ajouterValeur(1);
+			col1.ajouterValeur(2);
+			col2.ajouterValeur(1);
+			tuple.add(col1);
+			tuple.add(col2);
+			this.serveur.insererTuples(table3.getNom(), tuple);
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage()
+					.contains("Toutes les colonnes doivent contenir un même nombre de valeurs à ajouter"));
+		}
+
+		tuple = new ArrayList<Colonne>();
+		col1 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+		col2 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+		try {
+			col1.ajouterValeur(3);
+			col2.ajouterValeur(4);
+			tuple.add(col1);
+			tuple.add(col2);
+			this.serveur.insererTuples(table3.getNom(), tuple);
+			try {
+				ResultSet rs = this.serveur.executeRequete("SELECT * FROM " + table3.getNom());
+				int i = 0;
+				while (rs.next())
+					i++;
+				assertTrue(i == 3);
+			} catch (SQLException e) {
+				assertTrue(false);
+			}
+
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testSupprimerTupleById() {
+		try {
+			try {
+				this.serveur.supprimerTupleById(this.table3, 1);
+				ResultSet rs = this.serveur
+						.executeRequete("SELECT * FROM " + this.table3.getNom() + " WHERE colonne5 = 1");
+				assertTrue(!rs.next());
+			} catch (SQLException e) {
+				assertTrue(false);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testEditerTuple() {
+		try {
+			try {
+				this.serveur.editerTuple(this.table3, 1, "colonne6", 10);
+				ResultSet rs = this.serveur
+						.executeRequete("SELECT colonne6 FROM " + this.table3.getNom() + " WHERE colonne5 = 1");
+				if (!rs.next()) {
+					assertTrue(false);
+				}
+				assertTrue(rs.getInt("colonne6") == 10);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				assertTrue(false);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testGetListeTables() {
+		try {
+			ArrayList<Table> res = this.serveur.getListeTables();
+			assertTrue(res.size() == 3);
+			for (Table table : res) {
+				assertTrue(table.getListeColonnes().size() == 2);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testGetListeColonnes() {
+		try {
+			ArrayList<Colonne> colonnes = this.serveur.getListeColonnes(this.table3.getNom());
+			boolean pk = false;
+			for (Colonne col : colonnes) {
+				assertTrue(col.getListeValeurs().size() == 2);
+				for (Contrainte c : (ArrayList<Contrainte>) col.getListeContraintes()) {
+					if (c.getContrainteType() == TypeContrainte.PRIMARYKEY) {
+						pk = true;
+					}
+				}
+			}
+			assertTrue(pk);
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testGetListeBDD() {
+		try {
+			ArrayList<String> res = this.serveur.getListeBDD();
+			assertTrue(res.contains("bdddetest"));
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
+
 	}
 
 	@Test
 	public void testTableExiste() {
+		try {
+			assertTrue(!this.serveur.tableExiste("existepas"));
+			assertTrue(this.serveur.tableExiste(this.table3.getNom()));
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testBddExiste() {
+		try {
+			assertTrue(this.serveur.bddExiste());
+			this.BDD.supprimerBDD();
+			assertTrue(!this.serveur.bddExiste());
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testAjouterColonne() {
+		try {
+			try {
+				Colonne col = new Colonne<>("uneColonne", TypeDonnee.INTEGER);
+				col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+				this.serveur.ajouterColonne(this.table3.getNom(), 1, col);
+				ResultSet rs = this.serveur.executeRequete("SHOW COLUMNS from " + this.table3.getNom());
+				int i = 0;
+				while (rs.next()) {
+					i++;
+				}
+				assertTrue(i == 3);
+			} catch (CustomException e) {
+				assertTrue(false);
+			}
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
+
 	}
 
 	@Test
 	public void testModifierContrainte() {
+		try {
+			Colonne<Integer> col = new Colonne<Integer>("colonne6", TypeDonnee.INTEGER);
+			try {
+				col.ajouterContrainte(new Contrainte(TypeContrainte.NOTNULL, null));
+				this.serveur.modifierContrainte(this.table3.getNom(), col);
+				ArrayList<Colonne> tuple = new ArrayList<Colonne>();
+				Colonne<Integer> col1 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+				Colonne<Integer> col2 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+
+				col1.ajouterValeur(null);
+				col1.ajouterValeur(5);
+				col2.ajouterValeur(10);
+				col2.ajouterValeur(11);
+				tuple.add(col1);
+				tuple.add(col2);
+				this.serveur.insererTuples(table3.getNom(), tuple);
+				assertTrue(false);
+			} catch (CustomException e) {
+				assertTrue(e.getMessage().contains("1 tuple inséré ne respecte pas les contraintes de la table"));
+			}
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
 	public void testAjouterFKColExistente() {
+		try {
+			this.serveur.ajouterFKColExistente(this.table3.getNom(), "colonne6", new Contrainte(TypeContrainte.NOTNULL, null));
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage().contains("La contrainte à ajouter est null ou n'est pas une clé étrangère"));
+		}
+		
+		try {
+			this.serveur.ajouterFKColExistente(this.table3.getNom(), "colonne6", new Contrainte(TypeContrainte.REFERENCEKEY, null));
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage().contains("La table à référencer n'existe pas"));
+		}
+		
+		try {
+			this.serveur.ajouterFKColExistente(this.table3.getNom(), "colonne6", new Contrainte(TypeContrainte.REFERENCEKEY, this.table1));
+			ArrayList<Colonne> tuple = new ArrayList<Colonne>();
+			Colonne<Integer> col1 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+			Colonne<Integer> col2 = new Colonne<Integer>("col1", TypeDonnee.INTEGER);
+
+			col1.ajouterValeur(6);
+			col1.ajouterValeur(5);
+			col2.ajouterValeur(10);
+			col2.ajouterValeur(11);
+			tuple.add(col1);
+			tuple.add(col2);
+			this.serveur.insererTuples(table3.getNom(), tuple);
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(e.getMessage().contains("1 tuple inséré ne respecte pas les contraintes de la table"));
+		}
 	}
 
 	@Test
 	public void testSupprimerColonne() {
-	}
-
-	@Test
-	public void testExecuterCodeConsole() {
-	}
-
-	@Test
-	public void testExecuteRequeteConsole() {
+		try {
+			this.serveur.supprimerColonne(this.table3.getNom(), "colonne6");
+			ResultSet rs = this.serveur.executeRequete("SHOW COLUMNS from " + this.table3.getNom());
+			int i = 0;
+			while (rs.next()) {
+				i++;
+			}
+			assertTrue(i == 1);
+		} catch (SQLException e) {
+			assertTrue(false);
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
 	}
 
 }

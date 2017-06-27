@@ -389,18 +389,17 @@ public class Serveur {
 	 * @param id
 	 *            la clé primaire du tuple a supprimer
 	 * @throws CustomException
+	 * @throws SQLException
 	 */
-	public void supprimerTupleById(Table table, Object id) throws CustomException {
-		try {
-			if (id instanceof String) {
-				id = "'" + id + "'";
-			}
-			String sqlCode = "DELETE FROM " + table.getNom() + " WHERE " + table.getClePrimaire().getNom() + "=" + id;
-			this.executerCode(sqlCode);
-			Util.log(sqlCode);
-		} catch (SQLException e) {
-			e.printStackTrace();
+	public void supprimerTupleById(Table table, Object id) throws CustomException, SQLException {
+
+		if (id instanceof String) {
+			id = "'" + id + "'";
 		}
+		String sqlCode = "DELETE FROM " + table.getNom() + " WHERE " + table.getClePrimaire().getNom() + "=" + id;
+		Util.logSqlCode(sqlCode);
+		this.executerCode(sqlCode);
+		Util.log("Suppression de la ligne ayant pour id '" + id + "' dans la table '" + table.getNom() + "' réalisé");
 	}
 
 	/**
@@ -415,22 +414,21 @@ public class Serveur {
 	 * @param newValeur
 	 *            La nouvelle valeur à insérer à la place de l'ancienne
 	 * @throws CustomException
+	 * @throws SQLException 
 	 */
-	public void editerTuple(Table table, Object id, String nomColonne, Object newValeur) throws CustomException {
-		try {
-			if (id instanceof String) {
-				id = "'" + id + "'";
-			}
-			if (newValeur instanceof String) {
-				newValeur = "'" + newValeur + "'";
-			}
-			String sqlCode = "UPDATE " + table.getNom() + " SET " + nomColonne + " =" + newValeur + " WHERE "
-					+ table.getClePrimaire().getNom() + "=" + id;
-			this.executerCode(sqlCode);
-			Util.logSqlCode(sqlCode);
-		} catch (SQLException e) {
-			e.printStackTrace();
+	public void editerTuple(Table table, Object id, String nomColonne, Object newValeur) throws CustomException, SQLException {
+
+		if (id instanceof String) {
+			id = "'" + id + "'";
 		}
+		if (newValeur instanceof String) {
+			newValeur = "'" + newValeur + "'";
+		}
+		String sqlCode = "UPDATE " + table.getNom() + " SET " + nomColonne + " =" + newValeur + " WHERE "
+				+ table.getClePrimaire().getNom() + "=" + id;
+		Util.logSqlCode(sqlCode);
+		this.executerCode(sqlCode);
+		Util.log("Edition de l'attribut ayant pour id '"+id+"' de la colonne '"+nomColonne+"' réalisé.");
 	}
 
 	/**
@@ -470,7 +468,7 @@ public class Serveur {
 	 * @throws CustomException
 	 * @throws SQLException
 	 */
-	private ArrayList<Colonne> getListeColonnes(String nomTable) throws CustomException, SQLException {
+	public ArrayList<Colonne> getListeColonnes(String nomTable) throws CustomException, SQLException {
 		ArrayList<Colonne> ret = new ArrayList<Colonne>();
 
 		ResultSet rs = this.executeRequete("SHOW COLUMNS from " + nomTable);
@@ -570,6 +568,15 @@ public class Serveur {
 		return ret;
 	}
 
+	/**
+	 * Permet de savoir si une table existe
+	 * 
+	 * @param table
+	 *            La table à tester
+	 * @return True si la table existe dans la BDD
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
 	public boolean tableExiste(String table) throws CustomException, SQLException {
 		ResultSet rs = this.executeRequete("SHOW TABLES LIKE '" + table + "'");
 		if (rs.next()) {
@@ -578,7 +585,14 @@ public class Serveur {
 		return false;
 	}
 
-	public boolean bddExiste() throws CustomException, SQLException{
+	/**
+	 * Savoir si la BDD est créé dans le serveur
+	 * 
+	 * @return True si la BDD est créé
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	public boolean bddExiste() throws CustomException, SQLException {
 		ResultSet rs = null;
 
 		try {
@@ -588,13 +602,25 @@ public class Serveur {
 				return true;
 			}
 			this.fermerConnexion();
-		}
-		catch(SQLException e){
+		} catch (SQLException e) {
 			return false;
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Ajouter une colonne à une table de la BDD
+	 * 
+	 * @param nomTable
+	 *            Le nom de la table où la colonne sera ajouté
+	 * @param defautValeur
+	 *            La valeur par defaut qui sera ajouté pour chaque ligne de la
+	 *            colonne
+	 * @param colonne
+	 *            La colonne à ajouter avec ses contraintes
+	 * @throws SQLException
+	 * @throws CustomException
+	 */
 	public void ajouterColonne(String nomTable, Object defautValeur, Colonne colonne)
 			throws SQLException, CustomException {
 		TypeDonnee type;
@@ -652,8 +678,19 @@ public class Serveur {
 			this.executerCode("ALTER TABLE " + this.BDD.getTable(nomTable).getNom() + " ADD COLUMN " + nomColonne + " "
 					+ typeDonnée.getSQLType() + " DEFAULT NULL" + sqlCode);
 		}
+		Util.log("Ajout de la colonne '"+nomColonne+"' réalisé.");
 	}
 
+	/**
+	 * Modifier les contraintes d'une colonne
+	 * 
+	 * @param nomTable
+	 *            Le nom de la table où modifier la colonne
+	 * @param colonne
+	 *            Les contraintes de la colonne qui seront remplacés
+	 * @throws SQLException
+	 * @throws CustomException
+	 */
 	public void modifierContrainte(String nomTable, Colonne colonne) throws SQLException, CustomException {
 		StringBuilder sqlCode = new StringBuilder();
 		for (Contrainte contrainte : (ArrayList<Contrainte>) colonne.getListeContraintes()) {
@@ -665,28 +702,60 @@ public class Serveur {
 		}
 		this.executerCode("ALTER TABLE " + nomTable + " MODIFY " + colonne.getNom() + " "
 				+ colonne.getTypeDonnees().getSQLType() + " " + sqlCode);
+		Util.log("Modification de la contrainte de la colonne '"+colonne.getNom()+"' réalisé.");
 	}
 
+	/**
+	 * Ajouter une clé étrangère à une colonne existente
+	 * 
+	 * @param nomTable
+	 *            Le nom de la table où se situe la colonne
+	 * @param nomColonne
+	 *            Le nom de la colonne où il faut ajouter une clé étrangère
+	 * @param contrainte
+	 *            La contrainte de clé étrangère
+	 * @throws SQLException
+	 * @throws CustomException
+	 */
 	public void ajouterFKColExistente(String nomTable, String nomColonne, Contrainte contrainte)
 			throws SQLException, CustomException {
 
-		if (contrainte != null) {
+		if (contrainte != null && contrainte.getContrainteType() == TypeContrainte.REFERENCEKEY) {
 			if (contrainte.getReferenceTable() == null) {
 				throw new CustomException("Erreur",
 						"La table à référencer n'existe pas, impossible de rajouter la clé étrangère");
 			}
-			this.executerCode("ALTER TABLE " + nomTable + " ADD FOREIGN KEY(" + nomColonne + ") REFERENCES "
+			String sqlCode = "ALTER TABLE " + nomTable + " ADD FOREIGN KEY(" + nomColonne + ") REFERENCES "
 					+ contrainte.getReferenceTable().getNom() + "("
-					+ contrainte.getReferenceTable().getClePrimaire().getNom() + "),");
+					+ contrainte.getReferenceTable().getClePrimaire().getNom() + ")";
+			Util.logSqlCode(sqlCode);
+			this.executerCode(sqlCode);
 		} else {
-			throw new CustomException("Erreur", "La contrainte à ajouter est null");
+			throw new CustomException("Erreur", "La contrainte à ajouter est null ou n'est pas une clé étrangère");
 		}
 	}
 
+	/**
+	 * Supprimer une colonne d'une tabme
+	 * 
+	 * @param nomTable
+	 *            Le nom de la table où supprimer la colonne
+	 * @param nomColonne
+	 *            Le nom de la colonne à supprimer
+	 * @throws SQLException
+	 * @throws CustomException
+	 */
 	public void supprimerColonne(String nomTable, String nomColonne) throws SQLException, CustomException {
 		this.executerCode("ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne);
+		Util.log("Suppression de la colonne '"+nomColonne+"' réalisé.");
 	}
 
+	/**
+	 * Executer un code SQL par l'utilisateur dans la console
+	 * 
+	 * @param code
+	 *            Le code de l'utilisateur à executer
+	 */
 	public void executerCodeConsole(String code) {
 
 		try {
@@ -704,16 +773,21 @@ public class Serveur {
 			Util.logErreur(e.getMessage());
 		} catch (CustomException e) {
 			Util.logErreur(e.getMessage());
-		}
-		catch(SQLException e){
+		} catch (SQLException e) {
 			Util.logErreur(e.getMessage());
-		}
-		finally {
+		} finally {
 			this.fermerConnexion();
 		}
 	}
-	
-	public ResultSet executeRequeteConsole(String code){
+
+	/**
+	 * Executer une requete par l'utilisateur dans la console
+	 * 
+	 * @param code
+	 *            La requete que l'utilisateur va executer
+	 * @return Le ResultSet de la requete
+	 */
+	public ResultSet executeRequeteConsole(String code) {
 
 		ResultSet ret = null;
 
@@ -726,10 +800,10 @@ public class Serveur {
 
 			while (ret.next()) {
 				StringBuilder print = new StringBuilder();
-			    for(int i = 1; i < columnsNumber; i++)
-			        print.append(ret.getString(i) + " ");
-			    Util.logSqlCode(print.toString());
-			    Util.log("");
+				for (int i = 1; i < columnsNumber; i++)
+					print.append(ret.getString(i) + " ");
+				Util.logSqlCode(print.toString());
+				Util.log("");
 			}
 		} catch (MySQLIntegrityConstraintViolationException e) {
 			Util.logErreur(e.getMessage());
@@ -739,51 +813,96 @@ public class Serveur {
 			Util.logErreur(e.getMessage());
 		} catch (CustomException e) {
 			Util.logErreur(e.getMessage());
-		}
-		catch(SQLException e){
+		} catch (SQLException e) {
 			Util.logErreur(e.getMessage());
 		}
-		
+
 		return ret;
 	}
-	
-	public Object getValeurAt(Table table, Object id, String nomColonne) throws CustomException, SQLException{
+
+	/**
+	 * Renvoie la valeur contenue dans une colonne avec un certains id de ligne
+	 * 
+	 * @param table
+	 *            La table où se trouve la colonne
+	 * @param id
+	 *            L'identifiant de la ligne
+	 * @param nomColonne
+	 *            Le nom de la colonne
+	 * @return La valeur identifié par l'id et le nom de la colonne
+	 * @throws CustomException
+	 * @throws SQLException
+	 */
+	public Object getValeurAt(Table table, Object id, String nomColonne) throws CustomException, SQLException {
 		Object ret = null;
-		
-		ResultSet rs = this.executeRequete("SELECT "+nomColonne+" FROM "+table.getNom()+" WHERE "+ table.getClePrimaire().getNom() + "=" + id);
-		if(rs.next())
+
+		ResultSet rs = this.executeRequete("SELECT " + nomColonne + " FROM " + table.getNom() + " WHERE "
+				+ table.getClePrimaire().getNom() + "=" + id);
+		if (rs.next())
 			ret = rs.getObject(nomColonne);
 		return ret;
 	}
 
-	public BaseDeDonnees getBDD(){
+	/**
+	 * 
+	 * @return L'object BDD
+	 */
+	public BaseDeDonnees getBDD() {
 		return this.BDD;
 	}
 
+	/**
+	 * 
+	 * @return L'object connect
+	 */
 	public Connection getConnect() {
 		return connect;
 	}
 
+	/**
+	 * 
+	 * @return L'object Statement
+	 */
 	public Statement getStmt() {
 		return stmt;
 	}
 
+	/**
+	 * 
+	 * @return Le nom de l'utilisateur du serveur
+	 */
 	public String getNomUtilisateur() {
 		return nomUtilisateur;
 	}
 
+	/**
+	 * 
+	 * @return Le mot de passe du serveur
+	 */
 	public String getMotDePasse() {
 		return motDePasse;
 	}
 
+	/**
+	 * 
+	 * @return Le nom de la BDD
+	 */
 	public String getNomBase() {
 		return nomBase;
 	}
 
+	/**
+	 * 
+	 * @return L'url du serveur
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * 
+	 * @return Le port du serveur
+	 */
 	public int getPort() {
 		return port;
 	}

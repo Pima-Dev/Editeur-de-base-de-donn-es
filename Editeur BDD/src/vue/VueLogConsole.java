@@ -91,12 +91,12 @@ public class VueLogConsole extends JPanel{
 		modeleLog = new DefaultListModel<String>();
 		log = new JList<String>(modeleLog);
 		log.setEnabled(false);
-		JScrollPane sc = new JScrollPane(log,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane sc = new JScrollPane(log,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sc.setPreferredSize(new Dimension(sc.getWidth(), 200));
 		scrollLog = sc;
 		console = new JTextArea();
 		console.setLineWrap(true);
-		scrollConsole = new JScrollPane(console,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollConsole = new JScrollPane(console,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		bouton = new JButton("Executer");
 		bouton.setName("executer code console");
 		bouton.addActionListener(new PresserBoutonListener(this.fenetre));
@@ -127,6 +127,7 @@ public class VueLogConsole extends JPanel{
 		fenetreConsole = new JFrame("Console");
 		fenetreConsole.setContentPane(this);
 		fenetreConsole.setSize(700,330);
+		fenetreConsole.setResizable(false);
 		fenetreConsole.setLocationRelativeTo(null);
 		fenetreConsole.setVisible(true);
 	}

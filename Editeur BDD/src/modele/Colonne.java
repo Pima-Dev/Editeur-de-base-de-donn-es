@@ -114,16 +114,6 @@ public class Colonne<V> implements Cloneable{
 	}
 	
 	/**
-	 * 
-	 * Ajouter une contrainte check sur la colonne
-	 * @param operateur L'operateur peut etre: <, >, <=, >=, ==, != 
-	 * @param valeur La valeur à mettre à droite de l'opérateur
-	 */
-	public void ajouterCheck(String operateur, V valeur){
-		
-	}
-	
-	/**
 	 * Récupérer le type des données de la colonne
 	 * @return Le type des données de la colonne
 	 */

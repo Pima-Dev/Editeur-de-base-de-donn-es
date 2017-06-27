@@ -20,6 +20,7 @@ import controleur.PresserBoutonListener;
 import modele.CustomException;
 import modele.Table;
 import modele.TypeDonnee;
+import modele.Util;
 /**
  * s'affiche lorsque l'utilisateur appuye sur le bouton ajouter attribut ou l'option ajouter un attrbut dans le menu, elle permet d'ajouter un attribut à la table courante
  */
@@ -99,7 +100,7 @@ public class VueAjouterAttribut extends JPanel {
 				try {
 					creer();
 				} catch (CustomException e) {
-					e.printStackTrace();
+					Util.logErreur(e.getMessage());
 				}
 			}
 		});

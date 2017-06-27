@@ -665,4 +665,12 @@ public class VuePrincipale extends JPanel{
 	public JList<String> getJList(){
 		return this.tableauListeTable;
 	}
+	
+	/**
+	 * accès au label du titre de la bdd
+	 * @return le titre du label de la bdd
+	 */
+	public JLabel getTitreBDD(){
+		return this.lTitreBDD;
+	}
 }

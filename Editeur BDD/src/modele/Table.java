@@ -129,8 +129,9 @@ public class Table implements Cloneable {
 	 * @param id
 	 *            La clé primaire
 	 * @throws CustomException
+	 * @throws SQLException 
 	 */
-	public void supprimerTupleById(Object id) throws CustomException {
+	public void supprimerTupleById(Object id) throws CustomException, SQLException {
 
 		Util.log("Suppression de la ligne ayant comme id " + id + "...");
 
@@ -164,8 +165,9 @@ public class Table implements Cloneable {
 	 * @param newValeur
 	 *            La nouvelle valeur
 	 * @throws CustomException
+	 * @throws SQLException 
 	 */
-	public void editerTuple(Object id, String nomColonne, Object newValeur) throws CustomException {
+	public void editerTuple(Object id, String nomColonne, Object newValeur) throws CustomException, SQLException {
 		Util.log("Modification de la valeur du tuple ayant pour identifiant '" + id + "' de la colonne '" + nomColonne
 				+ "' par la nouvelle valeur '" + newValeur + "'...");
 
@@ -174,16 +176,16 @@ public class Table implements Cloneable {
 					"La colonne ayant pour nom '" + nomColonne + "' n'existe pas");
 		}
 		if(newValeur != null && !newValeur.equals("")){
-			if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DOUBLE && !Util.isDouble((String) newValeur)) {
+			if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DOUBLE && !Util.isDouble(newValeur.toString())) {
 				throw new CustomException("Erreur de type",
 						"La valeur " + newValeur + " ne peut pas être inséré dans la colonne '" + nomColonne
 								+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.INTEGER
-					&& !Util.isInteger((String) newValeur)) {
+					&& !Util.isInteger(newValeur.toString())) {
 				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne '" + nomColonne
 						+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			} else if (this.getColonne(nomColonne).getTypeDonnees() == TypeDonnee.DATE
-					&& !Util.isValidDate((String) newValeur)) {
+					&& !Util.isValidDate(newValeur.toString())) {
 				throw new CustomException("Erreur de type", "La valeur " + newValeur + " ne peut pas être inséré dans la colonne'" + nomColonne
 						+ "' qui est de type " + this.getColonne(nomColonne).getTypeDonnees());
 			}
@@ -194,11 +196,11 @@ public class Table implements Cloneable {
 		this.BDD.getServeur().editerTuple(this, id, nomColonne, newValeur);
 		if(newValeur != null){
 			if(Util.isInteger((newValeur.toString())))
-					newValeur = Integer.parseInt((String)newValeur);
+					newValeur = Integer.parseInt(newValeur.toString());
 			else if(Util.isDouble((newValeur.toString())))
-				newValeur = Double.parseDouble((String)newValeur);
+				newValeur = Double.parseDouble(newValeur.toString());
 			else
-				newValeur = (String) newValeur;
+				newValeur = newValeur.toString();
 		}
 		int index = -1;
 		int i = 0;
@@ -219,18 +221,6 @@ public class Table implements Cloneable {
 		}
 		Util.log("Modification de la valeur du tuple ayant pour identifiant '" + id + "' de la colonne '" + nomColonne
 				+ "' par la nouvelle valeur '" + newValeur + "' effectué.");
-
-	}
-
-	/**
-	 * Ajouter une contrainte a une colonne
-	 * 
-	 * @param colonne
-	 *            La colonne concerné
-	 * @param contrainte
-	 *            La contrainte
-	 */
-	public void AjouterContrainte(int colonne, TypeContrainte contrainte) {
 
 	}
 
@@ -298,6 +288,7 @@ public class Table implements Cloneable {
 
 	public void supprimerTable() throws CustomException {
 		this.BDD.getServeur().supprimerTable(this.nom);
+		this.BDD.getListeTable().remove(this);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package vue;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
@@ -110,10 +111,14 @@ class EditeurCellule extends DefaultCellEditor {
             	if(rep == JOptionPane.OK_OPTION){
             		int id = Integer.parseInt((String)fenetre.getVuePrincipale().getTable().getValueAt(ligne, 0));
             		try {
-						this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).supprimerTupleById(id);
-						this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
-            		} catch (CustomException e) {
-						Util.logErreur(e.getMessage());
+						try {
+							this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).supprimerTupleById(id);
+							this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
+						} catch (CustomException e) {
+							Util.logErreur(e.getMessage());
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
             	}
             }

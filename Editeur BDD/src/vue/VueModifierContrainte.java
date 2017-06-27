@@ -21,6 +21,7 @@ import modele.Contrainte;
 import modele.CustomException;
 import modele.Table;
 import modele.TypeContrainte;
+import modele.Util;
 /**
  * s'affiche lorsque l'utilisateur appuie sur le bouton modifier contrainte
  */
@@ -92,7 +93,7 @@ public class VueModifierContrainte extends JPanel {
 				try {
 					creer();
 				} catch (CustomException e) {
-					e.printStackTrace();
+					Util.logErreur(e.getMessage());
 				}
 			}
 		});

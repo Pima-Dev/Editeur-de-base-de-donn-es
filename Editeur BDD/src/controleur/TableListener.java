@@ -42,20 +42,24 @@ public class TableListener implements TableModelListener{
 		int id = Integer.parseInt((String)this.fenetre.getVuePrincipale().getTable().getValueAt(e.getLastRow(), 0));
 		Object obj = this.fenetre.getVuePrincipale().getTable().getModel().getValueAt(e.getLastRow(), e.getColumn());
 		try {
-			fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).editerTuple(id, nomColonne, obj);
-			fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
-		} catch (CustomException e1) {
 			try {
-				Object object = this.fenetre.getBDD().getServeur().getValeurAt(fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()), id, nomColonne);
-				System.out.println(object);
-				this.fenetre.getVuePrincipale().getTable().getModel().setValueAt(object, e.getLastRow(), e.getColumn());
+				fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).editerTuple(id, nomColonne, obj);
 				fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
-			} catch (CustomException e2) {
-				Util.logErreur(e2.getMessage());
-			} catch (SQLException e2) {
-				Util.logErreur(e2.getMessage());
+			} catch (CustomException e1) {
+				try {
+					Object object = this.fenetre.getBDD().getServeur().getValeurAt(fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()), id, nomColonne);
+					System.out.println(object);
+					this.fenetre.getVuePrincipale().getTable().getModel().setValueAt(object, e.getLastRow(), e.getColumn());
+					fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable()).refreshTable();
+				} catch (CustomException e2) {
+					Util.logErreur(e2.getMessage());
+				} catch (SQLException e2) {
+					Util.logErreur(e2.getMessage());
+				}
+				Util.logErreur(e1.getMessage());
 			}
-			Util.logErreur(e1.getMessage());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
 	}
 

@@ -63,11 +63,15 @@ public class BaseDeDonnees {
 		this.motDePasse = motDePasse;
 		this.fenetre = fenetre;
 		this.serveur = new Serveur(this);
+		this.port = port;
+		this.url = url;
 		this.listeTable = new ArrayList<Table>();
 		if(this.fenetre != null)
 			this.session = this.fenetre.getSession();
-		if(this.fenetre != null)
+		if(this.fenetre != null){
 			this.fenetre.setBDD(this);
+			this.fenetre.getVuePrincipale().getTitreBDD().setText(this.nom);
+		}
 	}
 
 	/**
@@ -258,16 +262,6 @@ public class BaseDeDonnees {
 
 	public boolean tableExiste(String table) throws CustomException, SQLException{
 		return this.getServeur().tableExiste(table);
-	}
-	
-	public void remplacerTable(String nomTable, Table table){
-		for(int i = 0; i<this.listeTable.size(); i++){
-			if(this.listeTable.get(i).getNom().equals(nomTable)){
-				this.listeTable.remove(i);
-				this.listeTable.add(table);
-				return;
-			}
-		}
 	}
 	
 	public String getNomBDD() {

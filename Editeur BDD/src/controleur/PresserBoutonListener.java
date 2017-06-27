@@ -264,16 +264,23 @@ public class PresserBoutonListener implements ActionListener {
 				}
 
 			} else if (bouton.getName().equals("OptionRecherche")) {
-				if (fenetre.getVuePrincipale().getTable() != null) {
-					fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
-					((ModeleTable) fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
-					new VueRechercheAvance(fenetre);
-				} else {
-					new CustomException("Erreur", "Il n'y a pas de table d'ouverte");
+				//if (fenetre.getVuePrincipale().getTable() != null) {
+				if (this.fenetre.getBDD() == null) {
+					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
+					return;
 				}
+				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				if (table == null) {
+					new CustomException("Erreur", "Une erreur est survenu, veuillez réassayer.");
+					return;
+				}
+				fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
+				new VueRechercheAvance(fenetre);
+				
 			}
 
 			else if (bouton.getName().equals("LancerRechercheAvance")) {
+				this.fenetre.getBDD().getTable((this.fenetre.getVuePrincipale().getCurrentTable())).refreshTable();
 				((ModeleTable) fenetre.getVuePrincipale().getTable().getModel())
 						.rechercher(fenetre.getVueRechercheAvance().getfRecherche().getText());
 				fenetre.getVueRechercheAvance().getFenetreRechercheAvance().dispose();
@@ -466,13 +473,19 @@ public class PresserBoutonListener implements ActionListener {
 			}
 			
 			else if(item.getName().equals("faire une recherche")){
-				if (fenetre.getVuePrincipale().getTable() != null) {
-					fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
-					((ModeleTable) fenetre.getVuePrincipale().getTable().getModel()).rechercher("");
-					new VueRechercheAvance(fenetre);
-				} else {
-					JOptionPane.showMessageDialog(null, "Il n'y a pas de table d'ouverte", "Erreur", JOptionPane.WARNING_MESSAGE);
+				if (this.fenetre.getBDD() == null) {
+					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
+					return;
 				}
+				Table table = this.fenetre.getBDD().getTable(this.fenetre.getVuePrincipale().getCurrentTable());
+				if (table == null) {
+					new CustomException("Erreur", "Une erreur est survenu, veuillez réassayer.");
+					return;
+				}
+				
+				fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
+				new VueRechercheAvance(fenetre);
+				
 			}
 			
 			else if(item.getName().equals("ajouter un tuple")){
