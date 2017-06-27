@@ -2,21 +2,51 @@ package vue;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import codeInutilise.VueMotDePasseOublieNouveau;
 import modele.BaseDeDonnees;
 import modele.Session;
 
-
+/**
+ * construit la fenêtre principale et est la racine de référence qui permet d'accéder à toutes les vues
+ */
 public class Fenetre{
 
+	/**
+	 * la fenêtre principale
+	 */
 	private JFrame fenetre;
-	private VueMotDePasseOublieNouveau vueMDPOublieNouveau;
+	//private VueMotDePasseOublieNouveau vueMDPOublieNouveau;
+	/**
+	 * s'affiche lorsque l'utilisateur lance l'application, elle permet de se connecter à sont compte
+	 */
 	private VueDeConnexion vueDeConnexion;
+	/**
+	 * s'affiche lorsque l'utilisateur appuye sur le bouton création de compte, elle permet de créer un nouveau compte
+	 */
 	private VueDeCreationDUtilisateur vueCreationUtilisateur;
+	/**
+	 * instancie une session
+	 */
 	private Session session;
+	/**
+	 * 
+	 */
 	private VueCreationBDD vueCreationBDD;
+	/**
+	 * s'affiche lorsque l'utilisateur se connecte, elle permet d'accéder à toutes les options de gestion de la BDD
+	 */
 	private VuePrincipale vuePrincipale;
+	/**
+	 * 
+	 */
 	private BaseDeDonnees BDD;
+	/**
+	 * s'affiche lorsque l'utilisateur appuye sur le bouton ajouter attribut ou l'option ajouter un attrbut dans le menu, elle permet d'ajouter un attribut à la table courante
+	 */
 	private VueAjouterAttribut vueAjouterAttribut;
+	/**
+	 * 
+	 */
 	private VueOuvrirBDD vueOuvrirBDD;
 	private VueLogConsole vueLogConsole;
 	private VueRechercheAvance vueRechercheAvance;	
@@ -68,13 +98,13 @@ public class Fenetre{
 		Fenetre fenetre = new Fenetre();
 	}
 
-	public VueMotDePasseOublieNouveau getVueMDPOublieNouveau() {
+	/*public VueMotDePasseOublieNouveau getVueMDPOublieNouveau() {
 		return vueMDPOublieNouveau;
 	}
 
 	public void setVueMDPOublieNouveau(VueMotDePasseOublieNouveau vueMDPOublieNouveau) {
 		this.vueMDPOublieNouveau = vueMDPOublieNouveau;
-	}
+	}*/
 
 	public VueDeConnexion getVueDeConnexion() {
 		return vueDeConnexion;

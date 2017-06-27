@@ -13,15 +13,27 @@ import modele.TypeContrainte;
 import modele.TypeDonnee;
 import modele.Util;
 import vue.Fenetre;
-
+/**
+ * Cette classe est appelée lors de la selection d'un élément d'une liste
+ */
 public class SelectionListener implements ListSelectionListener {
 
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
 
+	/**
+	 * construit le listener
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public SelectionListener(Fenetre fenetre) {
 		this.fenetre = fenetre;
 	}
 
+	/**
+	 * redéfinition de la méthode qui s'active lors d'une modification dans une liste
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getSource() instanceof JList) {

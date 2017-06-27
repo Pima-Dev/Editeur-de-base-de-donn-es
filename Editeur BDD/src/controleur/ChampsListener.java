@@ -1,22 +1,17 @@
 package controleur;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import modele.ELFichier;
 import vue.Fenetre;
 /**
- * Cette classe est appelée lors de l'interaction avec un objet JTextField
- * @author Utilisateur
- *
+ * Cette classe est appelée lors d'un changement de focus avec un objet
  */
 public class ChampsListener implements FocusListener{
 
@@ -53,7 +48,7 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().setvUtilisateur(false);
 				}
 			}
-			else if(champ.getName().equals("email nouvel utilisateur")){
+			/*else if(champ.getName().equals("email nouvel utilisateur")){
 				String email = fenetre.getVueCreationUtilisateur().getfEmail().getText();
 				if(email.contains("@") && email.contains(".")){
 					fenetre.getVueCreationUtilisateur().getiEmail().setIcon(vrai);
@@ -63,7 +58,7 @@ public class ChampsListener implements FocusListener{
 					fenetre.getVueCreationUtilisateur().getiEmail().setIcon(faux);
 					fenetre.getVueCreationUtilisateur().setvEmail(false);
 				}
-			}
+			}*/
 			else if(champ.getName().equals("mot de passe nouvel utilisateur")){
 				String motDePasse = new String(fenetre.getVueCreationUtilisateur().getfMotDePasse().getPassword());
 				if(motDePasse.length() >= 5){
@@ -100,7 +95,7 @@ public class ChampsListener implements FocusListener{
 	 */
 	private boolean validePseudo(String pseudo) {
 		boolean ret = true;
-		if(pseudo.length()>5 && !pseudo.contains(" ")){
+		if(pseudo.length()>3 && !pseudo.contains(" ")){
 			File file = new File(ELFichier.getRacine());
 	        File[] files = file.listFiles();
 	        if (files != null) {

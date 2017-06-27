@@ -1,4 +1,4 @@
-package vue;
+package codeInutilise;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
 import controleur.PresserBoutonListener;
+import vue.Fenetre;
 
 public class VueMotDePasseOublieNouveau extends JPanel{
 	
@@ -28,7 +29,7 @@ public class VueMotDePasseOublieNouveau extends JPanel{
 	
 	public VueMotDePasseOublieNouveau(Fenetre fenetre){
 		this.fenetre = fenetre;
-		this.fenetre.setVueMDPOublieNouveau(this);
+		//this.fenetre.setVueMDPOublieNouveau(this);
 		decoration();
 		panneauTitre.add(lTitre, BorderLayout.NORTH);
 		panneauTitre.add(lInfo, BorderLayout.CENTER);

@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -434,9 +432,9 @@ public class VuePrincipale extends JPanel{
         dm.setDataVector(tab, lesTitres);
         table = new JTable(dm);
         table.getColumn("Modifier").setCellRenderer(new RenduCellule("modifier", this.fenetre));
-        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",dm,fenetre));
+        table.getColumn("Modifier").setCellEditor(new EditeurCellule(new JCheckBox(),"modifier",fenetre));
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule("supprimer", this.fenetre));
-        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",dm,fenetre));
+        table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",fenetre));
         table.setRowHeight(30);
         if(table.getColumnCount()>15){
         	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

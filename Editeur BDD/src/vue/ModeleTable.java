@@ -1,32 +1,47 @@
 package vue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-
-import modele.Table;
-
+/**
+ * Cet objet définie le contenu et les caractèristiques du tableau, il est utilisé pour le tableau principal
+ */
 public class ModeleTable extends DefaultTableModel {
 
+	/**
+	 * vérifie l'état de l'édition des cases
+	 */
 	private boolean editable;
+	/**
+	 * la ligne à éditer
+	 */
 	private int ligneAEditer;
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
-	private int initMin;
-	private int initMax;
 
-	public ModeleTable(int hauteur, int largeur, Fenetre fenetre) {
+	/**
+	 * construit l'objet modele table
+	 * @param fenetre 
+	 */
+	public ModeleTable(int hauteur, int largeur,Fenetre fenetre) {
 		this.fenetre = fenetre;
 		editable = false;
-		this.fenetre = fenetre;
 	}
 
+	/**
+	 * redéfinition de la méthode getValueAt, qui permet d'obtenir une valeur dans le tableau
+	 */
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return super.getValueAt(rowIndex, columnIndex);
 	}
 
+	/**
+	 * redéfinition de la méthode isCellEditable qui définis les cellules modifiable dans le tableau
+	 */
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		boolean ret = false;
 		if (editable) {
@@ -47,33 +62,50 @@ public class ModeleTable extends DefaultTableModel {
 	}
 
 	/**
-	 * @return the ligneAEditer
+	 * accès au numéro de ligne à éditer
+	 * @return le numéro de ligne à éditer
 	 */
 	public int getLigneAEditer() {
 		return ligneAEditer;
 	}
 
+	/**
+	 * rend une ligne modifiable
+	 * @param row le numéro de la ligne modifiable
+	 */
 	public void setCellEditable(int row) {
 		editable = true;
 		this.ligneAEditer = row;
 	}
 
 	/**
+	 * accès à l'état d'édition d'une cellule
 	 * @return the editable
 	 */
 	public boolean isEditable() {
 		return editable;
 	}
 
+	/**
+	 * rend une ligne non modifiable
+	 * @param row le numéro de la ligne non modifiable
+	 */
 	public void setCellNonEditable() {
 		editable = false;
 	}
 
+	/**
+	 * redéfinition de la méthode qui supprime une ligne du tableau
+	 */
 	public void removeRow(int index){
 		super.removeRow(index);
 		fireTableRowsDeleted(index, index);
 	}
 	
+	/**
+	 * recherche une chaine de caractère dans le tableau
+	 * @param texte la chaine de caractère à rechercher
+	 */
 	public void rechercher(String texte) {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -83,8 +115,8 @@ public class ModeleTable extends DefaultTableModel {
 				ArrayList<Integer> lignesValides = new ArrayList<Integer>();
 				if(fenetre.getVueRechercheAvance() != null){
 					boolean ok;
-					initMin = 0;
-					initMax = getRowCount();
+					int initMin = 0;
+					int initMax = getRowCount();
 					if(fenetre.getVueRechercheAvance().getSelectionnerLigne().isSelected()){
 						initMin = (Integer)fenetre.getVueRechercheAvance().getLigneMin().getValue();
 						initMax = (Integer)fenetre.getVueRechercheAvance().getLigneMax().getValue();;

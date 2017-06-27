@@ -16,21 +16,60 @@ import javax.swing.SwingUtilities;
 
 import controleur.PresserBoutonListener;
 import modele.ELFichier;
-
+/**
+ * s'affiche lorsque l'utilisateur appuye sur le bouron console ou par l'option console du menu outils, elle permet d'éxécuter du code SQL
+ */
 public class VueLogConsole extends JPanel{
 
+	/**
+	 * contient les éléments de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * liste les logs
+	 */
 	private JList<String> log;
+	/**
+	 * entrée des commandes SQL
+	 */
 	private JTextArea console;
+	/**
+	 * éxécute le code SQL
+	 */
 	private JButton bouton;
+	/**
+	 * contient le champ de commande et le bouton d'exécution
+	 */
 	private JPanel commande;
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * détermine le contenu de la liste de logs
+	 */
 	private DefaultListModel<String> modeleLog;
+	/**
+	 * permet de faire défilier les logs
+	 */
 	private JScrollPane scrollLog;
+	/**
+	 * permet de faire défilier les lignes de la commande
+	 */
 	private JScrollPane scrollConsole;
+	/**
+	 * fenêtre affichant les éléments graphiques
+	 */
 	private JFrame fenetreConsole;
+	/**
+	 * permet de laisser une marge autour du bouton éxécuter
+	 */
 	private JPanel margeExecuter;
 	
+	/**
+	 * construit le panneau
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueLogConsole(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		this.fenetre.setVueLogConsole(this);
@@ -43,6 +82,9 @@ public class VueLogConsole extends JPanel{
 		});
 	}
 	
+	/**
+	 * construction du panneau
+	 */
 	public void creer(){
 		panneauPrincipal = new JPanel();
 		commande = new JPanel();
@@ -70,7 +112,7 @@ public class VueLogConsole extends JPanel{
 		commande.add(margeExecuter, BorderLayout.EAST);
 		panneauPrincipal.setLayout(new BorderLayout(0,10));
 		panneauPrincipal.add(scrollLog,BorderLayout.NORTH);
-		panneauPrincipal.add(commande,BorderLayout.CENTER);
+		panneauPrincipal.add(commande,BorderLayout.SOUTH);
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("      "),BorderLayout.SOUTH);
 		this.add(new JLabel("      "),BorderLayout.WEST);
@@ -84,15 +126,23 @@ public class VueLogConsole extends JPanel{
 		
 		fenetreConsole = new JFrame("Console");
 		fenetreConsole.setContentPane(this);
-		fenetreConsole.setSize(700,500);
+		fenetreConsole.setSize(700,330);
 		fenetreConsole.setLocationRelativeTo(null);
 		fenetreConsole.setVisible(true);
 	}
 	
+	/**
+	 * permet d'ajouter des logs à la liste
+	 * @param logTexte texte à ajouter
+	 */
 	public void ajouterLog(String logTexte){
 		modeleLog.addElement(logTexte);
 	}
 	
+	/**
+	 * accès à la commande SQL à éxécuter
+	 * @return
+	 */
 	public JTextArea getTextArea(){
 		return this.console;
 	}

@@ -9,15 +9,27 @@ import modele.CustomException;
 import modele.TypeDonnee;
 import modele.Util;
 import vue.Fenetre;
-
+/**
+ * Cette classe est appelée lors de la modification des données d'une table
+ */
 public class TableListener implements TableModelListener{
 
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
 	
+	/**
+	 * construit le listener
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public TableListener(Fenetre fenetre){
 		this.fenetre = fenetre;
 	}
 	
+	/**
+	 * redéfinition de la méthode tableChanged qui s'éxécute lors de la modification de données dans un tableau
+	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		if(e.getColumn() >= this.fenetre.getVuePrincipale().getTable().getColumnCount()-2) return;

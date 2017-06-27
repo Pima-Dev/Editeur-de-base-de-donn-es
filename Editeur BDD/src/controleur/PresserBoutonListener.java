@@ -43,17 +43,26 @@ import vue.VuePrincipale;
 import vue.VueRechercheAvance;
 
 /**
- * @author Utilisateur
- *
+ * Cette classe est appelée lors de l'interaction avec un objet
  */
 public class PresserBoutonListener implements ActionListener {
 
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
 
+	/**
+	 * construit le listener
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public PresserBoutonListener(Fenetre fenetre) {
 		this.fenetre = fenetre;
 	}
 
+	/**
+	 * redéfinition de la méthode qui s'éxécute à chaque interaction
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -87,7 +96,7 @@ public class PresserBoutonListener implements ActionListener {
 				fenetre.getFenetre().setSize(new Dimension(400, 300));
 				fenetre.getFenetre().setLocationRelativeTo(null);
 
-			} else if (bouton.getName().equals("Valider mdp oublié")) {
+			} /**else if (bouton.getName().equals("Valider mdp oublié")) {
 				String nouveau = new String(this.fenetre.getVueMDPOublieNouveau().getfNouveau().getPassword());
 				String confirmation = new String(
 						this.fenetre.getVueMDPOublieNouveau().getfConfirmation().getPassword());
@@ -100,10 +109,14 @@ public class PresserBoutonListener implements ActionListener {
 					fenetre.getFenetre().setLocationRelativeTo(null);
 				}
 				this.fenetre.getVueMDPOublieNouveau().getlInfo().setText("Erreur de mot de passe");
-			}
-
-			else if (bouton.getName().equals("Valider creation nouvel utilisateur")) {
-				creationUtilisateur();
+			}*/
+			else if (bouton.getName().equals("Retour")){
+				VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
+				this.fenetre.setVueDeConnexion(vueCo);
+				fenetre.getFenetre().setContentPane(vueCo);
+				fenetre.getFenetre().setVisible(true);
+				fenetre.getFenetre().pack();
+				fenetre.getFenetre().setLocationRelativeTo(null);
 			} else if (bouton.getName().equals("valider creation bdd")) {
 				if (this.fenetre.getVueCreationBDD().getfNomBDD().getText().contains(" ")) {
 					new CustomException("Erreur", "Le nom de la BDD ne doit pas contenir d'espaces");
@@ -441,7 +454,7 @@ public class PresserBoutonListener implements ActionListener {
 
 				JFileChooser choix = new JFileChooser();
 				choix.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				int retour = choix.showOpenDialog(new JFrame());
+				int retour = choix.showSaveDialog(new JFrame());
 				if (retour == JFileChooser.APPROVE_OPTION) {
 					Util.exporterPDF(this.fenetre.getVuePrincipale().getTable(),
 							choix.getSelectedFile().getAbsolutePath());
@@ -564,6 +577,12 @@ public class PresserBoutonListener implements ActionListener {
 		}
 	}
 
+	/**
+	 * vérifie la validitée du mot de passe
+	 * @param nom le nom de l'utilisateur
+	 * @param mdp le mot de passe entré
+	 * @return la validité du mot de passe
+	 */
 	public boolean bonMDP(String nom, String mdp) {
 		boolean ret = false;
 		String encrypt = ELFichier.cryptMDP(mdp);
@@ -574,6 +593,9 @@ public class PresserBoutonListener implements ActionListener {
 		return ret;
 	}
 
+	/**
+	 * vérifie la validité des identifiants et connecte l'utilisateur
+	 */
 	public void connexion() {
 		String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 		String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
@@ -593,13 +615,15 @@ public class PresserBoutonListener implements ActionListener {
 		}
 	}
 
+	/**
+	 * vérifie la validitée des paramètres et créer un nouvel utilisateur
+	 */
 	public void creationUtilisateur() {
-		JOptionPane jop = new JOptionPane();
 		if (this.fenetre.getVueCreationUtilisateur().isvUtilisateur()
-				&& this.fenetre.getVueCreationUtilisateur().isvEmail()
+				//&& this.fenetre.getVueCreationUtilisateur().isvEmail()
 				&& this.fenetre.getVueCreationUtilisateur().isvMotDePasse()
 				&& this.fenetre.getVueCreationUtilisateur().isvConfirmation()) {
-
+			System.out.println("test");
 			String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
 			ELFichier.creerDossier(nom);
 			ELFichier.setCle(nom + "/session", "user", nom);
@@ -625,6 +649,9 @@ public class PresserBoutonListener implements ActionListener {
 		}
 	}
 	
+	/**
+	 * ajoute un tuple à la table courante
+	 */
 	public void ajouterTuple(){
 		if (this.fenetre.getBDD() == null) {
 			new CustomException("Erreur", "Aucune table n'est ouverte.");
@@ -719,6 +746,9 @@ public class PresserBoutonListener implements ActionListener {
 		}
 	}
 	
+	/**
+	 * supprime la table courante
+	 */
 	public void supprimerTable(){
 		
 		if (this.fenetre.getBDD() == null) {

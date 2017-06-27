@@ -11,14 +11,14 @@ import java.awt.*;
  * s'affiche lorsque l'utilisateur lance l'application, elle permet de se connecter à sont compte
  */
 public class VueDeConnexion extends JPanel{
-	
+
 	/**
 	  * la racine de référence qui permet d'accéder à toutes les vues
 	  */
 	private Fenetre fenetre;
 
 	/**
-	 * affiche l'erreur d'identifiant, il s'affiche grace au listener
+	 * affiche l'erreur d'identifiant, il s'affiche grâce au listener
 	 */
 	private JLabel lErreurIdentifiant;
 	/**

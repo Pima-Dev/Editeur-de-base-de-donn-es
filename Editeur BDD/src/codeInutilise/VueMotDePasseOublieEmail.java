@@ -1,4 +1,4 @@
-package vue;
+package codeInutilise;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,55 +10,55 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import controleur.motDePasseOublie.MotDePasseOublieBoutonCode;
+import controleur.PresserBoutonListener;
+import vue.Fenetre;
 
-public class VueMotDePasseOublieCode extends JPanel{
+public class VueMotDePasseOublieEmail extends JPanel{
 	
-
 	private JLabel lTitre;
-	private JLabel lCode;
+	private JLabel lEmail;
 	private JLabel lInfo;
-	private JTextField fCode;
-	private JButton bValider;
+	private JTextField fEmail;
+	private JButton bEnvoyer;
 	private JPanel panneau;
 	private JPanel panneauChamps;
 	private JPanel panneauTitre;
 	private Fenetre fenetre;
 	private String code;
 	
-	public VueMotDePasseOublieCode(Fenetre fenetre, String code){
+	public VueMotDePasseOublieEmail(Fenetre fenetre){
 		this.fenetre = fenetre;
-		this.code = code;
 		decoration();
-		panneauTitre.add(lTitre,BorderLayout.NORTH);
-		panneauTitre.add(lInfo, BorderLayout.CENTER);
 		panneauChamps.add(panneauTitre);
-		panneauChamps.add(lCode);
-		panneauChamps.add(fCode);
-		panneauChamps.add(bValider);
+		panneauChamps.add(lEmail);
+		panneauChamps.add(fEmail);
+		panneauChamps.add(bEnvoyer);
 		panneau.add(panneauChamps,BorderLayout.CENTER);
 		this.add(new JLabel("       "),BorderLayout.WEST);
 		this.add(panneau);
 		this.add(new JLabel("       "),BorderLayout.EAST);
-		this.bValider.addActionListener(new MotDePasseOublieBoutonCode(this,fenetre));
+		this.bEnvoyer.setName("envoyer mail");
+		this.bEnvoyer.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	public void decoration(){
 		this.setLayout(new BorderLayout());
 		panneauChamps = new JPanel();
-		panneauChamps.setLayout(new GridLayout(0,1,5,5));
+		panneauChamps.setLayout(new GridLayout(4,1,5,5));
 		panneau = new JPanel();
 		panneau.setLayout(new BorderLayout());
 		panneauTitre = new JPanel();
 		panneauTitre.setLayout(new BorderLayout());
 		lTitre = new JLabel("MOT DE PASSE OUBLIE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
-		lCode = new JLabel("Entrez le code qui vous à été envoyé par mail");
 		lInfo = new JLabel("");
 		lInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lInfo.setForeground(new Color(255,0,0));
-		fCode = new JTextField();
-		bValider = new JButton("Valider");
+		panneauTitre.add(lTitre, BorderLayout.NORTH);
+		panneauTitre.add(lInfo, BorderLayout.CENTER);
+		lEmail = new JLabel("E-Mail");
+		fEmail = new JTextField();
+		bEnvoyer = new JButton("Envoyer");
 		
 	}
 
@@ -70,17 +70,17 @@ public class VueMotDePasseOublieCode extends JPanel{
 	}
 
 	/**
-	 * @return the fCode
+	 * @return the fEmail
 	 */
-	public JTextField getfCode() {
-		return fCode;
+	public JTextField getfEmail() {
+		return fEmail;
 	}
 
 	/**
-	 * @return the bValider
+	 * @return the bEnvoyer
 	 */
-	public JButton getbValider() {
-		return bValider;
+	public JButton getbEnvoyer() {
+		return bEnvoyer;
 	}
 
 	/**
@@ -89,6 +89,11 @@ public class VueMotDePasseOublieCode extends JPanel{
 	public String getCode() {
 		return code;
 	}
-	
-	
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
 }

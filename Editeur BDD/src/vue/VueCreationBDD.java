@@ -17,29 +17,92 @@ import javax.swing.SwingUtilities;
 
 import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
-
+/**
+ * s'affiche lorsque l'utilisateur appuye sur l'option nouveau du menu fichier, elle permet de créer une nouvelle table
+ */
 public class VueCreationBDD extends JPanel{
 
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche l'erreur de création, il s'affiche grâce au listener
+	 */
 	private JLabel lErreur;
+	/**
+	 * affiche le titre du champ d'entrée du nom de la BDD
+	 */
 	private JLabel lNomBDD;
+	/**
+	 * entrée du nom de la BDD
+	 */
 	private JTextField fNomBDD;
+	/**
+	 * affiche le titre du champ d'entrée du code URL de la BDD
+	 */
 	private JLabel lCodeURL;
-	private JRadioButton boutonLocal;
-	private JRadioButton boutonServeur;
+	/**
+	 * entrée de l'URL de la BDD
+	 */
 	private JTextField fURL;
+	/**
+	 * choix de l'option de création de la BDD, création sur un serveur local
+	 */
+	private JRadioButton boutonLocal;
+	/**
+	 * choix de l'option de création de la BDD, création sur un serveur distant
+	 */
+	private JRadioButton boutonServeur;
+	/**
+	 * affiche le titre du champ d'entrée du pseudo utilisateur de la BDD
+	 */
 	private JLabel lNomUtilisateur;
+	/**
+	 * entrée du pseudo utilisateur de la BDD
+	 */
 	private JTextField fNomUtilisateur;
+	/**
+	 * affiche le titre du champ d'entrée du mot de passe de la BDD
+	 */
 	private JLabel lMotDePasse;
+	/**
+	 * entrée du mot de passe de la BDD
+	 */
 	private JPasswordField fMotDePasse;
+	/**
+	 * valider la création de la BDD
+	 */
 	private JButton valider;
+	/**
+	 * contient les radio-boutons 
+	 */
 	private JPanel panneauBoutons;
+	/**
+	 * contient les éléments de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * entrée du port de la BDD
+	 */
 	private JTextField port;
+	/**
+	 * affiche le titre du champ d'entrée du port de la BDD
+	 */
 	private JLabel lPort;
+	/**
+	 * fenêtre affichant les éléments graphiques
+	 */
 	private JFrame fenetreNouvelleBDD;
 	
+	/**
+	 * construit le panneau grâce aux méthodes creer() et decoration()
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueCreationBDD(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -51,6 +114,9 @@ public class VueCreationBDD extends JPanel{
 		});
 	}
 	
+	/**
+	 * création des éléments du panneau
+	 */
 	public void decoration(){
 		lTitre = new JLabel("CREATION D'UNE BDD");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
@@ -80,6 +146,9 @@ public class VueCreationBDD extends JPanel{
 		this.lPort = new JLabel("Port du serveur distant");
 	}
 
+	/**
+	 * construction du panneau
+	 */
 	public void creer(){
 		this.fenetre.setVueCreationBDD(this);
 		decoration();
@@ -116,60 +185,75 @@ public class VueCreationBDD extends JPanel{
 	}
 	
 	/**
-	 * @return the lErreur
+	 * accès au JLabel lErreur
+	 * @return le JLabel lErreur
 	 */
 	public JLabel getlErreur() {
 		return lErreur;
 	}
 
 	/**
-	 * @return the fNomBDD
+	 * accès au JTextField fNomBDD
+	 * @return le JTextField fNomBDD
 	 */
 	public JTextField getfNomBDD() {
 		return fNomBDD;
 	}
 
 	/**
-	 * @return the boutonLocal
+	 * accès au JRadioButton boutonLocal
+	 * @return le JRadioButton boutonLocal
 	 */
 	public JRadioButton getBoutonLocal() {
 		return boutonLocal;
 	}
 
 	/**
-	 * @return the boutonServeur
+	 * accès au JRadioButton boutonServeur
+	 * @return le JRadioButton boutonServeur
 	 */
 	public JRadioButton getBoutonServeur() {
 		return boutonServeur;
 	}
 
 	/**
-	 * @return the fURL
+	 * accès au JTextField fURL
+	 * @return le JTextField fURL
 	 */
 	public JTextField getfURL() {
 		return fURL;
 	}
 
 	/**
-	 * @return the fNomUtilisateur
+	 * accès au JTextField fNomUtilisateur
+	 * @return le JTextField fNomUtilisateur
 	 */
 	public JTextField getfNomUtilisateur() {
 		return fNomUtilisateur;
 	}
 
 	/**
-	 * @return the fMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JPasswordField getfMotDePasse() {
 		return fMotDePasse;
 	}
 	
+	/**
+	 * accès au JTextField port
+	 * @return le JTextField port
+	 */
 	public JTextField getfPort(){
-		return this.port;
+		return port;
 	}
 	
+	/**
+	 * accès au JFrame fenetreNouvelleBDD
+	 * @return le JFrame fenetreNouvelleBDD
+	 */
 	public JFrame getFrame(){
-		return this.fenetreNouvelleBDD;
+		return fenetreNouvelleBDD;
 	}
 	
 }

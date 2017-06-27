@@ -1,12 +1,9 @@
-package controleur.motDePasseOublie;
+package codeInutilise;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import vue.Fenetre;
-import vue.VueMotDePasseOublieCode;
-import vue.VueMotDePasseOublieEmail;
-import vue.VueMotDePasseOublieNouveau;
 
 public class MotDePasseOublieBoutonCode implements ActionListener {
 

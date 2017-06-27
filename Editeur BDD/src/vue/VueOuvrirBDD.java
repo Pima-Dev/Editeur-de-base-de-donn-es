@@ -18,32 +18,104 @@ import javax.swing.SwingUtilities;
 
 import controleur.FenetreListener;
 import controleur.PresserBoutonListener;
-
+/**
+ * s'affiche dans une nouvelle fenêtre lorsque l'utilisateur clic sur l'option ouvrir du menu
+ */
 public class VueOuvrirBDD extends JPanel {
 
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche une erreur, il s'affiche grâce au listener
+	 */
 	private JLabel lErreur;
+	/**
+	 * affiche le titre du champ d'entrée de nom de BDD
+	 */
 	private JLabel lNomBDD;
+	/**
+	 * élément initial dans la JCombobox liste BDD
+	 */
 	private JLabel lNonSave;
+	/**
+	 * champ d'entrée de l'URL de la BDD
+	 */
 	private JTextField fURL;
+	/**
+	 * affiche le titre du champ d'entrée de nom d'utilisateur de la BDD
+	 */
 	private JLabel lNomUtilisateur;
+	/**
+	 * entrée de nom d'utilisateur de la BDD
+	 */
 	private JTextField fNomUtilisateur;
+	/**
+	 * affiche le titre du champ d'entrée du mot de passe de la BDD
+	 */
 	private JLabel lMotDePasse;
+	/**
+	 * entrée du mot de passe de la BDD
+	 */
 	private JPasswordField fMotDePasse;
+	/**
+	 * valide ou invalide l'ouverture de la BDD
+	 */
 	private JButton valider;
+	/**
+	 * contient les boutons de choix entre serveur distant et serveur local
+	 */
 	private JPanel panneauBoutons;
+	/**
+	 * contient les éléments de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * entrée du port de la BDD
+	 */
 	private JTextField port;
+	/**
+	 * affiche le titre du champ d'entrée du port de la BDD
+	 */
 	private JLabel lPort;
+	/**
+	 * fenêtre affichant les éléments graphiques
+	 */
 	private JFrame fenetreOuvrirBDD;
+	/**
+	 * liste des BDD enregistrées dans le système
+	 */
 	private JComboBox<String> listeBDD;
+	/**
+	 * choix de l'option de chargement de la BDD, création sur un serveur local
+	 */
 	private JRadioButton boutonLocal;
+	/**
+	 * choix de l'option de chargement de la BDD, création sur un serveur distant
+	 */
 	private JRadioButton boutonServeur;
+	/**
+	 * affiche le titre du champ d'entrée de l'URL de la BDD
+	 */
 	private JLabel lUrl;
+	/**
+	 * affiche le titre du champ d'entrée du nom de la BDD
+	 */
 	private JLabel lNom;
+	/**
+	 * entrée du nom de la BDD
+	 */
 	private JTextField tNom;
 
+	/**
+	 * constructeur du panneau
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueOuvrirBDD(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		this.fenetre.setVueOuvrirBDD(this);
@@ -56,6 +128,9 @@ public class VueOuvrirBDD extends JPanel {
 		});
 	}
 
+	/**
+	 * construction du panneau
+	 */
 	public void creer(){
 		decoration();
 		panneauPrincipal.setLayout(new GridLayout(0, 1));
@@ -94,6 +169,9 @@ public class VueOuvrirBDD extends JPanel {
 		fenetreOuvrirBDD.setVisible(true);
 	}
 	
+	/**
+	 * création des éléments du panneau
+	 */
 	public void decoration() {
 		lTitre = new JLabel("OUVRIR UNE BDD SAUVEGARDE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,81 +212,129 @@ public class VueOuvrirBDD extends JPanel {
 	}
 
 	/**
-	 * @return the lErreur
+	 * accès au JLabel lErreur
+	 * @return le JLabel lErreur
 	 */
 	public JLabel getlErreur() {
 		return lErreur;
 	}
 
 	/**
-	 * @return the fURL
+	 * accès au JTextField fURL
+	 * @return le JTextField fURL
 	 */
 	public JTextField getfURL() {
 		return fURL;
 	}
 
 	/**
-	 * @return the fNomUtilisateur
+	 * accès au JTextField fNomUtilisateur
+	 * @return le JTextField fNomUtilisateur
 	 */
 	public JTextField getfNomUtilisateur() {
 		return fNomUtilisateur;
 	}
 
 	/**
-	 * @return the fMotDePasse
+	 * accès au JPasswordField fMotDePasse
+	 * @return le JPasswordField fMotDePasse
 	 */
 	public JPasswordField getfMotDePasse() {
 		return fMotDePasse;
 	}
 
+	/**
+	 * accès au JTextField port
+	 * @return le JTextField port
+	 */
 	public JTextField getfPort() {
 		return this.port;
 	}
 
+	/**
+	 * accès au JFrame fenetreOuvrirBDD
+	 * @return le JFrame fenetreOuvrirBDD
+	 */
 	public JFrame getFrame() {
 		return this.fenetreOuvrirBDD;
 	}
 
+	/**
+	 * accès au JLabel lNomBDD
+	 * @return le JLabel lNomBDD
+	 */
 	public JLabel getlNomBDD() {
 		return lNomBDD;
 	}
 
+	/**
+	 * accès au JLabel lNomUtilisateur
+	 * @return le JLabel lNomUtilisateur
+	 */
 	public JLabel getlNomUtilisateur() {
 		return lNomUtilisateur;
 	}
 
+	/**
+	 * accès au JLabel lMotDePasse
+	 * @return le JLabel lMotDePasse
+	 */
 	public JLabel getlMotDePasse() {
 		return lMotDePasse;
 	}
 
+	/**
+	 * accès au JButton valider
+	 * @return le JButton valider
+	 */
 	public JButton getValider() {
 		return valider;
 	}
 
-	public Fenetre getFenetre() {
-		return fenetre;
-	}
-
+	/**
+	 * accès au JTextField port
+	 * @return le JTextField port
+	 */
 	public JTextField getPort() {
 		return port;
 	}
 
+	/**
+	 * accès au JFrame fenetreOuvrirBDD
+	 * @return le JFrame fenetreOuvrirBDD
+	 */
 	public JFrame getFenetreNouvelleBDD() {
 		return fenetreOuvrirBDD;
 	}
 
+	/**
+	 * accès au JComboBox<String> listeBDD
+	 * @return le JComboBox<String> listeBDD
+	 */
 	public JComboBox<String> getListeBDD() {
 		return listeBDD;
 	}
 
+	/**
+	 * accès au JRadioButton boutonLocal
+	 * @return le JRadioButton boutonLocal
+	 */
 	public JRadioButton getBoutonLocal() {
 		return boutonLocal;
 	}
 
+	/**
+	 * accès au JRadioButton boutonServeur
+	 * @return le JRadioButton boutonServeur
+	 */
 	public JRadioButton getBoutonServeur() {
 		return boutonServeur;
 	}
 
+	/**
+	 * accès au JTextField tNom
+	 * @return le JTextField tNom
+	 */
 	public JTextField gettNom() {
 		return tNom;
 	}
