@@ -281,7 +281,7 @@ public class TestTable {
 			assertTrue(this.table3.getListeColonnes().get(0).getNom().equals("colonne5"));
 		} catch (SQLException e) {
 			assertTrue(false);
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (CustomException e) {
 			assertTrue(false);
 		}

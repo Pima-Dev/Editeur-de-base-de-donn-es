@@ -54,7 +54,9 @@ public class PresserBoutonListener implements ActionListener {
 
 	/**
 	 * construit le listener
-	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 * 
+	 * @param fenetre
+	 *            la racine de référence qui permet d'accéder à toutes les vues
 	 */
 	public PresserBoutonListener(Fenetre fenetre) {
 		this.fenetre = fenetre;
@@ -66,7 +68,28 @@ public class PresserBoutonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof JTextField) {
+			JTextField field = (JTextField) e.getSource();
+
+			if (field.getName().equals("Connexion")) {
+				connexion();
+			}
+			if (field.getName().equals("Valider creation nouvel utilisateur")) {
+				creationUtilisateur();
+			}
+		}
+		if (e.getSource() instanceof JPasswordField) {
+			JPasswordField field = (JPasswordField) e.getSource();
+
+			if (field.getName().equals("Connexion")) {
+				connexion();
+			}
+			if (field.getName().equals("Valider creation nouvel utilisateur")) {
+				creationUtilisateur();
+			}
+		}
+
+		else if (e.getSource() instanceof JButton) {
 			JButton bouton = (JButton) e.getSource();
 
 			if (bouton.getName().equals("Connexion")) {
@@ -77,26 +100,29 @@ public class PresserBoutonListener implements ActionListener {
 				fenetre.getFenetre().setSize(new Dimension(400, 300));
 				fenetre.getFenetre().setLocationRelativeTo(null);
 
-			} /**else if (bouton.getName().equals("Valider mdp oublié")) {
-				String nouveau = new String(this.fenetre.getVueMDPOublieNouveau().getfNouveau().getPassword());
-				String confirmation = new String(
-						this.fenetre.getVueMDPOublieNouveau().getfConfirmation().getPassword());
-				if (!nouveau.equals("") && !confirmation.equals("") && nouveau.equals(confirmation)) {
-					VueDeConnexion vueCo = new VueDeConnexion(fenetre);
-					this.fenetre.setVueDeConnexion(vueCo);
-					fenetre.getFenetre().setContentPane(vueCo);
-					fenetre.getFenetre().setVisible(true);
-					fenetre.getFenetre().pack();
-					fenetre.getFenetre().setLocationRelativeTo(null);
-				}
-				this.fenetre.getVueMDPOublieNouveau().getlInfo().setText("Erreur de mot de passe");
-			}*/
-			
+			} /**
+				 * else if (bouton.getName().equals("Valider mdp oublié")) {
+				 * String nouveau = new
+				 * String(this.fenetre.getVueMDPOublieNouveau().getfNouveau().getPassword());
+				 * String confirmation = new String(
+				 * this.fenetre.getVueMDPOublieNouveau().getfConfirmation().getPassword());
+				 * if (!nouveau.equals("") && !confirmation.equals("") &&
+				 * nouveau.equals(confirmation)) { VueDeConnexion vueCo = new
+				 * VueDeConnexion(fenetre);
+				 * this.fenetre.setVueDeConnexion(vueCo);
+				 * fenetre.getFenetre().setContentPane(vueCo);
+				 * fenetre.getFenetre().setVisible(true);
+				 * fenetre.getFenetre().pack();
+				 * fenetre.getFenetre().setLocationRelativeTo(null); }
+				 * this.fenetre.getVueMDPOublieNouveau().getlInfo().setText("Erreur
+				 * de mot de passe"); }
+				 */
+
 			else if (bouton.getName().equals("Valider creation nouvel utilisateur")) {
 				creationUtilisateur();
 			}
-			
-			else if (bouton.getName().equals("Retour")){
+
+			else if (bouton.getName().equals("Retour")) {
 				VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 				this.fenetre.setVueDeConnexion(vueCo);
 				fenetre.getFenetre().setContentPane(vueCo);
@@ -264,7 +290,7 @@ public class PresserBoutonListener implements ActionListener {
 				}
 
 			} else if (bouton.getName().equals("OptionRecherche")) {
-				//if (fenetre.getVuePrincipale().getTable() != null) {
+				// if (fenetre.getVuePrincipale().getTable() != null) {
 				if (this.fenetre.getBDD() == null) {
 					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
 					return;
@@ -276,7 +302,7 @@ public class PresserBoutonListener implements ActionListener {
 				}
 				fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
 				new VueRechercheAvance(fenetre);
-				
+
 			}
 
 			else if (bouton.getName().equals("LancerRechercheAvance")) {
@@ -432,8 +458,8 @@ public class PresserBoutonListener implements ActionListener {
 						}
 					}
 				}
-			} 
-			
+			}
+
 			else if (item.getName().equals("MenuExporterEnPDF")) {
 
 				if (this.fenetre.getBDD() == null) {
@@ -454,25 +480,24 @@ public class PresserBoutonListener implements ActionListener {
 
 				}
 			}
-			
-			else if(item.getName().equals("aide syntaxe MYSQL")){
-				try
-				{
-				    URI uri = new URI("https://dev.mysql.com/doc/refman/5.7/en/sql-syntax.html");
-				    Desktop dt = Desktop.getDesktop();
-				    dt.browse(uri);
+
+			else if (item.getName().equals("aide syntaxe MYSQL")) {
+				try {
+					URI uri = new URI("https://dev.mysql.com/doc/refman/5.7/en/sql-syntax.html");
+					Desktop dt = Desktop.getDesktop();
+					dt.browse(uri);
+				} catch (Exception ex) {
 				}
-				catch(Exception ex){}
 			}
-			
-			else if(item.getName().equals("acceder a la console")){
+
+			else if (item.getName().equals("acceder a la console")) {
 				if (this.fenetre.getBDD() != null)
 					new VueLogConsole(this.fenetre);
 				else
 					new CustomException("Erreur", "Vous n'avez pas ouvert de base de données.");
 			}
-			
-			else if(item.getName().equals("faire une recherche")){
+
+			else if (item.getName().equals("faire une recherche")) {
 				if (this.fenetre.getBDD() == null) {
 					new CustomException("Erreur", "Aucune base de données n'est ouverte.");
 					return;
@@ -482,17 +507,17 @@ public class PresserBoutonListener implements ActionListener {
 					new CustomException("Erreur", "Une erreur est survenu, veuillez réassayer.");
 					return;
 				}
-				
+
 				fenetre.getVuePrincipale().getfChercher().setText("Chercher les occurences");
 				new VueRechercheAvance(fenetre);
-				
+
 			}
-			
-			else if(item.getName().equals("ajouter un tuple")){
+
+			else if (item.getName().equals("ajouter un tuple")) {
 				this.ajouterTuple();
 			}
-			
-			else if(item.getName().equals("supprimer la table")){
+
+			else if (item.getName().equals("supprimer la table")) {
 				this.supprimerTable();
 			}
 		}
@@ -578,8 +603,11 @@ public class PresserBoutonListener implements ActionListener {
 
 	/**
 	 * vérifie la validitée du mot de passe
-	 * @param nom le nom de l'utilisateur
-	 * @param mdp le mot de passe entré
+	 * 
+	 * @param nom
+	 *            le nom de l'utilisateur
+	 * @param mdp
+	 *            le mot de passe entré
 	 * @return la validité du mot de passe
 	 */
 	public boolean bonMDP(String nom, String mdp) {
@@ -598,17 +626,18 @@ public class PresserBoutonListener implements ActionListener {
 	public void connexion() {
 		String nom = this.fenetre.getVueDeConnexion().getfPseudo().getText();
 		String motDePasse = new String(this.fenetre.getVueDeConnexion().getfMotDePasse().getPassword());
-		if(bonMDP(nom, motDePasse)){
+		if (bonMDP(nom, motDePasse)) {
 			fenetre.getFenetre().setContentPane(new VuePrincipale(this.fenetre));
 			fenetre.getFenetre().setExtendedState(JFrame.MAXIMIZED_BOTH);
 			fenetre.getFenetre().setTitle("Editeur de base de données");
 			fenetre.getFenetre().setLocationRelativeTo(null);
 			fenetre.getFenetre().setVisible(true);
+			fenetre.getFenetre().setResizable(true);
 			fenetre.setSession(new Session(nom));
 		} else {
 			this.fenetre.getVueDeConnexion().getlErreurIdentifiant()
 					.setText("<HTML><i>Erreur d'identifiant</i></HTML>");
-			;
+
 			fenetre.getFenetre().setVisible(true);
 			fenetre.getFenetre().setLocationRelativeTo(null);
 		}
@@ -645,11 +674,11 @@ public class PresserBoutonListener implements ActionListener {
 			fenetre.getFenetre().setLocationRelativeTo(null);
 		}
 	}
-	
+
 	/**
 	 * ajoute un tuple à la table courante
 	 */
-	public void ajouterTuple(){
+	public void ajouterTuple() {
 		if (this.fenetre.getBDD() == null) {
 			new CustomException("Erreur", "Aucune table n'est ouverte.");
 			return;
@@ -675,8 +704,7 @@ public class PresserBoutonListener implements ActionListener {
 								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 										+ "' (dd-MM-yyyy) pour \nl'attribut '" + col.getNom()
 										+ "' ayant ces contraintes: " + contrainte,
-								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-								JOptionPane.QUESTION_MESSAGE);
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'", JOptionPane.QUESTION_MESSAGE);
 					if (s == null)
 						return;
 					if (!s.toString().replaceAll(" ", "").equals(""))
@@ -691,8 +719,7 @@ public class PresserBoutonListener implements ActionListener {
 								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
 										+ contrainte,
-								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-								JOptionPane.QUESTION_MESSAGE);
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'", JOptionPane.QUESTION_MESSAGE);
 					if (s == null)
 						return;
 					if (!s.toString().replaceAll(" ", "").equals(""))
@@ -707,8 +734,7 @@ public class PresserBoutonListener implements ActionListener {
 								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
 										+ contrainte,
-								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-								JOptionPane.QUESTION_MESSAGE);
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'", JOptionPane.QUESTION_MESSAGE);
 					if (s == null)
 						return;
 					if (!s.toString().replaceAll(" ", "").equals(""))
@@ -723,8 +749,7 @@ public class PresserBoutonListener implements ActionListener {
 								"Entrez une valeur de type '" + col.getTypeDonnees().getSQLType()
 										+ "' pour \nl'attribut '" + col.getNom() + "' ayant ces contraintes: "
 										+ contrainte,
-								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'",
-								JOptionPane.QUESTION_MESSAGE);
+								"Entrez un '" + col.getTypeDonnees().getSQLType() + "'", JOptionPane.QUESTION_MESSAGE);
 					if (s == null)
 						return;
 					if (!s.toString().replaceAll(" ", "").equals(""))
@@ -742,12 +767,12 @@ public class PresserBoutonListener implements ActionListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * supprime la table courante
 	 */
-	public void supprimerTable(){
-		
+	public void supprimerTable() {
+
 		if (this.fenetre.getBDD() == null) {
 			new CustomException("Erreur", "Aucune table n'est ouverte.");
 			return;
@@ -758,10 +783,9 @@ public class PresserBoutonListener implements ActionListener {
 			new CustomException("Erreur", "Aucune table n'est ouverte.");
 			return;
 		}
-		
+
 		int rep = JOptionPane.showConfirmDialog(null,
-				"Voulez vous vraiment supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable()
-						+ "' ?",
+				"Voulez vous vraiment supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
 				"Supprimer la table '" + this.fenetre.getVuePrincipale().getCurrentTable() + "' ?",
 				JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (rep == JOptionPane.OK_OPTION) {
