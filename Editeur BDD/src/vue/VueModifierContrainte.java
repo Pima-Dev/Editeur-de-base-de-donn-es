@@ -21,23 +21,68 @@ import modele.Contrainte;
 import modele.CustomException;
 import modele.Table;
 import modele.TypeContrainte;
-
+/**
+ * s'affiche lorsque l'utilisateur appuie sur le bouton modifier contrainte
+ */
 public class VueModifierContrainte extends JPanel {
 
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * affiche le titre du chois d'attribut
+	 */
 	private JLabel lNom;
+	/**
+	 * contient les éléments de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * choix de la contrainte Not Null
+	 */
 	private JCheckBox notNull;
+	/**
+	 * choix de la contrainte Unique
+	 */
 	private JCheckBox unique;
+	/**
+	 * choix de la contrainte de clée étrangère
+	 */
 	private JCheckBox referencesKey;
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche le titre de modification de contrainte
+	 */
 	private JLabel lContrainte;
+	/**
+	 * affiche le titre de choix de l'origine de la clée étrangère
+	 */
 	private JLabel lReference;
+	/**
+	 * choix de l'origine de la clée étrangère
+	 */
 	private JComboBox<String> reference;
+	/**
+	 * choix de l'attribut ou appliquer la modification
+	 */
 	private JComboBox<String> colonnes;
+	/**
+	 * fenêtre affichant les éléments graphiques
+	 */
 	private JFrame frame;
+	/**
+	 * valider l'éxécution de la commande
+	 */
 	private JButton valider;
 
+	/**
+	 * construit le panneau
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueModifierContrainte(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -53,6 +98,10 @@ public class VueModifierContrainte extends JPanel {
 		});
 	}
 
+	/**
+	 * création des éléments du panneau
+	 * @throws CustomException cas d'erreur
+	 */
 	private void decoration() throws CustomException {
 		if (this.fenetre.getBDD() == null) {
 			throw new CustomException("Erreur",
@@ -105,6 +154,10 @@ public class VueModifierContrainte extends JPanel {
 
 	}
 
+	/**
+	 * construction du panneau
+	 * @throws CustomException cas d'erreur
+	 */
 	public void creer() throws CustomException {
 		this.fenetre.setVueModifierContrainte(this);
 		this.panneauPrincipal = new JPanel();
@@ -134,51 +187,83 @@ public class VueModifierContrainte extends JPanel {
 		this.fenetre.getFenetre().setEnabled(false);
 		this.frame.setVisible(true);
 	}
-
-	public Fenetre getFenetre() {
-		return fenetre;
-	}
-
-	public JPanel getPanneauPrincipal() {
-		return panneauPrincipal;
-	}
-
+	
+	/**
+	 * accès à la JCheckBox notNull
+	 * @return la JCheckBox notNull
+	 */
 	public JCheckBox getNotNull() {
 		return notNull;
 	}
 
+	/**
+	 * accès à la JCheckBox unique
+	 * @return la JCheckBox unique
+	 */
 	public JCheckBox getUnique() {
 		return unique;
 	}
 
+	/**
+	 * accès à la JCheckBox referencesKey
+	 * @return la JCheckBox referencesKey
+	 */
 	public JCheckBox getReferencesKey() {
 		return referencesKey;
 	}
 
+	/**
+	 * accès au JLabel lTitre
+	 * @return le JLabel lTitre
+	 */
 	public JLabel getlTitre() {
 		return lTitre;
 	}
 
+	/**
+	 * accès au JLabel lContrainte
+	 * @return le JLabel lContrainte
+	 */
 	public JLabel getlContrainte() {
 		return lContrainte;
 	}
 
+	/**
+	 * accès au JLabel lReference
+	 * @return le JLabel lReference
+	 */
 	public JLabel getlReference() {
 		return lReference;
 	}
 
+	/**
+	 * accès au JComboBox<String> reference
+	 * @return le JComboBox<String> reference
+	 */
 	public JComboBox<String> getReference() {
 		return reference;
 	}
 
+	/**
+	 * accès au JFrame frame
+	 * @return le JFrame frame
+	 */
 	public JFrame getFrame() {
 		return frame;
 	}
 
+	/**
+	 * accès au JButton valider
+	 * @return le JButton valider
+	 */
 	public JButton getValider() {
 		return valider;
 	}
 
+	/**
+	 * accès au JComboBox<String> colonnes
+	 * @return le JComboBox<String> colonnes
+	 */
 	public JComboBox<String> getColonnes() {
 		return colonnes;
 	}

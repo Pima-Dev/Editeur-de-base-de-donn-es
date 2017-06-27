@@ -20,26 +20,76 @@ import controleur.PresserBoutonListener;
 import modele.CustomException;
 import modele.Table;
 import modele.TypeDonnee;
-
+/**
+ * s'affiche lorsque l'utilisateur appuye sur le bouton ajouter attribut ou l'option ajouter un attrbut dans le menu, elle permet d'ajouter un attribut à la table courante
+ */
 public class VueAjouterAttribut extends JPanel {
 
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * affiche le titre du champ du nom de l'attribut
+	 */
 	private JLabel lNom;
+	/**
+	 * entrée du nom de l'attribut
+	 */
 	private JTextField tNom;
+	/**
+	 * contient tous les élément de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * ajouter la contrainte Not Null au nouvel attribut
+	 */
 	private JCheckBox notNull;
+	/**
+	 * ajouter la contrainte Unique au nouvel attribut
+	 */
 	private JCheckBox unique;
+	/**
+	 * ajouter une contrainte de clée étrangère au nouvel attribut
+	 */
 	private JCheckBox referencesKey;
+	/**
+	 * affiche le titre
+	 */
 	private JLabel lTitre;
+	/**
+	 * affiche le titre des contraintes
+	 */
 	private JLabel lContrainte;
+	/**
+	 * affiche le titre des références de clée étrangère
+	 */
 	private JLabel lReference;
+	/**
+	 * choix de la référence de la clée étrangère
+	 */
 	private JComboBox<String> reference;
+	/**
+	 * affiche le panneauPrincipal
+	 */
 	private JFrame frame;
+	/**
+	 * permet de valider la création de nouvel attribut
+	 */
 	private JButton valider;
+	/**
+	 * affiche le titre des types de données
+	 */
 	private JLabel type;
-
+	/**
+	 * choix du type de donnée
+	 */
 	private JComboBox<String> comboboxType;
 
+	/**
+	 * construit le panneau principal en appelant les méthodes creer() et decoration()
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueAjouterAttribut(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -55,6 +105,10 @@ public class VueAjouterAttribut extends JPanel {
 		});
 	}
 
+	/**
+	 * création des éléments du panneau
+	 * @throws CustomException gère les cas d'erreur
+	 */
 	private void decoration() throws CustomException {
 		this.notNull = new JCheckBox("NOT NULL");
 		this.unique = new JCheckBox("UNIQUE");
@@ -91,6 +145,10 @@ public class VueAjouterAttribut extends JPanel {
 		this.comboboxType.addItem(TypeDonnee.DATE.getSQLType());
 	}
 
+	/**
+	 * construit le panneau principal
+	 * @throws CustomException gère les cas d'erreur
+	 */
 	public void creer() throws CustomException {
 		this.fenetre.setVueAjouterAttribut(this);
 		this.panneauPrincipal = new JPanel();
@@ -123,54 +181,106 @@ public class VueAjouterAttribut extends JPanel {
 		this.fenetre.getFenetre().setEnabled(false);
 	}
 
+	/**
+	 * accès à la fenetre
+	 * @return la fenetre
+	 */
 	public Fenetre getFenetre() {
 		return fenetre;
 	}
 
+	/**
+	 * accès au JPanel panneauPrincipal
+	 * @return le JPanel panneauPrincipal
+	 */
 	public JPanel getPanneauPrincipal() {
 		return panneauPrincipal;
 	}
 
+	/**
+	 * accès au JCheckBox notNull
+	 * @return le JCheckBox notNull
+	 */
 	public JCheckBox getNotNull() {
 		return notNull;
 	}
 
+	/**
+	 * accès au JCheckBox unique
+	 * @return le JCheckBox unique
+	 */
 	public JCheckBox getUnique() {
 		return unique;
 	}
 
+	/**
+	 * accès au JCheckBox referencesKey
+	 * @return le JCheckBox referencesKey
+	 */
 	public JCheckBox getReferencesKey() {
 		return referencesKey;
 	}
 
+	/**
+	 * accès au JLabel lTitre
+	 * @return le JLabel lTitre
+	 */
 	public JLabel getlTitre() {
 		return lTitre;
 	}
 
+	/**
+	 * accès au JLabel lContrainte
+	 * @return le JLabel lContrainte
+	 */
 	public JLabel getlContrainte() {
 		return lContrainte;
 	}
 
+	/**
+	 * accès au JLabel lReference
+	 * @return le JLabel lReference
+	 */
 	public JLabel getlReference() {
 		return lReference;
 	}
 
+	/**
+	 * accès au JComboBox<String> reference
+	 * @return le JComboBox<String> reference
+	 */
 	public JComboBox<String> getReference() {
 		return reference;
 	}
 
+	/**
+	 * accès au JFrame frame
+	 * @return le JFrame frame
+	 */
 	public JFrame getFrame() {
 		return frame;
 	}
 
+	/**
+	 * accès au JButton valider
+	 * @return le JButton valider
+	 */
 	public JButton getValider() {
 		return valider;
 	}
 
+	/**
+	 * accès au JTextField tNom
+	 * @return le JTextField tNom
+	 */
 	public JTextField gettNom() {
 		return tNom;
 	}
 
+	/**
+	 * accès au JComboBox<String> comboboxType
+	 * @return le JComboBox<String> comboboxType
+	 */
 	public JComboBox<String> getComboboxType() {
 		return comboboxType;
 	}

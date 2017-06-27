@@ -3,35 +3,47 @@ package controleur;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Vector;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
 import vue.Fenetre;
-
+/**
+ * Cette classe est appelée lors de l'appuye d'une touche sur le clavier
+ */
 public class TouchePresseListener implements KeyListener{
 
-	
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
 
+	/**
+	 * construit le listener
+	 * @param fenetre
+	 */
 	public TouchePresseListener(Fenetre fenetre) {
 		this.fenetre = fenetre;
 	}
 
+	/**
+	 * redéfinition de la méthode keyTyped qui s'éxécute après l'appuye d'une touche sur le clavier
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	
 	}
 
+	/**
+	 * redéfinition de la méthode keyPressed qui s'éxécute lors l'appuye d'une touche sur le clavier
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
 	}
 
+	/**
+	 * redéfinition de la méthode keyPressed qui s'éxécute lors du relachement d'une touche sur le clavier
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getSource() instanceof JTextField){

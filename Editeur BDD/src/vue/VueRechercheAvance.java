@@ -29,26 +29,78 @@ public class VueRechercheAvance extends JPanel{
 	 */
 	private JLabel lTitre;
 	/**
-	 * affiche 
+	 * affiche le titre de l'indice minimum
 	 */
 	private JLabel lMin;
+	/**
+	 * affiche le titre de l'indice maximum
+	 */
 	private JLabel lMax;
+	/**
+	 * valide la recherche
+	 */
 	private JButton bValider;
+	/**
+	 * entrée de l'élément à rechercher dans la table
+	 */
 	private JTextField fRecherche;
+	/**
+	 * choix de l'option sensible à la casse qui prend en compte les majuscules et minuscules
+	 */
 	private JCheckBox sensibleALaCasse;
+	/**
+	 * choix de l'option mot complet
+	 */
 	private JCheckBox motComplet;
+	/**
+	 * choix de l'option selectionner ligne
+	 */
 	private JCheckBox selectionnerLigne;
+	/**
+	 * choix de la plus petite ligne à partir de laquelle faire la recherche
+	 */
 	private JSpinner ligneMin;
+	/**
+	 * choix de la plus grande ligne jusqu'à laquelle faire la recherche
+	 */
 	private JSpinner ligneMax;
+	/**
+	 * la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	private Fenetre fenetre;
+	/**
+	 * contient les éléments de la fenêtre
+	 */
 	private JPanel panneauPrincipal;
+	/**
+	 * contient les check box sensible à la casse et mot complet
+	 */
 	private JPanel panneauCasseMotComplet;
+	/**
+	 * contient les option de recherche sur des lignes définies
+	 */
 	private JPanel panneauSelectionnerLigne;
+	/**
+	 * contient le champ de recherche et le titre
+	 */
 	private JPanel panneauRecherche;
+	/**
+	 * éditeur du choix de ligne minimum
+	 */
 	private JSpinner.NumberEditor ligneMinEditeur;
+	/**
+	 * éditeur du choix de ligne maximum
+	 */
 	private JSpinner.NumberEditor ligneMaxEditeur;
+	/**
+	 * fenêtre affichant les éléments graphiques
+	 */
 	private JFrame fenetreRechercheAvance;
 	
+	/**
+	 * construit le panneau
+	 * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+	 */
 	public VueRechercheAvance(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		fenetre.setVueRechercheAvance(this);
@@ -101,6 +153,9 @@ public class VueRechercheAvance extends JPanel{
 		fenetreRechercheAvance.setVisible(true);
 	}
 
+	/**
+	 * création des éléments
+	 */
 	private void declaration(){
 		lTitre = new JLabel("Recherche Avancée");
 		lMin = new JLabel("Indice minimum");
@@ -121,63 +176,72 @@ public class VueRechercheAvance extends JPanel{
 	}
 
 	/**
-	 * @return the ligneMinEditeur
+	 * accès au JSpinner.NumberEditor ligneMinEditeur
+	 * @return le JSpinner.NumberEditor ligneMinEditeur
 	 */
 	public JSpinner.NumberEditor getLigneMinEditeur() {
 		return ligneMinEditeur;
 	}
 
 	/**
-	 * @return the ligneMaxEditeur
+	 * accès au JSpinner.NumberEditor ligneMaxEditeur
+	 * @return le JSpinner.NumberEditor ligneMaxEditeur
 	 */
 	public JSpinner.NumberEditor getLigneMaxEditeur() {
 		return ligneMaxEditeur;
 	}
 
 	/**
-	 * @return the ligneMin
+	 * accès au JSpinner ligneMin
+	 * @return le JSpinner ligneMin
 	 */
 	public JSpinner getLigneMin() {
 		return ligneMin;
 	}
 
 	/**
-	 * @return the ligneMax
+	 * accès au JSpinner ligneMax
+	 * @return le JSpinner ligneMax
 	 */
 	public JSpinner getLigneMax() {
 		return ligneMax;
 	}
 
 	/**
-	 * @return the sensibleALaCasse
+	 * accès au JCheckBox sensibleALaCasse
+	 * @return le JCheckBox sensibleALaCasse
 	 */
 	public JCheckBox getSensibleALaCasse() {
 		return sensibleALaCasse;
 	}
 
 	/**
-	 * @return the motComplet
+	 * accès au JCheckBox motComplet
+	 * @return le JCheckBox motComplet
 	 */
 	public JCheckBox getMotComplet() {
 		return motComplet;
 	}
 
 	/**
-	 * @return the selectionnerLigne
+	 * accès au JCheckBox selectionnerLigne
+	 * @return le JCheckBox selectionnerLigne
 	 */
 	public JCheckBox getSelectionnerLigne() {
 		return selectionnerLigne;
 	}
 
 	/**
-	 * @return the fRecherche
+	 * accès au JTextField fRecherche
+	 * @return le JTextField fRecherche
 	 */
 	public JTextField getfRecherche() {
 		return fRecherche;
 	}
 
 	/**
-	 * @return the fenetreRechercheAvance
+	 * accès au JFrame fenetreRechercheAvance
+	 * @return le JFrame fenetreRechercheAvance
 	 */
 	public JFrame getFenetreRechercheAvance() {
 		return fenetreRechercheAvance;

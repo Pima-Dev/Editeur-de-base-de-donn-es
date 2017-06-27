@@ -15,23 +15,49 @@ import javax.swing.JTable;
 import modele.CustomException;
 import modele.TypeDonnee;
 import modele.Util;
-
+/**
+ * Cet objet définie l'action lorsque l'utilisateur intéragit avec le tableau, il est utilisé pour le tableau principal
+ */
 class EditeurCellule extends DefaultCellEditor {
 
+	/**
+	 * détermine l'origine du bouton appelant
+	 */
     protected String name;
+    /**
+     * le bouton créé pour chaque case
+     */
     private JButton button;
+    /**
+     * contenu des boutons
+     */
     private String label;
+    /**
+     * vérifie si le bouton est appuyé
+     */
     private boolean isPushed;
-    private ModeleTable dm;
+    /**
+     * la racine de référence qui permet d'accéder à toutes les vues
+     */
     private Fenetre fenetre;
-    private int ligne; 
-    private int colonne;
+    /**
+     * la ligne sélectionnnée par l'utilisateur
+     */
+    private int ligne;
+    /**
+     * la liste des valeurs de la ligne modifiable avant modification
+     */
     public static ArrayList<Integer> rowEditable;
     
-    public EditeurCellule(JCheckBox checkBox,String name,ModeleTable dm,Fenetre fenetre) {
+    /**
+     * construit les cellules à chaque création de tableau
+     * @param checkBox objet permettant l'appel du constructeur de la super classe
+     * @param name détermine l'origine du bouton appelant
+     * @param fenetre la racine de référence qui permet d'accéder à toutes les vues
+     */
+    public EditeurCellule(JCheckBox checkBox,String name,Fenetre fenetre) {
         super(checkBox);
         this.name = name;
-        this.dm = dm;
         this.fenetre = fenetre;
         button = new JButton();
         rowEditable = new ArrayList<>();
@@ -43,6 +69,9 @@ class EditeurCellule extends DefaultCellEditor {
         });
     }
 
+    /**
+     * agit à chaque séléction des cases concernées
+     */
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
             boolean isSelected, int row, int column) {
@@ -54,23 +83,25 @@ class EditeurCellule extends DefaultCellEditor {
             button.setBackground(table.getBackground());
         }
         ligne = row;
-        colonne = column;
         label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
         return button;
     }
 
+    /**
+     * renvoie la valeur de la case concernée
+     */
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
             if(name.equals("modifier")){
             	if(fenetre.getVuePrincipale().getDm().isEditable()){
-            		dm.setCellNonEditable();
+            		fenetre.getVuePrincipale().getDm().setCellNonEditable();
             		rowEditable.remove((Integer)ligne);
             	}
             	else{
-            		dm.setCellEditable(ligne);
+            		fenetre.getVuePrincipale().getDm().setCellEditable(ligne);
             		rowEditable.add(ligne);
             	}
             }
@@ -91,6 +122,9 @@ class EditeurCellule extends DefaultCellEditor {
         return label;
     }
 
+    /**
+     * stoppe l'édition de la case concernée
+     */
     @Override
     public boolean stopCellEditing() {
         isPushed = false;
