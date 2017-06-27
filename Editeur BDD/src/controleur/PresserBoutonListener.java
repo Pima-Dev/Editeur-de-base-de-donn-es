@@ -66,26 +66,7 @@ public class PresserBoutonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() instanceof JTextField) {
-			JTextField field = (JTextField) e.getSource();
-
-			if (field.getName().equals("Connexion")) {
-				connexion();
-			}
-			if (field.getName().equals("Valider creation nouvel utilisateur")) {
-				creationUtilisateur();
-			}
-		}
-		if (e.getSource() instanceof JPasswordField) {
-			JPasswordField field = (JPasswordField) e.getSource();
-
-			if (field.getName().equals("Connexion")) {
-				connexion();
-			}
-			if (field.getName().equals("Valider creation nouvel utilisateur")) {
-				creationUtilisateur();
-			}
-		} else if (e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof JButton) {
 			JButton bouton = (JButton) e.getSource();
 
 			if (bouton.getName().equals("Connexion")) {
@@ -110,6 +91,11 @@ public class PresserBoutonListener implements ActionListener {
 				}
 				this.fenetre.getVueMDPOublieNouveau().getlInfo().setText("Erreur de mot de passe");
 			}*/
+			
+			else if (bouton.getName().equals("Valider creation nouvel utilisateur")) {
+				creationUtilisateur();
+			}
+			
 			else if (bouton.getName().equals("Retour")){
 				VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 				this.fenetre.setVueDeConnexion(vueCo);
@@ -620,10 +606,8 @@ public class PresserBoutonListener implements ActionListener {
 	 */
 	public void creationUtilisateur() {
 		if (this.fenetre.getVueCreationUtilisateur().isvUtilisateur()
-				//&& this.fenetre.getVueCreationUtilisateur().isvEmail()
 				&& this.fenetre.getVueCreationUtilisateur().isvMotDePasse()
 				&& this.fenetre.getVueCreationUtilisateur().isvConfirmation()) {
-			System.out.println("test");
 			String nom = this.fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
 			ELFichier.creerDossier(nom);
 			ELFichier.setCle(nom + "/session", "user", nom);

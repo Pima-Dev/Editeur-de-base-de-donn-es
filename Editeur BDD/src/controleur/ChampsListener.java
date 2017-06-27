@@ -79,7 +79,7 @@ public class ChampsListener implements FocusListener{
 				}
 				else{
 					fenetre.getVueCreationUtilisateur().getiConfirmation().setIcon(faux);
-					fenetre.getVueCreationUtilisateur().setvConfirmation(true);
+					fenetre.getVueCreationUtilisateur().setvConfirmation(false);
 				}
 			}
 			else if(champ.getName().equals("BarreRecherche") && champ.getText().equals("")){
