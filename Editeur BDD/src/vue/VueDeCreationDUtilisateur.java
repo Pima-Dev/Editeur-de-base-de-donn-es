@@ -31,10 +31,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 * affiche le titre du champ de pseudo
 	 */
 	private JLabel lUtilisateur;
-	/**
-	 * affiche le titre du champ d'Email
-	 */
-	private JLabel lEmail;
+	//private JLabel lEmail;
 	/**
 	 * affiche le titre du champ de mot de passe
 	 */
@@ -48,10 +45,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 * s'affiche lors de l'entrée d'une valeur dans le champ de pseudo pour la valider ou l'invalider
 	 */
 	private JLabel iUtilisateur;
-	/**
-	 * s'affiche lors de l'entrée d'une valeur dans le champ de mail pour la valider ou l'invalider
-	 */
-	private JLabel iEmail;
+	//private JLabel iEmail;
 	/**
 	 * s'affiche lors de l'entrée d'une valeur dans le champ de mot de passe pour la valider ou l'invalider
 	 */
@@ -64,10 +58,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 * entrée du pseudo
 	 */
 	private JTextField fUtilisateur;
-	/**
-	 * entrée de l'email
-	 */
-	private JTextField fEmail;
+	//private JTextField fEmail;
 	/**
 	 * entrée du mot de passe
 	 */
@@ -81,6 +72,10 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 */
 	private JButton bCreation;
 	/**
+	 * accéder à la connexion et invalder la création d'utilisateur
+	 */
+	private JButton bRetour;
+	/**
 	 * panneau contenant le panneau des champs, le panneau de vérification et les boutons retour et valider
 	 */
 	private JPanel panneau;
@@ -88,6 +83,10 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 * panneau contenant les champs à remplir
 	 */
 	private JPanel panneauChamps;
+	/**
+	 * panneau contenat les boutons de validation et de retour
+	 */
+	private JPanel panneauBouton;
 	/**
 	 * panneau contenant les symboles de vérification de champ
 	 */
@@ -103,10 +102,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 * état de la validation du champ de pseudo
 	 */
 	private boolean vUtilisateur;
-	/**
-	 * état de la validation du champ d'email
-	 */
-	private boolean vEmail;
+	//private boolean vEmail;
 	/**
 	 * état de la validation du champ de mot de passe
 	 */
@@ -125,9 +121,11 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		this.fenetre.setVueCreationUtilisateur(this);
 		vConfirmation = false;
 		vMotDePasse = false;
-		vEmail = false;
+		//vEmail = false;
 		vUtilisateur = false;
 		declaration();
+		panneauBouton.add(bRetour);
+		panneauBouton.add(bCreation);
 		panneauChamps.add(lTitre);
 		panneauChamps.add(lUtilisateur);
 		panneauChamps.add(fUtilisateur);
@@ -143,7 +141,7 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		//panneauChamps.add(this.tQ2);
 		//panneauChamps.add(this.lQ3);
 		//panneauChamps.add(this.tQ3);
-		panneauChamps.add(bCreation);
+		panneauChamps.add(panneauBouton);
 		
 		verif.add(new JLabel(""));
 		verif.add(new JLabel(""));
@@ -163,9 +161,9 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		fUtilisateur.setName("nom nouvel utilisateur");
 		fUtilisateur.addFocusListener(new ChampsListener(this.fenetre));
 		fUtilisateur.addKeyListener(new TouchePresseListener(fenetre));
-		fEmail.setName("email nouvel utilisateur");
-		fEmail.addFocusListener(new ChampsListener(this.fenetre));
-		fEmail.addKeyListener(new TouchePresseListener(fenetre));
+		//fEmail.setName("email nouvel utilisateur");
+		//fEmail.addFocusListener(new ChampsListener(this.fenetre));
+		//fEmail.addKeyListener(new TouchePresseListener(fenetre));
 		fMotDePasse.setName("mot de passe nouvel utilisateur");
 		fMotDePasse.addFocusListener(new ChampsListener(this.fenetre));
 		fMotDePasse.addKeyListener(new TouchePresseListener(fenetre));
@@ -174,6 +172,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		fConfirmation.addKeyListener(new TouchePresseListener(fenetre));
 		bCreation.setName("Valider creation nouvel utilisateur");
 		bCreation.addActionListener(new PresserBoutonListener(this.fenetre));
+		bRetour.setName("Retour");
+		bRetour.addActionListener(new PresserBoutonListener(this.fenetre));
 	}
 	
 	/**
@@ -181,27 +181,31 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	 */
 	public void declaration(){
 		this.setLayout(new BorderLayout());
+		this.add(new JLabel("      "), BorderLayout.SOUTH);
 		panneauChamps = new JPanel();
-		panneauChamps.setLayout(new GridLayout(8,1,5,5));
+		panneauChamps.setLayout(new GridLayout(0,1,5,5));
+		panneauBouton = new JPanel();
+		panneauBouton.setLayout(new GridLayout(1, 2, 10, 10));
 		panneau = new JPanel();
 		panneau.setLayout(new BorderLayout());
 		verif = new JPanel();
-		verif.setLayout(new GridLayout(8,1,5,10));
+		verif.setLayout(new GridLayout(0,1,5,10));
 		lTitre = new JLabel("CREATION DE COMPTE");
 		lTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lUtilisateur = new JLabel("Utilisateur");
-		lEmail = new JLabel("E-Mail");
+		//lEmail = new JLabel("E-Mail");
 		lMotDePasse = new JLabel("Mot de passe");
 		lConfirmation = new JLabel("Confirmation de mot de passe");
 		iUtilisateur = new JLabel(new ImageIcon(""));
-		iEmail = new JLabel(new ImageIcon(""));
+		//iEmail = new JLabel(new ImageIcon(""));
 		iMotDePasse = new JLabel(new ImageIcon(""));
 		iConfirmation = new JLabel(new ImageIcon(""));
 		fUtilisateur = new JTextField();
-		fEmail = new JTextField();
+		//fEmail = new JTextField();
 		fMotDePasse = new JPasswordField();
 		fConfirmation = new JPasswordField();
 		bCreation = new JButton("Créer");
+		bRetour = new JButton("Retour");
 		//this.lQ1 = new JLabel("Quel est le nom de votre meilleur(e) ami(e) ?");
 		//this.lQ2 = new JLabel("Dans quel ville êtes vous né ?");
 		//this.lQ3 = new JLabel("Quel est le nom de votre mère ?");
@@ -218,13 +222,9 @@ public class VueDeCreationDUtilisateur extends JPanel{
 		return fUtilisateur;
 	}
 
-	/**
-	 * accès au JTextField fEmail
-	 * @return le JTextField fEmail
-	 */
-	public JTextField getfEmail() {
-		return fEmail;
-	}
+	//public JTextField getfEmail() {
+	//	return fEmail;
+	//}
 
 	/**
 	 * accès au JPasswordField fMotDePasse
@@ -251,32 +251,29 @@ public class VueDeCreationDUtilisateur extends JPanel{
 	}
 
 	/**
-	 * accès au JLabel getiUtilisateur
-	 * @return le JLabel getiUtilisateur
+	 * accès au JLabel iUtilisateur
+	 * @return le JLabel iUtilisateur
 	 */
 	public JLabel getiUtilisateur() {
 		return iUtilisateur;
 	}
 
-	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
-	 */
+	/*
 	public JLabel getiEmail() {
 		return iEmail;
-	}
+	}*/
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * accès au JLabel iMotDePasse
+	 * @return le JLabel iMotDePasse
 	 */
 	public JLabel getiMotDePasse() {
 		return iMotDePasse;
 	}
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * accès au JLabel iConfirmation
+	 * @return le JLabel iConfirmation
 	 */
 	public JLabel getiConfirmation() {
 		return iConfirmation;
@@ -284,32 +281,29 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * accès au boolean vUtilisateur
+	 * @return le boolean vUtilisateur
 	 */
 	public boolean isvUtilisateur() {
 		return vUtilisateur;
 	}
 
-	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
-	 */
+	/*
 	public boolean isvEmail() {
 		return vEmail;
-	}
+	}*/
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * accès au boolean vMotDePasse
+	 * @return le boolean vMotDePasse
 	 */
 	public boolean isvMotDePasse() {
 		return vMotDePasse;
 	}
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * accès au boolean vConfirmation
+	 * @return le boolean vConfirmation
 	 */
 	public boolean isvConfirmation() {
 		return vConfirmation;
@@ -317,26 +311,23 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * modification du boolean vUtilisateur
+	 * @param vUtilisateur le boolean de validation de l'Utilisateur
 	 */
 	public void setvUtilisateur(boolean vUtilisateur) {
 		this.vUtilisateur = vUtilisateur;
 	}
 
 
-	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
-	 */
+	/*
 	public void setvEmail(boolean vEmail) {
 		this.vEmail = vEmail;
-	}
+	}*/
 
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * modification du boolean vMotDePasse
+	 * @param vMotDePasse le boolean de validation du mot de passe
 	 */
 	public void setvMotDePasse(boolean vMotDePasse) {
 		this.vMotDePasse = vMotDePasse;
@@ -344,8 +335,8 @@ public class VueDeCreationDUtilisateur extends JPanel{
 
 
 	/**
-	 * accès au JPasswordField fMotDePasse
-	 * @return le JPasswordField fMotDePasse
+	 * modification du boolean vConfirmation
+	 * @param vConfirmation le boolean de validation de la confirmation de mot de passe
 	 */
 	public void setvConfirmation(boolean vConfirmation) {
 		this.vConfirmation = vConfirmation;

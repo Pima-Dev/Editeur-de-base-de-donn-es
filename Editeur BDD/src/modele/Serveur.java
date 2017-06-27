@@ -201,16 +201,6 @@ public class Serveur {
 	}
 
 	/**
-	 * Importe toutes les données contenue dans la base de données et les met
-	 * dans l'objet BaseDeDonnees
-	 * 
-	 * @throws CustomException
-	 */
-	public void importerDepuisBaseDeDonnees() throws CustomException {
-
-	}
-
-	/**
 	 * Creer une nouvelle base de donnée
 	 * 
 	 * @throws CustomException

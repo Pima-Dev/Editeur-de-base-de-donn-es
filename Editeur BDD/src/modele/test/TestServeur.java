@@ -1,6 +1,7 @@
 package modele.test;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.junit.Assert.*;
@@ -142,21 +143,19 @@ public class TestServeur {
 		} catch (CustomException e) {
 			assertTrue(e.getMessage().contains("Le code SQL n'est pas correcte syntaxiquement"));
 		}
-		
+
 		try {
 			this.serveur.executerCode("CREATE TABLE table1 (colonne1 INTEGER PRIMARY KEY)");
 			assertTrue(false);
-		} 
-		catch (MySQLSyntaxErrorException e) {
+		} catch (MySQLSyntaxErrorException e) {
 			assertTrue(true);
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			assertTrue(false);
 		} catch (CustomException e) {
 			System.out.println(e.getMessage());
 			assertTrue(e.getMessage().contains("Ce nom de table est déjà utilisé"));
 		}
-		
+
 		try {
 			this.serveur.executerCode("INSERT INTO table1 VALUES(3,2)");
 			assertTrue(true);
@@ -169,31 +168,113 @@ public class TestServeur {
 
 	@Test
 	public void testExecuteRequete() {
-		
-	}
 
-	@Test
-	public void testImporterDepuisBaseDeDonnees() {
+		ResultSet rs;
+		try {
+			rs = this.serveur.executeRequete("PAS CORRECTE");
+			assertTrue(false);
+
+		} catch (MySQLSyntaxErrorException e1) {
+			assertTrue(true);
+		} catch (CustomException e1) {
+			assertTrue(e1.getMessage().contains("Le code SQL n'est pas correcte syntaxiquement"));
+		} catch (SQLException e1) {
+			assertTrue(false);
+		}
+
+		try {
+			rs = this.serveur.executeRequete("SELECT * FROM table1");
+			int i = 0;
+			while (rs.next()) {
+				i++;
+			}
+			assertEquals(i, 2);
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+		}
+
 	}
 
 	@Test
 	public void testCreerBaseDeDonnees() {
+		try {
+			this.BDD.supprimerBDD();
+			if (this.serveur.bddExiste()) {
+				assertTrue(false);
+			}
+			this.BDD.creerBDD();
+			if (this.serveur.bddExiste()) {
+				assertTrue(true);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		} catch (SQLException e) {
+			assertTrue(false);
+			;
+		}
+
 	}
 
 	@Test
 	public void testSupprimerBaseDeDonnes() {
+		try {
+			this.BDD.supprimerBDD();
+			if (!this.serveur.bddExiste()) {
+				assertTrue(true);
+			}
+		} catch (CustomException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			assertTrue(false);
+			;
+		}
 	}
 
 	@Test
 	public void testCreerTable() {
+		Table table4 = new Table(this.BDD, "table4");
+		Colonne<Integer> colonne7 = new Colonne<Integer>("colonne7", TypeDonnee.INTEGER);
+		try {
+			try {
+				colonne7.ajouterValeur(1);
+				colonne7.ajouterValeur(2);
+				table4.ajouterAttribut(colonne7);
+				this.BDD.ajouterTable(table4);
+				assertTrue(this.BDD.tableExiste(table4.getNom()));
+			} catch (SQLException e) {
+				assertTrue(false);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
+
 	}
 
 	@Test
 	public void testSupprimerTable() {
+		try {
+			try {
+				assertTrue(this.serveur.bddExiste());
+			} catch (SQLException e1) {
+				assertTrue(false);
+			}
+			this.serveur.supprimerBaseDeDonnes();
+			try {
+				assertTrue(this.serveur.bddExiste() == false);
+			} catch (SQLException e) {
+				assertTrue(false);
+			}
+		} catch (CustomException e) {
+			assertTrue(false);
+		}
+		
 	}
 
 	@Test
 	public void testInsererTuples() {
+		
 	}
 
 	@Test
