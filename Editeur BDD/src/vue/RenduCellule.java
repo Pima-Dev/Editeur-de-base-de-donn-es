@@ -30,9 +30,9 @@ class RenduCellule extends JButton implements TableCellRenderer {
 	public RenduCellule(String type,Fenetre fenetre) {
 		this.type = type;
 		if(type.equals("modifier")){
-			this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+			this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("ressources/modifier.png")));
 		}else if(type.equals("supprimer")){
-			this.setIcon(new ImageIcon("src/ressources/croix.png"));
+			this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("ressources/croix.png")));
 		}
     }
 
@@ -51,12 +51,12 @@ class RenduCellule extends JButton implements TableCellRenderer {
         }
         if(EditeurCellule.rowEditable.contains(row)){
         	if(type.equals("modifier")){	
-        		this.setIcon(new ImageIcon("src/ressources/check.png"));
+        		this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("ressources/check.png")));
         	}
         }
         else{
         	if(type.equals("modifier")){
-        		this.setIcon(new ImageIcon("src/ressources/modifier.png"));
+        		this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("ressources/modifier.png")));
         	}
         }
         setText((value == null) ? "" : value.toString());

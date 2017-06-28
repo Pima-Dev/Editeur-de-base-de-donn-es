@@ -98,6 +98,7 @@ public class PresserBoutonListener implements ActionListener {
 				fenetre.getFenetre().setContentPane(new VueDeCreationDUtilisateur(fenetre));
 				fenetre.getFenetre().setVisible(true);
 				fenetre.getFenetre().setSize(new Dimension(400, 300));
+				fenetre.getFenetre().setTitle("Création d'un compte");
 				fenetre.getFenetre().setLocationRelativeTo(null);
 
 			} /**
@@ -127,6 +128,7 @@ public class PresserBoutonListener implements ActionListener {
 				this.fenetre.setVueDeConnexion(vueCo);
 				fenetre.getFenetre().setContentPane(vueCo);
 				fenetre.getFenetre().setVisible(true);
+				fenetre.getFenetre().setTitle("Connexion");
 				fenetre.getFenetre().pack();
 				fenetre.getFenetre().setLocationRelativeTo(null);
 			} else if (bouton.getName().equals("valider creation bdd")) {
@@ -669,6 +671,7 @@ public class PresserBoutonListener implements ActionListener {
 			VueDeConnexion vueCo = new VueDeConnexion(this.fenetre);
 			this.fenetre.setVueDeConnexion(vueCo);
 			fenetre.getFenetre().setContentPane(vueCo);
+			this.fenetre.getFenetre().setTitle("Connexion");
 			fenetre.getFenetre().setVisible(true);
 			fenetre.getFenetre().pack();
 			fenetre.getFenetre().setLocationRelativeTo(null);

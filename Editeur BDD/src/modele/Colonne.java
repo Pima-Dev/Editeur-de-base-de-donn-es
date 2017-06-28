@@ -32,6 +32,7 @@ public class Colonne<V> implements Cloneable{
 	/**
 	 * Initialise le nom de la colonne
 	 * @param nom Le nom de la colonne
+	 * @param type Le type de donnee de la colonne
 	 */
 	public Colonne(String nom, TypeDonnee type){
 		this.nom = nom;
@@ -56,10 +57,11 @@ public class Colonne<V> implements Cloneable{
 		this.nom = nom;
 	}
 	
+
 	/**
 	 * Permet d'accéder à une valeur avec son index
-	 * @param index
-	 * @return
+	 * @param index L'index dans la liste des valeurs
+	 * @return La valeur contenue a l'index passé en parametre
 	 */
 	public V getValue(int index){
 		return this.listeValeurs.get(index);
@@ -68,7 +70,7 @@ public class Colonne<V> implements Cloneable{
 	/**
 	 * Ajouter une valeur à la colonne
 	 * @param valeur La valeur à ajouter
-	 * @throws CustomException 
+	 * @throws CustomException Erreur
 	 */
 	public void ajouterValeur(V valeur) throws CustomException{
 		if(valeur != null){
@@ -92,7 +94,7 @@ public class Colonne<V> implements Cloneable{
 	/**
 	 * Ajouter une contrainte à la colonne. Verifie qu'elle n'existe pas déjà sauf si c'est une contrainte de clé étrangère
 	 * @param contrainte La contrainte à ajouter
-	 * @throws CustomException 
+	 * @throws CustomException Erreur
 	 */
 	public void ajouterContrainte(Contrainte contrainte) throws CustomException{
 		if(contrainte.getContrainteType() != TypeContrainte.REFERENCEKEY){
@@ -162,6 +164,9 @@ public class Colonne<V> implements Cloneable{
 		return ret;
 	}
 	
+	/**
+	 * Cloner la colonne
+	 */
 	@Override
 	public Object clone(){
 		try {

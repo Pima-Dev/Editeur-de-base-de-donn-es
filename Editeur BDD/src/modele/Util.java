@@ -89,6 +89,10 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Ecrire un code sql dans les logs de la console
+	 * @param message Le code sql
+	 */
 	public static void logSqlCode(String message) {
 
 		Calendar calendar = Calendar.getInstance();
@@ -119,6 +123,11 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Permet de savoir si un string peut être une date
+	 * @param inDate le string a tester
+	 * @return Vrai si le string est une data valide
+	 */
 	public static boolean isValidDate(String inDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
@@ -132,6 +141,11 @@ public class Util {
 		return true;
 	}
 
+	/**
+	 * Permet de savoir si un string peut etre un int
+	 * @param s Le string a tester
+	 * @return True si le string peut etre un int
+	 */
 	public static boolean isInteger(String s) {
 		try {
 			Integer.parseInt(s);
@@ -143,6 +157,11 @@ public class Util {
 		return true;
 	}
 
+	/**
+	 * Permet de savoir si un String peut etre un double
+	 * @param s Le string a tester
+	 * @return True si le string peut etre un double
+	 */
 	public static boolean isDouble(String s) {
 		try {
 			Double.parseDouble(s);
@@ -154,6 +173,11 @@ public class Util {
 		return true;
 	}
 
+	/**
+	 * Exporter une JTable en PDF
+	 * @param table Le JTable a exporter
+	 * @param file Le fichier ou le stocker
+	 */
 	public static void exporterPDF(JTable table, String file) {
 		try {
 			Document doc = new Document();

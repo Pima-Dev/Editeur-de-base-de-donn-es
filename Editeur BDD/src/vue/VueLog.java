@@ -96,7 +96,7 @@ public class VueLog extends JPanel{
 	
 	/**
 	 * accès à la liste des logs
-	 * @return l'ArrayList<String> contenant la liste des logs
+	 * @return l'ArrayList contenant la liste des logs
 	 */
 	public ArrayList<String> getLogs(){
 		ArrayList<String> ret = new ArrayList<String>();

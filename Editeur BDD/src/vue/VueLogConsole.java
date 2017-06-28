@@ -142,7 +142,7 @@ public class VueLogConsole extends JPanel{
 	
 	/**
 	 * accès à la commande SQL à éxécuter
-	 * @return
+	 * @return Le textarea
 	 */
 	public JTextArea getTextArea(){
 		return this.console;

@@ -56,12 +56,8 @@ public class Serveur {
 	private int port;
 
 	/**
-	 * Initialise les informartions de connexion
-	 * 
-	 * @param nomUtilisateur
-	 *            Le nom de l'utilisateur
-	 * @param motDePasse
-	 *            Le mot de passe
+	 * Constructeur du Serveur
+	 * @param bdd La base de donnée qui sera stocké sur le serveur
 	 */
 	public Serveur(BaseDeDonnees bdd) {
 		this.BDD = bdd;
@@ -78,7 +74,6 @@ public class Serveur {
 	 * @throws CustomException
 	 */
 	private void connexion(String base) throws CustomException, MySQLSyntaxErrorException {
-
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			if (this.url == null || this.url.equals(""))
@@ -86,12 +81,13 @@ public class Serveur {
 						this.motDePasse);
 			else
 				this.connect = DriverManager.getConnection(
-						"jdbc:mysql://" + this.url + ":" + this.port + "/" + base + ":" + this.port,
+						"jdbc:mysql://" + this.url + ":" + this.port + "/" + base,
 						this.nomUtilisateur, this.motDePasse);
 			this.stmt = this.connect.createStatement();
 		}
 
 		catch (CommunicationsException e) {
+			e.printStackTrace();
 			throw new CustomException("Erreur", "Le serveur sql est introuvable.");
 		}
 
@@ -139,7 +135,7 @@ public class Serveur {
 	 * 
 	 * @param code
 	 *            Le code à executer
-	 * @throws SQLException
+	 * @throws SQLException Erreur
 	 * @throws CustomException
 	 *             Si syntaxe non correcte
 	 */
@@ -176,8 +172,8 @@ public class Serveur {
 	 * @param code
 	 *            Le code sql à executer
 	 * @return Le résultat de la requête
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public ResultSet executeRequete(String code) throws CustomException, SQLException {
 
@@ -243,13 +239,9 @@ public class Serveur {
 	}
 
 	/**
-	 * Créer une table dans une base de données
-	 * 
-	 * @param nom
-	 *            Nom de la table à créeer
-	 * @param id
-	 *            Nom de l'identifiant de la table
-	 * @throws CustomException
+	 * Créer une table dans le serveur avec ses contraintes et ses valeurs
+	 * @param table La table a créer
+	 * @throws CustomException Erreur
 	 */
 	public void creerTable(Table table) throws CustomException {
 		try {
@@ -312,7 +304,7 @@ public class Serveur {
 	 * 
 	 * @param nom
 	 *            Nom de la table à supprimer
-	 * @throws CustomException
+	 * @throws CustomException Erreur
 	 */
 	public void supprimerTable(String nom) throws CustomException {
 		try {
@@ -388,8 +380,8 @@ public class Serveur {
 	 *            La table ou se situe le tuple à supprimer
 	 * @param id
 	 *            la clé primaire du tuple a supprimer
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public void supprimerTupleById(Table table, Object id) throws CustomException, SQLException {
 
@@ -413,8 +405,8 @@ public class Serveur {
 	 *            Le nom de la colonne à modifier
 	 * @param newValeur
 	 *            La nouvelle valeur à insérer à la place de l'ancienne
-	 * @throws CustomException
-	 * @throws SQLException 
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public void editerTuple(Table table, Object id, String nomColonne, Object newValeur) throws CustomException, SQLException {
 
@@ -435,8 +427,8 @@ public class Serveur {
 	 * Récupérer la liste des tables présentent dans la base de données
 	 * 
 	 * @return la liste des tables présentent dans la base de données
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public ArrayList<Table> getListeTables() throws CustomException, SQLException {
 		ArrayList<Table> ret = new ArrayList<Table>();
@@ -462,11 +454,11 @@ public class Serveur {
 	/**
 	 * Récupérer la liste des Colonne présentent dans une table
 	 * 
-	 * @param nom
+	 * @param nomTable
 	 *            Table Le nom de la table ou récupérer les colonnes
 	 * @return la liste des Colonne présentent dans une table
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public ArrayList<Colonne> getListeColonnes(String nomTable) throws CustomException, SQLException {
 		ArrayList<Colonne> ret = new ArrayList<Colonne>();
@@ -502,8 +494,8 @@ public class Serveur {
 	 * @param nomColonne
 	 *            Le nom de la colonne où se situe les valeurs
 	 * @return la liste des valeurs d'une colonne d'une table
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	private ArrayList<Object> getListeValeurs(String nomTable, String nomColonne) throws CustomException, SQLException {
 		ArrayList<Object> ret = new ArrayList<Object>();
@@ -519,8 +511,8 @@ public class Serveur {
 	/**
 	 * Ajouter les contraintes de clés étrangères présentent dans une BDD
 	 * 
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	private void ajouterFK() throws CustomException, SQLException {
 
@@ -542,7 +534,7 @@ public class Serveur {
 	 * Récupérer le nom de toutes les BDD du serveur
 	 * 
 	 * @return le nom de toutes les BDD du serveur
-	 * @throws CustomException
+	 * @throws CustomException Erreur
 	 */
 	public ArrayList<String> getListeBDD() throws CustomException {
 		ArrayList<String> ret = new ArrayList<String>();
@@ -574,8 +566,8 @@ public class Serveur {
 	 * @param table
 	 *            La table à tester
 	 * @return True si la table existe dans la BDD
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public boolean tableExiste(String table) throws CustomException, SQLException {
 		ResultSet rs = this.executeRequete("SHOW TABLES LIKE '" + table + "'");
@@ -589,8 +581,8 @@ public class Serveur {
 	 * Savoir si la BDD est créé dans le serveur
 	 * 
 	 * @return True si la BDD est créé
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public boolean bddExiste() throws CustomException, SQLException {
 		ResultSet rs = null;
@@ -618,21 +610,21 @@ public class Serveur {
 	 *            colonne
 	 * @param colonne
 	 *            La colonne à ajouter avec ses contraintes
-	 * @throws SQLException
-	 * @throws CustomException
+	 * @throws SQLException Erreur
+	 * @throws CustomException Erreur
 	 */
 	public void ajouterColonne(String nomTable, Object defautValeur, Colonne colonne)
 			throws SQLException, CustomException {
 		TypeDonnee type;
-		TypeDonnee typeDonnée = colonne.getTypeDonnees();
+		TypeDonnee typeDonnee = colonne.getTypeDonnees();
 		String nomColonne = colonne.getNom();
 		if (defautValeur != null) {
 			type = Util.isInteger(defautValeur.toString()) ? TypeDonnee.INTEGER
 					: (Util.isDouble(defautValeur.toString()) ? TypeDonnee.DOUBLE
 							: (Util.isValidDate(defautValeur.toString()) ? TypeDonnee.DATE : TypeDonnee.CHAR));
-			if (typeDonnée != type) {
+			if (typeDonnee != type) {
 				throw new CustomException("Erreur",
-						"Le type '" + type + "' n'est pas du même type que '" + typeDonnée + "'.");
+						"Le type '" + type + "' n'est pas du même type que '" + typeDonnee + "'.");
 			}
 		} else
 			type = null;
@@ -667,16 +659,20 @@ public class Serveur {
 		if (foreignKey.length() > 5)
 			sqlCode.append(foreignKey);
 
+		if(defautValeur instanceof String){
+			defautValeur = "'"+defautValeur+"'";
+		}
+		
 		if (type != null) {
 			Util.logSqlCode("ALTER TABLE " + this.BDD.getTable(nomTable).getNom() + " ADD COLUMN " + nomColonne + " "
-					+ typeDonnée.getSQLType() + " DEFAULT " + defautValeur + " " + sqlCode);
+					+ typeDonnee.getSQLType() + " DEFAULT " + defautValeur + " " + sqlCode);
 			this.executerCode("ALTER TABLE " + this.BDD.getTable(nomTable).getNom() + " ADD COLUMN " + nomColonne + " "
-					+ typeDonnée.getSQLType() + " DEFAULT " + defautValeur + " " + sqlCode);
+					+ typeDonnee.getSQLType() + " DEFAULT " + defautValeur + " " + sqlCode);
 		} else {
 			Util.logSqlCode("ALTER TABLE " + this.BDD.getTable(nomTable).getNom() + " ADD COLUMN " + nomColonne + " "
-					+ typeDonnée.getSQLType() + " DEFAULT NULL" + sqlCode);
+					+ typeDonnee.getSQLType() + " DEFAULT NULL" + sqlCode);
 			this.executerCode("ALTER TABLE " + this.BDD.getTable(nomTable).getNom() + " ADD COLUMN " + nomColonne + " "
-					+ typeDonnée.getSQLType() + " DEFAULT NULL" + sqlCode);
+					+ typeDonnee.getSQLType() + " DEFAULT NULL" + sqlCode);
 		}
 		Util.log("Ajout de la colonne '"+nomColonne+"' réalisé.");
 	}
@@ -688,8 +684,8 @@ public class Serveur {
 	 *            Le nom de la table où modifier la colonne
 	 * @param colonne
 	 *            Les contraintes de la colonne qui seront remplacés
-	 * @throws SQLException
-	 * @throws CustomException
+	 * @throws SQLException Erreur
+	 * @throws CustomException Erreur
 	 */
 	public void modifierContrainte(String nomTable, Colonne colonne) throws SQLException, CustomException {
 		StringBuilder sqlCode = new StringBuilder();
@@ -714,8 +710,8 @@ public class Serveur {
 	 *            Le nom de la colonne où il faut ajouter une clé étrangère
 	 * @param contrainte
 	 *            La contrainte de clé étrangère
-	 * @throws SQLException
-	 * @throws CustomException
+	 * @throws SQLException Erreur
+	 * @throws CustomException Erreur
 	 */
 	public void ajouterFKColExistente(String nomTable, String nomColonne, Contrainte contrainte)
 			throws SQLException, CustomException {
@@ -742,8 +738,8 @@ public class Serveur {
 	 *            Le nom de la table où supprimer la colonne
 	 * @param nomColonne
 	 *            Le nom de la colonne à supprimer
-	 * @throws SQLException
-	 * @throws CustomException
+	 * @throws SQLException Erreur
+	 * @throws CustomException Erreur
 	 */
 	public void supprimerColonne(String nomTable, String nomColonne) throws SQLException, CustomException {
 		this.executerCode("ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne);
@@ -830,8 +826,8 @@ public class Serveur {
 	 * @param nomColonne
 	 *            Le nom de la colonne
 	 * @return La valeur identifié par l'id et le nom de la colonne
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public Object getValeurAt(Table table, Object id, String nomColonne) throws CustomException, SQLException {
 		Object ret = null;

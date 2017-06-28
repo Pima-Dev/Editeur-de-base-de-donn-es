@@ -371,7 +371,7 @@ public class VuePrincipale extends JPanel{
 		 fChercher.setName("BarreRecherche");
 		 fChercher.addFocusListener(new ChampsListener(this.fenetre));
 		 fChercher.addKeyListener(new TouchePresseListener(this.fenetre));
-		 optionRecherche = new JButton(new ImageIcon("src/ressources/parametre.png"));
+		 optionRecherche = new JButton(new ImageIcon(getClass().getClassLoader().getResource("ressources/parametre.png")));
 		 optionRecherche.setBorderPainted(false);
 		 optionRecherche.setContentAreaFilled(false);
 		 optionRecherche.setName("OptionRecherche");
@@ -436,12 +436,12 @@ public class VuePrincipale extends JPanel{
         table.getColumn("Supprimer").setCellRenderer(new RenduCellule("supprimer", this.fenetre));
         table.getColumn("Supprimer").setCellEditor(new EditeurCellule(new JCheckBox(),"supprimer",fenetre));
         table.setRowHeight(30);
-        if(table.getColumnCount()>15){
+        if(table.getColumnCount()>8){
         	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }
         table.getModel().addTableModelListener(new TableListener(this.fenetre));
         table.getTableHeader().setReorderingAllowed(false);
-        table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().setResizingAllowed(true);
 		scrollTable = new JScrollPane(table);
 		scrollTable.createVerticalScrollBar();
 		scrollTable.createHorizontalScrollBar();

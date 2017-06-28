@@ -7,7 +7,7 @@ import modele.BaseDeDonnees;
 import modele.Session;
 
 /**
- * construit la fenêtre principale et est la racine de référence qui permet d'accéder à toutes les vues
+ * construit la fenêtre principale et est la racine de référence qui permet d'accéder à toutes les vues. C'est le Main de l'application
  */
 public class Fenetre{
 

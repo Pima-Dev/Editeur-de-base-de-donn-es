@@ -18,11 +18,26 @@ import java.util.Properties;
 
 import vue.Fenetre;
 
+/**
+ * Classe qui permet de lire et écrire dans les fichiers
+ */
 public class ELFichier {
 	
+	/**
+	 * La racine de l'application
+	 */
 	private static String racine = "data/";
+	
+	/**
+	 * Le nom du fichier de log
+	 */
 	private static String nomLog;
 	
+	/**
+	 * Ecrire un log de l'application
+	 * @param nomFile Le nom de l'utilisateur
+	 * @param texte Le log à ecrire
+	 */
 	public static void ecrireLog(String nomFile, String texte){
 		
 		if(nomLog == null || nomLog.replace(" ", "").equals("")){
@@ -50,6 +65,11 @@ public class ELFichier {
 		}
 	}
 	
+	/**
+	 * Lis les logs d'un fichier
+	 * @param nomFile Le nom de l'utilisateur
+	 * @return Les logs du fichier
+	 */
 	public static ArrayList<String> lireLog(String nomFile){
 		ArrayList<String> ret = new ArrayList<String>();
 		BufferedReader reader = null;
@@ -77,8 +97,14 @@ public class ELFichier {
 		}
 		
 		return ret;
-}
+	}
 	
+	/**
+	 * Ecrire une cle et valeur dans un fichier
+	 * @param fichier L'url du fichier sans la racine
+	 * @param cle La cle 
+	 * @param valeur La valeur
+	 */
 	public static void setCle(String fichier, String cle, String valeur){
 		Properties prop = new Properties();
 		OutputStream out = null;
@@ -113,6 +139,12 @@ public class ELFichier {
 		}
 	}
 	
+	/**
+	 * Lire la valeur assossié a une clé
+	 * @param fichier L'url du fichier sans la racine
+	 * @param cle La cle a lire
+	 * @return La valeur assossié à la clé
+	 */
 	public static String chargerValeur(String fichier, String cle){
 		Properties prop = new Properties();
 		InputStream in = null;
@@ -140,12 +172,21 @@ public class ELFichier {
 		return ret;
 	}
 	
+	/**
+	 * Créer un dossier
+	 * @param dossier L'url du dossier sans la racine
+	 */
 	public static void creerDossier(String dossier){
 		File file = new File(racine+dossier);
 		if(!file.exists())
 			file.mkdirs();
 	}
 	
+	/**
+	 * Crypter un mot de passe en SHA-256
+	 * @param mdp Le MDP à crypter
+	 * @return Le MDP crypté en SHA-256
+	 */
 	public static String cryptMDP(String mdp){
 	    try{
 	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -164,10 +205,16 @@ public class ELFichier {
 	    }
 	}
 
+	/**
+	 * @return L'url de la racine de l'application
+	 */
 	public static String getRacine() {
 		return racine;
 	}
 	
+	/**
+	 * @return Le nom du fichier de log calculé en fonction des précédents
+	 */
 	private static String getNomLog(){
 		String ret = "";
 		int nb = 0;

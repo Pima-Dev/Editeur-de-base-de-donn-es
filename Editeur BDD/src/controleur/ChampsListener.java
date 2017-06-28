@@ -35,8 +35,8 @@ public class ChampsListener implements FocusListener{
 	public void focusLost(FocusEvent e) {
 		if(e.getSource() instanceof JTextField){
 			JTextField champ= (JTextField)e.getSource();
-			ImageIcon vrai = new ImageIcon("src/ressources/check.png");
-			ImageIcon faux = new ImageIcon("src/ressources/croix.png");
+			ImageIcon vrai = new ImageIcon(getClass().getClassLoader().getResource("ressources/check.png"));
+			ImageIcon faux = new ImageIcon(getClass().getClassLoader().getResource("ressources/croix.png"));
 			if(champ.getName().equals("nom nouvel utilisateur")){
 				String pseudo = fenetre.getVueCreationUtilisateur().getfUtilisateur().getText();
 				if(validePseudo(pseudo)){

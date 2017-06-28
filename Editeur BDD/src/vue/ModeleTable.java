@@ -25,7 +25,9 @@ public class ModeleTable extends DefaultTableModel {
 
 	/**
 	 * construit l'objet modele table
-	 * @param fenetre 
+	 * @param hauteur la hauteur du model
+	 * @param largeur La largeur du model
+	 * @param fenetre Le Main de l'application
 	 */
 	public ModeleTable(int hauteur, int largeur,Fenetre fenetre) {
 		this.fenetre = fenetre;
@@ -88,7 +90,6 @@ public class ModeleTable extends DefaultTableModel {
 
 	/**
 	 * rend une ligne non modifiable
-	 * @param row le numéro de la ligne non modifiable
 	 */
 	public void setCellNonEditable() {
 		editable = false;

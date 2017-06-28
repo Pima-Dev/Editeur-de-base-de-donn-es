@@ -238,8 +238,8 @@ public class VueModifierContrainte extends JPanel {
 	}
 
 	/**
-	 * accès au JComboBox<String> reference
-	 * @return le JComboBox<String> reference
+	 * accès au JComboBox reference
+	 * @return le JComboBox reference
 	 */
 	public JComboBox<String> getReference() {
 		return reference;
@@ -262,8 +262,8 @@ public class VueModifierContrainte extends JPanel {
 	}
 
 	/**
-	 * accès au JComboBox<String> colonnes
-	 * @return le JComboBox<String> colonnes
+	 * accès au JComboBox colonnes
+	 * @return le JComboBox colonnes
 	 */
 	public JComboBox<String> getColonnes() {
 		return colonnes;

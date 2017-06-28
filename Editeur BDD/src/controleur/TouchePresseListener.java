@@ -24,7 +24,7 @@ public class TouchePresseListener implements KeyListener {
 	/**
 	 * construit le listener
 	 * 
-	 * @param fenetre
+	 * @param fenetre Le main de l'application
 	 */
 	public TouchePresseListener(Fenetre fenetre) {
 		this.fenetre = fenetre;

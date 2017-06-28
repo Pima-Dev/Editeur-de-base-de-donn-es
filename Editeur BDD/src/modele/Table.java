@@ -22,7 +22,7 @@ public class Table implements Cloneable {
 
 	/**
 	 * Initialise le nom et la liste des colonnes
-	 * 
+	 * @param BDD La BDD où la table se situe
 	 * @param nom
 	 *            Le nom de la table
 	 */
@@ -85,7 +85,8 @@ public class Table implements Cloneable {
 	 * 
 	 * @param attributs
 	 *            La liste des objects formant le tuple
-	 * @throws CustomException
+	 * @param ajouterListe True si ajouter le tuple a l'objet Table
+	 * @throws CustomException Erreur
 	 */
 	public void insererTuple(ArrayList<Object> attributs, boolean ajouterListe) throws CustomException {
 
@@ -128,8 +129,8 @@ public class Table implements Cloneable {
 	 * 
 	 * @param id
 	 *            La clé primaire
-	 * @throws CustomException
-	 * @throws SQLException 
+	 * @throws CustomException Erreur
+	 * @throws SQLException  Erreur
 	 */
 	public void supprimerTupleById(Object id) throws CustomException, SQLException {
 
@@ -164,8 +165,8 @@ public class Table implements Cloneable {
 	 *            Le nom de la colonne ou la valeur est a modifier
 	 * @param newValeur
 	 *            La nouvelle valeur
-	 * @throws CustomException
-	 * @throws SQLException 
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public void editerTuple(Object id, String nomColonne, Object newValeur) throws CustomException, SQLException {
 		Util.log("Modification de la valeur du tuple ayant pour identifiant '" + id + "' de la colonne '" + nomColonne
@@ -281,11 +282,18 @@ public class Table implements Cloneable {
 		return colonne;
 	}
 
+	/**
+	 * Raffraichir la table dans l'application à l'affichage
+	 */
 	public void refreshTable() {
 		this.BDD.getFenetre().getVuePrincipale().insererValeursDansTab(this.BDD.formatValeurs(this.nom),
 				this.BDD.formatTitres(this.nom));
 	}
 
+	/**
+	 * Supprimer la table
+	 * @throws CustomException Erreur
+	 */
 	public void supprimerTable() throws CustomException {
 		this.BDD.getServeur().supprimerTable(this.nom);
 		this.BDD.getListeTable().remove(this);
@@ -318,20 +326,40 @@ public class Table implements Cloneable {
 		}
 	}
 
+	/**
+	 * @param colonnes La liste des colonnes
+	 */
 	public void setListeColonnes(ArrayList<Colonne> colonnes) {
 		this.listeColonnes = colonnes;
 	}
 
+	/**
+	 * Ajouter une colonne si la table existe déjà dans la BDD
+	 * @param col La colonne à ajouter
+	 * @param defautValeur La valeur par defaut qui sera inséré
+	 * @throws SQLException Erreur
+	 * @throws CustomException Erreur
+	 */
 	public void ajouterColonneATableDejaExistente(Colonne col, Object defautValeur)
 			throws SQLException, CustomException {
 		this.BDD.getServeur().ajouterColonne(this.nom, defautValeur, col);
 		this.ajouterAttribut(col);
 	}
 
+	/**
+	 * @return La BDD
+	 */
 	public BaseDeDonnees getBDD() {
 		return this.BDD;
 	}
 
+	/**
+	 * Modifier les contraintes de la Table
+	 * @param contraintes Les nouvelles contraintes de la Table
+	 * @param colonne La colonne sur laquel il faut modifier les contraintes
+	 * @throws SQLException Erreur 
+	 * @throws CustomException Erreur
+	 */
 	public void modifierContraintes(ArrayList<Contrainte> contraintes, Colonne colonne)
 			throws SQLException, CustomException {
 		Colonne col = new Colonne<>(colonne.getNom(), colonne.getTypeDonnees());
@@ -354,6 +382,12 @@ public class Table implements Cloneable {
 		}
 	}
 
+	/**
+	 * Supprimer une colonne
+	 * @param nomColonne Le nom de la colonne à supprimer
+	 * @throws SQLException Erreur 
+	 * @throws CustomException Erreur
+	 */
 	public void supprimerColonne(String nomColonne) throws SQLException, CustomException {
 		this.BDD.getServeur().supprimerColonne(this.nom, nomColonne);
 		for (int i = 0; i < this.listeColonnes.size(); i++) {

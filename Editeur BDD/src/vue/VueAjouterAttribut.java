@@ -247,8 +247,8 @@ public class VueAjouterAttribut extends JPanel {
 	}
 
 	/**
-	 * accès au JComboBox<String> reference
-	 * @return le JComboBox<String> reference
+	 * accès au JComboBox reference
+	 * @return le JComboBox reference
 	 */
 	public JComboBox<String> getReference() {
 		return reference;
@@ -279,8 +279,8 @@ public class VueAjouterAttribut extends JPanel {
 	}
 
 	/**
-	 * accès au JComboBox<String> comboboxType
-	 * @return le JComboBox<String> comboboxType
+	 * accès au JComboBox comboboxType
+	 * @return le JComboBox comboboxType
 	 */
 	public JComboBox<String> getComboboxType() {
 		return comboboxType;

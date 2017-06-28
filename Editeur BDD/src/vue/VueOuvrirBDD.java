@@ -308,8 +308,8 @@ public class VueOuvrirBDD extends JPanel {
 	}
 
 	/**
-	 * accès au JComboBox<String> listeBDD
-	 * @return le JComboBox<String> listeBDD
+	 * accès au JComboBox listeBDD
+	 * @return le JComboBox listeBDD
 	 */
 	public JComboBox<String> getListeBDD() {
 		return listeBDD;

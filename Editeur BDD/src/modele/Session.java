@@ -14,9 +14,7 @@ public class Session {
 	
 	/**
 	 * Initialise les attributs
-	 * @param uuid L'uuid de l'utilisateur
 	 * @param nom Le nom de l'utilisateur
-	 * @param motDePasse Le mot de passe de l'utilisateur
 	 */
 	public Session(String nom){
 		this.nom = nom;
@@ -40,10 +38,16 @@ public class Session {
         return ret;
 	}
 	
+	/**
+	 * @return L'url où sont stockés les informations des BDD de l'utilisateur
+	 */
 	public String getBDDPath(){
 		return this.BDDPath;
 	}
 	
+	/**
+	 * @return Le nom de l'utilisateur
+	 */
 	public String getNom(){
 		return this.nom;
 	}

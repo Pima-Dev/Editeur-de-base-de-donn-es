@@ -50,11 +50,22 @@ public class BaseDeDonnees {
 	private Fenetre fenetre;
 
 	/**
-	 * Constructeur
+	 * Constructeur de la BaseDeDonnes
 	 * 
 	 * @param nom
-	 *            Nom de la base de données
+	 *            Le nom de la BDD
+	 * @param nomUtilisateur
+	 *            Le nom d'utilisateur pour se connecter au serveur
+	 * @param motDePasse
+	 *            Le mot de passe pour se connecter au serveur
+	 * @param fenetre
+	 *            Le Main de l'application
+	 * @param url
+	 *            L'url du serveur de la BDD
+	 * @param port
+	 *            Le port du serveur de la BDD
 	 * @throws CustomException
+	 *             Erreur
 	 */
 	public BaseDeDonnees(String nom, String nomUtilisateur, String motDePasse, Fenetre fenetre, String url, int port)
 			throws CustomException {
@@ -62,16 +73,16 @@ public class BaseDeDonnees {
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
 		this.fenetre = fenetre;
-		this.serveur = new Serveur(this);
 		this.port = port;
 		this.url = url;
 		this.listeTable = new ArrayList<Table>();
-		if(this.fenetre != null)
+		if (this.fenetre != null)
 			this.session = this.fenetre.getSession();
-		if(this.fenetre != null){
+		if (this.fenetre != null) {
 			this.fenetre.setBDD(this);
 			this.fenetre.getVuePrincipale().getTitreBDD().setText(this.nom);
 		}
+		this.serveur = new Serveur(this);
 	}
 
 	/**
@@ -88,7 +99,7 @@ public class BaseDeDonnees {
 	 * 
 	 * @param table
 	 *            La table qui sera ajouté à la base de donnés
-	 * @throws CustomException
+	 * @throws CustomException Erreur
 	 */
 	public void ajouterTable(Table table) throws CustomException {
 
@@ -101,7 +112,7 @@ public class BaseDeDonnees {
 	/**
 	 * Accéder au serveur de la base de données
 	 * 
-	 * @return
+	 * @return Le serveur
 	 */
 	public Serveur getServeur() {
 		return this.serveur;
@@ -110,14 +121,14 @@ public class BaseDeDonnees {
 	/**
 	 * Supprimer la base de données courante
 	 * 
-	 * @throws CustomException
+	 * @throws CustomException Erreur
 	 */
 	public void supprimerBDD() throws CustomException {
 		this.serveur.supprimerBaseDeDonnes();
 		File file = new File(ELFichier.getRacine() + this.session.getBDDPath() + this.nom);
 		if (file.exists())
 			file.delete();
-		if(this.fenetre != null)
+		if (this.fenetre != null)
 			this.fenetre.setBDD(null);
 	}
 
@@ -141,8 +152,8 @@ public class BaseDeDonnees {
 	/**
 	 * Charger les données contenue dans la base de donnée
 	 * 
-	 * @throws CustomException
-	 * @throws SQLException
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
 	 */
 	public void chargerBDD() throws CustomException, SQLException {
 		this.listeTable = this.serveur.getListeTables();
@@ -161,7 +172,7 @@ public class BaseDeDonnees {
 	/**
 	 * Créer la base de donnée dans le serveur
 	 * 
-	 * @throws CustomException
+	 * @throws CustomException Erreur
 	 */
 	public void creerBDD() throws CustomException {
 		if (this.session.getListeBDD().contains(nom)) {
@@ -176,7 +187,7 @@ public class BaseDeDonnees {
 	 * données
 	 */
 	public void saveDonneesBDD() {
-		File file = new File(ELFichier.getRacine()+this.session.getBDDPath() + this.nom);
+		File file = new File(ELFichier.getRacine() + this.session.getBDDPath() + this.nom);
 		if (!file.exists()) {
 			if (this.url != null)
 				ELFichier.setCle(this.session.getBDDPath() + this.nom, "adresse", this.url);
@@ -195,7 +206,6 @@ public class BaseDeDonnees {
 	 * @param table
 	 *            La table où sont les colonnes
 	 * @return Tableau de titre pour le JTable
-	 * @throws CustomException
 	 */
 	public String[] formatTitres(String table) {
 		if (this.getTable(table) == null) {
@@ -212,6 +222,11 @@ public class BaseDeDonnees {
 		return ret;
 	}
 
+	/**
+	 * Permet de formater les valeurs d'une table pour être affiché dans le JTable
+	 * @param table La table où les valeurs sont à formater
+	 * @return Un tableau de valeur
+	 */
 	public String[][] formatValeurs(String table) {
 		if (this.getTable(table) == null) {
 			throw new IllegalArgumentException("La table demandé n'existe pas");
@@ -224,17 +239,16 @@ public class BaseDeDonnees {
 
 		String[][] ret = new String[listeColonnes.get(0).getListeValeurs().size()][listeColonnes.size()];
 
-		if(listeColonnes.get(0).getListeValeurs().size() > 0){
+		if (listeColonnes.get(0).getListeValeurs().size() > 0) {
 			for (int j = 0; j < listeColonnes.size(); j++) {
 				for (int i = 0; i < listeColonnes.get(0).getListeValeurs().size(); i++) {
-					if(listeColonnes.get(j).getValue(i) != null)	
+					if (listeColonnes.get(j).getValue(i) != null)
 						ret[i][j] = listeColonnes.get(j).getValue(i).toString();
 					else
 						ret[i][j] = "null";
 				}
 			}
-		}
-		else{
+		} else {
 			ret = new String[1][listeColonnes.size()];
 			for (int i = 0; i < listeColonnes.size(); i++) {
 				ret[0][i] = "";
@@ -244,11 +258,14 @@ public class BaseDeDonnees {
 		return ret;
 	}
 
+	/**
+	 * Raffraichir toute la base de donnée dans l'application
+	 */
 	public void refreshAllBDD() {
 		if (this.listeTable.size() > 0)
 			this.fenetre.getVuePrincipale().insererValeursDansTab(this.formatValeurs(this.listeTable.get(0).getNom()),
 					this.formatTitres(this.listeTable.get(0).getNom()));
-		else{
+		else {
 			this.fenetre.getVuePrincipale().resetJTable();
 		}
 		this.fenetre.getVuePrincipale().resetListeTable();
@@ -260,38 +277,70 @@ public class BaseDeDonnees {
 		}
 	}
 
-	public boolean tableExiste(String table) throws CustomException, SQLException{
+	/**
+	 * Permet de savoir si une table existe dans la BDD
+	 * @param table La table a tester
+	 * @return True si la table est dans le serveur de la BDD
+	 * @throws CustomException Erreur
+	 * @throws SQLException Erreur
+	 */
+	public boolean tableExiste(String table) throws CustomException, SQLException {
 		return this.getServeur().tableExiste(table);
 	}
-	
+
+	/**
+	 * @return Le nom de la BDd
+	 */
 	public String getNomBDD() {
 		return this.nom;
 	}
 
+	/**
+	 * @return Le nom de l'utilisateur
+	 */
 	public String getNomUtilisateur() {
 		return this.nomUtilisateur;
 	}
 
+	/**
+	 * @return Le mot de passe
+	 */
 	public String getMotDePasse() {
 		return this.motDePasse;
 	}
 
+	/**
+	 * @return L'url du serveur
+	 */
 	public String getUrlBDD() {
 		return this.url;
 	}
 
+	/**
+	 * @return Le port du serveur
+	 */
 	public int getPort() {
 		return this.port;
 	}
-	public Fenetre getFenetre(){
+
+	/**
+	 * @return Le main de l'application
+	 */
+	public Fenetre getFenetre() {
 		return this.fenetre;
 	}
-	
-	public void setSession(Session s){
+
+	/**
+	 * @param s La nouvelle session
+	 */
+	public void setSession(Session s) {
 		this.session = s;
 	}
-	
-	public Session getSession(){
+
+	/**
+	 * @return La session
+	 */
+	public Session getSession() {
 		return this.session;
 	}
 }
