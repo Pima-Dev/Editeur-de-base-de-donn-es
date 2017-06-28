@@ -109,6 +109,9 @@ class EditeurCellule extends DefaultCellEditor {
             else if(name.equals("supprimer")){
             	int rep = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cette ligne ?", "Supprimer la ligne ?", JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null);
             	if(rep == JOptionPane.OK_OPTION){
+            		if(!Util.isInteger((String)fenetre.getVuePrincipale().getTable().getValueAt(ligne, 0))){
+            			return null;
+            		}
             		int id = Integer.parseInt((String)fenetre.getVuePrincipale().getTable().getValueAt(ligne, 0));
             		try {
 						try {

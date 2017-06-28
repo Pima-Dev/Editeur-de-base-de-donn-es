@@ -39,6 +39,9 @@ public class TableListener implements TableModelListener{
 		nomColonne = nomColonne.replaceAll(TypeDonnee.DOUBLE.getSQLType(), "");
 		nomColonne = nomColonne.replaceAll(TypeDonnee.INTEGER.getSQLType(), "");
 		nomColonne = nomColonne.replaceAll(TypeDonnee.DATE.getSQLType(), "");
+		if(!Util.isInteger((String)this.fenetre.getVuePrincipale().getTable().getValueAt(e.getLastRow(), 0))){
+			return;
+		}
 		int id = Integer.parseInt((String)this.fenetre.getVuePrincipale().getTable().getValueAt(e.getLastRow(), 0));
 		Object obj = this.fenetre.getVuePrincipale().getTable().getModel().getValueAt(e.getLastRow(), e.getColumn());
 		try {
